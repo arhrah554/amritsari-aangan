@@ -285,13 +285,17 @@ section.site-page{padding:calc(var(--nav-h) + 72px) clamp(20px,5vw,64px) 140px;b
 .hero-media{
   position:relative;flex:none;overflow:hidden;
   margin-top:var(--nav-h);
-  aspect-ratio:21/9;max-height:66vh;min-height:300px;
+  aspect-ratio:100/44;min-height:300px;  /* His face occupies 5%-38% of the photo height. With cover on a
+     full-width band it renders 0.343x the viewport width tall, so the
+     band must stay >= ~0.40x the width or his face gets cropped. 0.44
+     leaves margin top and bottom. No vh cap - a cap overrides the
+     ratio on wide screens and crops him again. */
 }
 /* Full-bleed. The shot is portrait, so a wide band has to crop it
    vertically — the band is sized to keep him head-to-chest. */
 .hero-img-main{
   position:absolute;inset:0;background-image:var(--hero-img);
-  background-size:cover;background-position:center 3%;
+  background-size:cover;background-position:center 1%;
   transform:scale(1.06);animation:hero-zoom 20s ease-out forwards;
 }
 @keyframes hero-zoom{to{transform:scale(1)}}
