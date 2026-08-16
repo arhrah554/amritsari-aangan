@@ -1,58 +1,54 @@
-"""Even out the key light on the About portrait.
+"""Even out how the two arms read on the About portrait.
 
-His left arm (frame right) sits in deep shadow while his right arm is fully
-keyed, which makes the shadowed arm read thinner than it is. This lifts the
-shadows in that region only, weighted so already-bright pixels (the light
-strip behind him) are untouched.
+Measured first: the skin on both arms is almost the same brightness
+(94.8 vs 86.9 of 255). The arms don't differ in exposure — what differs is
+how much of the shadowed arm is *separable* from the background. Its outer
+edge falls off into black, so the silhouette gets eaten and the arm reads
+thinner (lit-flesh coverage 70% vs 56%).
+
+So the fix is not to brighten the arm. An earlier attempt masked a region and
+lifted everything dark inside it, which also lifted his black t-shirt and the
+gym background into grey and left a visible mask edge — the uncanny result.
+
+Instead this is a gentle GLOBAL shadow lift: no spatial mask, so there is no
+patch and no seam anywhere. It raises only the deepest tones, which pulls the
+background just far enough off black for the arm's edge to separate. Mid-tones
+and highlights are untouched, so the grade still reads as the original photo.
 """
+import os
+
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image
+
+STRENGTH = float(os.environ.get("STR", "0.10"))
 
 src = Image.open('about.jpg').convert('RGB')
-w, h = src.size
 a = np.asarray(src).astype(np.float32) / 255.0
 lum = a @ np.array([0.2126, 0.7152, 0.0722], dtype=np.float32)
 
-xs = np.linspace(0, 1, w, dtype=np.float32)
-ys = np.linspace(0, 1, h, dtype=np.float32)
 
-def ramp(t, lo, hi):
-    """smoothstep from 0 at lo to 1 at hi"""
+def smooth(t, lo, hi):
     t = np.clip((t - lo) / (hi - lo), 0, 1)
     return t * t * (3 - 2 * t)
 
-# horizontal: ride up over his left arm, taper off before the background clutter
-mx = ramp(xs, 0.50, 0.66) * (1 - ramp(xs, 0.82, 0.94))
-# vertical: shoulder down to the dumbbell, fading at both ends
-my = ramp(ys, 0.20, 0.32) * (1 - ramp(ys, 0.88, 1.0))
-spatial = np.outer(my, mx)
 
-# feather the mask so the lift has no visible edge
-spatial = np.asarray(
-    Image.fromarray((spatial * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(42))
-).astype(np.float32) / 255.0
+lift = STRENGTH * (1.0 - smooth(lum, 0.02, 0.30))
+out = np.clip(a + lift[..., None] * (1.0 - a), 0, 1)
+Image.fromarray((out * 255).astype(np.uint8)).save(
+    'about_fixed.jpg', quality=92, optimize=True)
 
-# only lift shadows: full strength at black, nothing above mid-grey
-shadow_w = np.clip(1.0 - lum / 0.42, 0, 1) ** 1.5
 
-lift = float(__import__("os").environ.get("STR","0.26")) * spatial * shadow_w
-out = a + lift[..., None] * (1.0 - a)          # screen-style lift, cannot clip
+def coverage(path, x0, x1, y0, y1):
+    g = np.asarray(Image.open(path).convert('L')).astype(np.float32) / 255.0
+    h, w = g.shape
+    r = g[int(h * y0):int(h * y1), int(w * x0):int(w * x1)]
+    return 100 * ((r > 0.13) & (r < 0.85)).mean()
 
-# restore a little local contrast so the arm keeps its definition
-detail = lum - np.asarray(
-    Image.fromarray((lum * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(9))
-).astype(np.float32) / 255.0
-out += (detail * 0.55 * spatial)[..., None]
 
-out = np.clip(out, 0, 1)
-Image.fromarray((out * 255).astype(np.uint8)).save('about_fixed.jpg', quality=92, optimize=True)
-
-# report
-g = Image.open('about_fixed.jpg').convert('L')
-old = Image.open('about.jpg').convert('L')
-import PIL.ImageStat as S
-def band(img, x0, x1):
-    return S.Stat(img.crop((int(w*x0), int(h*0.32), int(w*x1), int(h*0.85)))).mean[0]
-print("            his RIGHT arm (lit)   his LEFT arm (shadow)")
-print("before:        %5.1f                 %5.1f" % (band(old, .08, .28), band(old, .58, .80)))
-print("after:         %5.1f                 %5.1f" % (band(g, .08, .28), band(g, .58, .80)))
+KEYED = (0.12, 0.23, 0.42, 0.92)
+SHADOW = (0.77, 0.93, 0.48, 0.98)
+print("lit-flesh coverage    his right arm   his left arm")
+print("  before                 %5.1f%%         %5.1f%%" % (
+    coverage('about.jpg', *KEYED), coverage('about.jpg', *SHADOW)))
+print("  after                  %5.1f%%         %5.1f%%" % (
+    coverage('about_fixed.jpg', *KEYED), coverage('about_fixed.jpg', *SHADOW)))
