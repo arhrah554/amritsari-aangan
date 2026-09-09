@@ -412,8 +412,14 @@ section.site-page{padding:calc(var(--nav-h) + 72px) clamp(20px,5vw,64px) 140px;b
 .review-name{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
 .review-meta{font-size:10px;font-weight:500;letter-spacing:.1em;color:var(--dim);margin-top:2px}
 
-.divider-shot{height:70vh;overflow:hidden;border-radius:22px;border:1px solid var(--line);margin-top:64px}
-.divider-shot img{width:100%;height:100%;object-fit:cover;object-position:center 8%;display:block}
+/* The shot is portrait (1000x1333). A fixed-height box cropped it to a wide
+   strip of his shoulders, so the frame takes the photo's own shape and it is
+   shown whole; capped in width so it doesn't tower over the page. */
+.divider-shot{
+  aspect-ratio:1000/1333;max-width:min(100%,660px);margin:70px auto 0;
+  overflow:hidden;border-radius:22px;border:1px solid var(--line);
+}
+.divider-shot img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 
 /* ---- leave-a-review form ---- */
 .review-form{
@@ -793,7 +799,6 @@ body.over-hero .site-tabbar{opacity:0;transform:translateY(100%);pointer-events:
   .hero-sub{font-size:14px !important;margin:14px auto 18px;line-height:1.6}
   .reel-block{grid-template-columns:1fr;gap:34px;margin-top:52px}
   .reel-media{width:100%;max-width:330px;margin:0 auto}
-  .divider-shot{height:52vh}
   .form-card,.login-box,.review-form{padding:26px 20px}
   .rf-grid{grid-template-columns:1fr}
   .rf-title{font-size:24px}
