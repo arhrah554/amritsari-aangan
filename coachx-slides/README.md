@@ -9,6 +9,10 @@ aesthetic, rebuilt as a proper design system so every slide can be re-typed and 
 slides.html          the whole deck (content + design system in one file)
 render.mjs           headless-Chromium exporter  →  PNGs
 postprocess.py       downsamples the 2x masters to exact IG pixel sizes + contact sheet
+extract_logo.py      cuts the supplied logo out of its black plate → transparent PNGs
+assets/logo-source.png  the supplied CoachX logo, untouched
+assets/logo.png         COACH + X lockup, plate removed (slide header)
+assets/logo-x.png       the X alone (oversized watermark)
 assets/              Archivo + Inter variable fonts, light-flare textures
 photos/              drop your own gym shots here (optional)
 out/4x5/             1080×1350 — recommended for feed
@@ -54,7 +58,13 @@ Open `slides.html` in a browser to preview the whole deck as one scroll.
 
 ## Notes
 
-- The wordmark is a crisp SVG rebuild of the CoachX chrome mark, so it stays sharp at any size.
+- The wordmark is the supplied CoachX artwork, not a redraw. `extract_logo.py` crops it,
+  converts the black plate to real transparency (alpha = brightness above a black floor,
+  colour un-multiplied back out) and upscales 4x with Lanczos + unsharp so the browser
+  isn't the thing scaling it at render time.
+- **Logo resolution is the one limit here.** The supplied file has only 185x81px of actual
+  artwork, so the header lockup is capped at 176px wide to stay acceptably sharp. A vector
+  (SVG/AI/EPS) or a larger export would let the mark run bigger and crisper.
 - Type is Archivo (variable, width axis at 116 for the wide display setting) + Inter for body.
 - The light streak and tube glow are lifted from the original brand photo, so the atmosphere
   is the shoot's own light rather than stock texture.

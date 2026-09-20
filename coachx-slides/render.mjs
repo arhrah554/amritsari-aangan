@@ -27,7 +27,7 @@ if (ratio === '1x1') {
     h1{font-size:104px;} h1.m{font-size:88px;} h1.s{font-size:74px;}
     .eyebrow{margin-bottom:26px;font-size:18px;} .rule{margin:28px 0 24px;}
     .lede{font-size:24px;max-width:700px;} .body{padding:30px 0;}
-    .mark{width:178px;}
+    .mark{width:150px;}
     .row{padding:26px 0 24px;} .row h3{font-size:33px;} .row p{font-size:21px;}
     .pain{gap:20px;} .pain div{font-size:25px;}
     .card{padding:26px 28px 24px;} .ex{padding:15px 0;} .chart{height:104px;}

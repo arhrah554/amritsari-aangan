@@ -45,8 +45,8 @@
   .atm-grain svg{width:100%;height:100%;}
 
   /* giant ghost X */
-  .ghostx{position:absolute;pointer-events:none;opacity:.038;}
-  .ghostx svg{display:block;}
+  .ghostx{position:absolute;pointer-events:none;opacity:.10;}
+  .ghostx img{display:block;width:100%;height:auto;}
 
   /* ---------- chassis ---------- */
   .frame{position:absolute;inset:var(--pad);pointer-events:none;}
@@ -59,8 +59,8 @@
   .inner{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column;z-index:3;}
 
   .head{display:flex;align-items:flex-start;justify-content:space-between;flex:none;}
-  .mark{width:210px;}
-  .mark svg{display:block;width:100%;height:auto;}
+  .mark{width:176px;}
+  .mark img{display:block;width:100%;height:auto;}
   .count{font-family:'Archivo';font-size:17px;font-weight:500;letter-spacing:.34em;color:var(--faint);
       font-variant-numeric:tabular-nums;padding-top:6px;}
   .count b{color:var(--dim);font-weight:600;}
@@ -173,39 +173,10 @@
 
 <script>
 /* ============ LOGO MARK (crisp SVG rebuild of the CoachX wordmark) ============ */
-function bladeA(){return '456.4,3.3 612.7,192 599.3,204 423.6,32.7';}
-function bladeB(){return '589.3,4.7 614.8,27.3 410.3,234 405.8,230';}
-
-function markSVG(id){return `
-<svg viewBox="0 0 640 244" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="w${id}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#CACED2"/>
-      <stop offset="64%" stop-color="#83888D"/><stop offset="100%" stop-color="#EDEFF1"/>
-    </linearGradient>
-    <linearGradient id="a${id}" x1="0.05" y1="0" x2="0.95" y2="1">
-      <stop offset="0%" stop-color="#FFFFFF"/><stop offset="16%" stop-color="#D6DADE"/>
-      <stop offset="36%" stop-color="#6F7479"/><stop offset="50%" stop-color="#F7F9FB"/>
-      <stop offset="68%" stop-color="#9BA1A6"/><stop offset="85%" stop-color="#44484C"/>
-      <stop offset="100%" stop-color="#C6CACD"/>
-    </linearGradient>
-    <linearGradient id="b${id}" x1="0.95" y1="0" x2="0.05" y2="1">
-      <stop offset="0%" stop-color="#FAFCFD"/><stop offset="20%" stop-color="#A5ABB0"/>
-      <stop offset="38%" stop-color="#F2F4F6"/><stop offset="56%" stop-color="#5E6367"/>
-      <stop offset="76%" stop-color="#BFC4C8"/><stop offset="100%" stop-color="#3C4044"/>
-    </linearGradient>
-  </defs>
-  <text x="4" y="150" fill="url(#w${id})" font-family="Archivo" font-size="54" font-weight="300"
-        letter-spacing="32" style="font-variation-settings:'wght' 260,'wdth' 100">COACH</text>
-  <polygon points="${bladeA()}" fill="url(#a${id})"/>
-  <polygon points="${bladeB()}" fill="url(#b${id})"/>
-</svg>`;}
-
-function ghostX(){return `
-<svg viewBox="380 0 250 244" xmlns="http://www.w3.org/2000/svg">
-  <polygon points="${bladeA()}" fill="#FFFFFF"/>
-  <polygon points="${bladeB()}" fill="#FFFFFF"/>
-</svg>`;}
+/* Brand marks are the supplied CoachX artwork (assets/logo-source.png),
+   cut out by extract_logo.py — not a redraw. */
+const MARK   = 'assets/logo.png';
+const MARK_X = 'assets/logo-x.png';
 
 const arrow = `<svg viewBox="0 0 30 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 4.5h27M23 1l4.2 3.5L23 8" stroke="#8A8A8E" stroke-width="1.3"/></svg>`;
 
@@ -335,7 +306,7 @@ deck.innerHTML = SLIDES.map((s,i)=>{
     ${photo}
     <div class="atm atm-glow"></div>
     ${shaft}
-    <div class="ghostx" style="${gstyle};${gop}">${ghostX()}</div>
+    <div class="ghostx" style="${gstyle};${gop}"><img src="${MARK_X}" alt=""></div>
     <div class="atm atm-vig"></div>
     <div class="atm atm-grain">
       <svg xmlns="http://www.w3.org/2000/svg"><filter id="gr${i}"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#gr${i})"/></svg>
@@ -343,7 +314,7 @@ deck.innerHTML = SLIDES.map((s,i)=>{
     <div class="frame"><i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i></div>
     <div class="inner">
       <div class="head">
-        <div class="mark">${markSVG(i)}</div>
+        <div class="mark"><img src="${MARK}" alt="CoachX"></div>
         <div class="count"><b>${pad2(i+1)}</b> / ${pad2(N)}</div>
       </div>
       <div class="body ${s.align==='end'?'end':s.align==='top'?'top':''}">${s.html}</div>
