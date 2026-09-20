@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CoachX — Carousel</title>
+<style>
+  @font-face{font-family:'Archivo';src:url('assets/archivo.woff2') format('woff2');font-weight:100 900;font-stretch:62% 125%;font-display:block;}
+  @font-face{font-family:'Inter';src:url('assets/inter.woff2') format('woff2');font-weight:100 900;font-display:block;}
+
+  :root{
+    --bg:#060606;
+    --ink:#F2F2F2;
+    --dim:#9A9A9E;
+    --faint:#5A5A5E;
+    --ghost:#2A2A2D;
+    --rule:rgba(255,255,255,.11);
+    --rule-soft:rgba(255,255,255,.06);
+    --W:1080px; --H:1350px;
+    --pad:86px;
+    --chrome:linear-gradient(168deg,#ffffff 0%,#d6dade 14%,#7d8388 30%,#f4f6f8 46%,#a8aeb3 60%,#55595d 76%,#e6e9eb 92%,#9aa0a5 100%);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:#0b0b0c;}
+  body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:34px;padding:34px;}
+
+  .slide{
+    position:relative;width:var(--W);height:var(--H);background:var(--bg);
+    overflow:hidden;color:var(--ink);flex:none;isolation:isolate;
+  }
+
+  /* ---------- atmosphere ---------- */
+  .atm{position:absolute;inset:0;pointer-events:none;}
+  .atm-glow{background:
+      radial-gradient(120% 78% at 86% -8%, rgba(158,168,178,.20) 0%, rgba(120,130,140,.07) 34%, transparent 66%),
+      radial-gradient(90% 60% at 8% 104%, rgba(130,140,150,.10) 0%, transparent 60%);}
+  .atm-shaft{background-image:url('assets/flare_shaft.png');background-repeat:no-repeat;background-size:auto 128%;
+      background-position:98% -10%;mix-blend-mode:screen;opacity:.5;filter:contrast(1.25) brightness(1.1);}
+  .atm-tube{position:absolute;left:-10%;top:-2%;width:120%;height:132px;background-image:url('assets/flare_tube.png');
+      background-size:100% 100%;mix-blend-mode:screen;opacity:.13;transform:rotate(-2deg);filter:blur(7px) contrast(1.1);}
+  .atm-photo{background-size:cover;background-position:center;filter:grayscale(1) contrast(1.18) brightness(.5);}
+  .atm-scrim{background:linear-gradient(176deg,rgba(6,6,6,.62) 0%,rgba(6,6,6,.30) 30%,rgba(6,6,6,.88) 74%,#060606 100%);}
+  .atm-vig{background:radial-gradient(118% 88% at 50% 44%, transparent 42%, rgba(0,0,0,.62) 84%, rgba(0,0,0,.9) 100%);}
+  .atm-grain{opacity:.055;mix-blend-mode:overlay;}
+  .atm-grain svg{width:100%;height:100%;}
+
+  /* giant ghost X */
+  .ghostx{position:absolute;pointer-events:none;opacity:.038;}
+  .ghostx svg{display:block;}
+
+  /* ---------- chassis ---------- */
+  .frame{position:absolute;inset:var(--pad);pointer-events:none;}
+  .tick{position:absolute;width:19px;height:19px;border-color:rgba(255,255,255,.26);border-style:solid;border-width:0;}
+  .tick.tl{left:-16px;top:-16px;border-left-width:1px;border-top-width:1px;}
+  .tick.tr{right:-16px;top:-16px;border-right-width:1px;border-top-width:1px;}
+  .tick.bl{left:-16px;bottom:-16px;border-left-width:1px;border-bottom-width:1px;}
+  .tick.br{right:-16px;bottom:-16px;border-right-width:1px;border-bottom-width:1px;}
+
+  .inner{position:absolute;inset:0;padding:var(--pad);display:flex;flex-direction:column;z-index:3;}
+
+  .head{display:flex;align-items:flex-start;justify-content:space-between;flex:none;}
+  .mark{width:210px;}
+  .mark svg{display:block;width:100%;height:auto;}
+  .count{font-family:'Archivo';font-size:17px;font-weight:500;letter-spacing:.34em;color:var(--faint);
+      font-variant-numeric:tabular-nums;padding-top:6px;}
+  .count b{color:var(--dim);font-weight:600;}
+
+  .body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:52px 0;}
+  .body.top{justify-content:flex-start;padding-top:96px;}
+  .body.end{justify-content:flex-end;}
+
+  .foot{flex:none;display:flex;align-items:center;justify-content:space-between;gap:28px;}
+  .bars{display:flex;gap:6px;flex:1;max-width:360px;}
+  .bars i{height:2px;flex:1;background:rgba(255,255,255,.13);}
+  .bars i.on{background:linear-gradient(90deg,#fff,#8b9095);height:2px;box-shadow:0 0 12px rgba(255,255,255,.45);}
+  .handle{font-family:'Archivo';font-size:15px;font-weight:500;letter-spacing:.30em;color:var(--faint);white-space:nowrap;text-transform:uppercase;}
+
+  /* ---------- type ---------- */
+  .eyebrow{font-family:'Archivo';font-size:19px;font-weight:500;letter-spacing:.44em;color:#8C8C90;text-transform:uppercase;
+      display:flex;align-items:center;gap:20px;margin-bottom:34px;}
+  .eyebrow::before{content:'';width:46px;height:1px;background:rgba(255,255,255,.34);flex:none;}
+
+  h1{font-family:'Archivo';font-weight:800;font-variation-settings:'wdth' 116,'wght' 800;
+      font-size:120px;line-height:.88;letter-spacing:-.028em;text-transform:uppercase;color:#F7F7F7;}
+  h1.m{font-size:104px;}
+  h1.s{font-size:86px;line-height:.92;}
+  .chrome{background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+      -webkit-text-fill-color:transparent;}
+  .outline{color:transparent;-webkit-text-stroke:2.4px rgba(255,255,255,.58);}
+  .rule{height:1px;background:linear-gradient(90deg,rgba(255,255,255,.42),rgba(255,255,255,.06));margin:38px 0 30px;width:180px;}
+  .lede{font-size:27px;line-height:1.52;color:#A6A6AA;max-width:760px;font-weight:400;letter-spacing:-.003em;}
+  .lede b{color:#EDEDED;font-weight:600;}
+
+  /* numbered list (slide 3) */
+  .list{border-top:1px solid var(--rule);}
+  .row{display:flex;gap:34px;padding:34px 0 32px;border-bottom:1px solid var(--rule);align-items:flex-start;}
+  .row .n{font-family:'Archivo';font-size:34px;font-weight:300;font-variation-settings:'wght' 300;color:#4E4E52;
+      width:74px;flex:none;font-variant-numeric:tabular-nums;padding-top:4px;}
+  .row h3{font-family:'Archivo';font-size:38px;font-weight:700;font-variation-settings:'wdth' 106,'wght' 720;
+      letter-spacing:-.012em;text-transform:uppercase;color:#F2F2F2;margin-bottom:11px;line-height:1;}
+  .row p{font-size:23px;line-height:1.45;color:#8E8E92;}
+
+  /* strike list (problem slide) */
+  .pain{display:flex;flex-direction:column;gap:26px;margin-top:8px;}
+  .pain div{display:flex;align-items:center;gap:22px;font-size:28px;color:#6F6F73;letter-spacing:-.004em;}
+  .pain div s{text-decoration:none;position:relative;}
+  .pain div s::after{content:'';position:absolute;left:-4px;right:-4px;top:54%;height:1.5px;background:rgba(255,255,255,.34);}
+  .pain div em{font-style:normal;font-family:'Archivo';font-size:17px;letter-spacing:.2em;color:#606065;flex:none;width:30px;}
+
+  /* product card */
+  .card{border:1px solid rgba(255,255,255,.14);background:linear-gradient(158deg,rgba(255,255,255,.055),rgba(255,255,255,.012));
+      backdrop-filter:blur(2px);padding:32px 34px 30px;}
+  .card-h{display:flex;justify-content:space-between;align-items:center;padding-bottom:20px;border-bottom:1px solid var(--rule);}
+  .card-h .t{font-family:'Archivo';font-size:21px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#E8E8E8;}
+  .card-h .s{font-family:'Archivo';font-size:15px;letter-spacing:.22em;color:#6E6E72;display:flex;align-items:center;gap:10px;}
+  .dot{width:7px;height:7px;border-radius:50%;background:#EDEDED;box-shadow:0 0 12px rgba(255,255,255,.9);}
+  .ex{display:flex;align-items:center;justify-content:space-between;padding:19px 0;border-bottom:1px solid var(--rule-soft);}
+  .ex:last-of-type{border-bottom:0;}
+  .ex .nm{font-family:'Archivo';font-size:21px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:#D2D2D6;}
+  .ex .mt{display:flex;gap:26px;align-items:center;}
+  .ex .mt span{font-family:'Archivo';font-size:19px;color:#83838A;font-variant-numeric:tabular-nums;letter-spacing:.06em;}
+  .ex .mt b{font-family:'Archivo';font-size:19px;color:#EFEFEF;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.06em;}
+  .chk{width:19px;height:19px;border:1px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex:none;}
+  .chk.on{background:#EDEDED;border-color:#EDEDED;}
+  .chk.on::after{content:'';width:9px;height:5px;border-left:1.8px solid #0A0A0A;border-bottom:1.8px solid #0A0A0A;transform:rotate(-45deg) translateY(-1px);}
+  .card-f{display:flex;justify-content:space-between;align-items:center;padding-top:22px;margin-top:6px;border-top:1px solid var(--rule);
+      font-family:'Archivo';font-size:15px;letter-spacing:.22em;color:#6E6E72;text-transform:uppercase;}
+
+  /* chart */
+  .chart{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;height:172px;
+      padding:22px 0 0;border-bottom:1px solid var(--rule);}
+  .chart i{flex:1;max-width:66px;background:linear-gradient(180deg,rgba(255,255,255,.34),rgba(255,255,255,.07));}
+  .chart i.hi{background:linear-gradient(180deg,#ffffff,#8E9499);box-shadow:0 0 30px rgba(255,255,255,.34);}
+  .axis{display:flex;justify-content:space-between;gap:30px;padding-top:13px;}
+  .axis span{max-width:66px;}
+  .axis span{flex:1;text-align:center;font-family:'Archivo';font-size:13px;letter-spacing:.14em;color:#5A5A5E;}
+
+  /* two-column split */
+  .split{display:flex;border-top:1px solid var(--rule);}
+  .col{flex:1;padding:36px 0 4px;}
+  .col{padding-right:44px;} .col+.col{border-left:1px solid var(--rule);padding-left:46px;padding-right:0;}
+  .col .lbl{font-family:'Archivo';font-size:16px;letter-spacing:.34em;color:#7C7C80;text-transform:uppercase;margin-bottom:26px;}
+  .col ul{list-style:none;display:flex;flex-direction:column;gap:19px;}
+  .col li{font-size:23px;line-height:1.35;color:#BDBDC2;display:flex;gap:15px;align-items:flex-start;}
+  .col li::before{content:'';width:15px;height:1px;background:rgba(255,255,255,.42);margin-top:16px;flex:none;}
+
+  /* stats */
+  .stats{display:flex;flex-direction:column;}
+  .stat{display:flex;align-items:center;gap:44px;padding:38px 0;border-bottom:1px solid var(--rule);}
+  .stat:first-child{border-top:1px solid var(--rule);}
+  .stat .v{font-family:'Archivo';font-weight:800;font-variation-settings:'wdth' 116,'wght' 800;font-size:104px;line-height:.86;
+      width:280px;flex:none;letter-spacing:-.03em;}
+  .stat .k{font-family:'Archivo';font-size:26px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#E4E4E8;}
+  .stat .k small{display:block;font-family:'Inter';font-size:20px;letter-spacing:0;text-transform:none;color:#7E7E82;margin-top:9px;font-weight:400;}
+
+  /* cta */
+  .btn{display:inline-flex;align-items:center;gap:20px;background:#F2F2F2;color:#070707;padding:25px 44px;
+      font-family:'Archivo';font-size:23px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+      box-shadow:0 0 46px rgba(255,255,255,.14);}
+  .btn span{font-size:19px;display:flex;align-items:center;}
+  .btn svg{width:32px;height:10px;display:block;}
+  .cta-meta{display:flex;align-items:center;gap:18px;margin-top:34px;font-family:'Archivo';font-size:17px;
+      letter-spacing:.28em;color:#6E6E72;text-transform:uppercase;}
+  .cta-meta i{width:4px;height:4px;background:#4A4A4E;border-radius:50%;font-style:normal;}
+
+  .swipe{display:flex;align-items:center;gap:14px;font-family:'Archivo';font-size:16px;letter-spacing:.34em;
+      color:#8A8A8E;text-transform:uppercase;}
+  .swipe svg{width:30px;height:9px;}
+</style>
+</head>
+<body>
+<div id="deck"></div>
+
+<script>
+/* ============ LOGO MARK (crisp SVG rebuild of the CoachX wordmark) ============ */
+function bladeA(){return '456.4,3.3 612.7,192 599.3,204 423.6,32.7';}
+function bladeB(){return '589.3,4.7 614.8,27.3 410.3,234 405.8,230';}
+
+function markSVG(id){return `
+<svg viewBox="0 0 640 244" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="w${id}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="40%" stop-color="#CACED2"/>
+      <stop offset="64%" stop-color="#83888D"/><stop offset="100%" stop-color="#EDEFF1"/>
+    </linearGradient>
+    <linearGradient id="a${id}" x1="0.05" y1="0" x2="0.95" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/><stop offset="16%" stop-color="#D6DADE"/>
+      <stop offset="36%" stop-color="#6F7479"/><stop offset="50%" stop-color="#F7F9FB"/>
+      <stop offset="68%" stop-color="#9BA1A6"/><stop offset="85%" stop-color="#44484C"/>
+      <stop offset="100%" stop-color="#C6CACD"/>
+    </linearGradient>
+    <linearGradient id="b${id}" x1="0.95" y1="0" x2="0.05" y2="1">
+      <stop offset="0%" stop-color="#FAFCFD"/><stop offset="20%" stop-color="#A5ABB0"/>
+      <stop offset="38%" stop-color="#F2F4F6"/><stop offset="56%" stop-color="#5E6367"/>
+      <stop offset="76%" stop-color="#BFC4C8"/><stop offset="100%" stop-color="#3C4044"/>
+    </linearGradient>
+  </defs>
+  <text x="4" y="150" fill="url(#w${id})" font-family="Archivo" font-size="54" font-weight="300"
+        letter-spacing="32" style="font-variation-settings:'wght' 260,'wdth' 100">COACH</text>
+  <polygon points="${bladeA()}" fill="url(#a${id})"/>
+  <polygon points="${bladeB()}" fill="url(#b${id})"/>
+</svg>`;}
+
+function ghostX(){return `
+<svg viewBox="380 0 250 244" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="${bladeA()}" fill="#FFFFFF"/>
+  <polygon points="${bladeB()}" fill="#FFFFFF"/>
+</svg>`;}
+
+const arrow = `<svg viewBox="0 0 30 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 4.5h27M23 1l4.2 3.5L23 8" stroke="#8A8A8E" stroke-width="1.3"/></svg>`;
+
+/* ============ CONTENT ============ */
+const SLIDES = [
+/* 1 — HERO */ {
+  // photo:'photos/hero.jpg',            // ← drop a gym shot in /photos and uncomment
+  atm:'full', ghost:{right:'-88px',bottom:'-70px',width:'560px'}, align:'end',
+  html:`
+    <div class="eyebrow">The New Standard</div>
+    <h1>Train<br><span class="chrome">Smarter.</span><br>Push<br>Harder.</h1>
+    <div class="rule"></div>
+    <p class="lede">CoachX puts your PT in your pocket — programs, logs and check-ins
+      in <b>one place</b>, in real time.</p>`,
+  foot:`<div class="swipe">Swipe ${arrow}</div>`
+},
+/* 2 — PROBLEM */ {
+  atm:'soft', ghost:{left:'-150px',top:'340px',width:'480px'}, align:'center',
+  html:`
+    <div class="eyebrow">The Problem</div>
+    <h1 class="m">Your<br>Program<br>Is Buried<br><span class="chrome">In A Chat.</span></h1>
+    <div class="rule"></div>
+    <div class="pain">
+      <div><em>01</em><s>Screenshots of a spreadsheet</s></div>
+      <div><em>02</em><s>“Hey, did you do Day 3?”</s></div>
+      <div><em>03</em><s>Progress nobody actually tracks</s></div>
+    </div>`
+},
+/* 3 — TURN */ {
+  atm:'soft', ghost:{left:'50%',top:'50%',width:'760px',transform:'translate(-50%,-50%)',opacity:'.055'}, align:'center',
+  html:`
+    <div class="eyebrow">The Fix</div>
+    <h1>One App.<br><span class="outline">Both Sides</span><br>Of The Rep.</h1>
+    <div class="rule"></div>
+    <p class="lede">Coaches build. Athletes train. Everything syncs the second it happens —
+      <b>no spreadsheets, no chat chaos.</b></p>`
+},
+/* 4 — FEATURE 01 */ {
+  atm:'soft', ghost:{right:'-190px',top:'-60px',width:'470px'}, align:'center',
+  html:`
+    <div class="eyebrow">01 — Delivery</div>
+    <h1 class="s">Live Program<br>Delivery</h1>
+    <p class="lede" style="margin:26px 0 42px">Your coach builds the session and it lands on your
+      dashboard — <b>already loaded</b>, already weighted.</p>
+    <div class="card">
+      <div class="card-h"><div class="t">Push Day · Week 04</div><div class="s"><span class="dot"></span>Sent 06:12</div></div>
+      <div class="ex"><div class="nm">Bench Press</div><div class="mt"><span>4 × 8</span><b>60 KG</b><div class="chk on"></div></div></div>
+      <div class="ex"><div class="nm">Incline DB Press</div><div class="mt"><span>3 × 10</span><b>22.5 KG</b><div class="chk on"></div></div></div>
+      <div class="ex"><div class="nm">Cable Fly</div><div class="mt"><span>3 × 12</span><b>RPE 8</b><div class="chk"></div></div></div>
+      <div class="ex"><div class="nm">Overhead Press</div><div class="mt"><span>4 × 6</span><b>35 KG</b><div class="chk"></div></div></div>
+      <div class="card-f"><span>Delivered to your dashboard</span><span>Auto-progressed</span></div>
+    </div>`
+},
+/* 5 — FEATURE 02 */ {
+  atm:'soft', ghost:{left:'-170px',bottom:'-80px',width:'500px'}, align:'center',
+  html:`
+    <div class="eyebrow">02 — Feedback</div>
+    <h1 class="s">Two-Way<br>Progress Tracking</h1>
+    <p class="lede" style="margin:26px 0 42px">Log the set, drop the check-in, get a reply.
+      Your PT sees <b>every rep you log.</b></p>
+    <div class="card">
+      <div class="card-h"><div class="t">Weekly Volume</div><div class="s"><span class="dot"></span>+12.5% vs last</div></div>
+      <div class="chart">
+        <i style="height:38%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:66%"></i>
+        <i style="height:58%"></i><i style="height:79%"></i><i class="hi" style="height:100%"></i>
+      </div>
+      <div class="axis"><span>MON</span><span>TUE</span><span>WED</span><span>THU</span><span>FRI</span><span>SAT</span><span>SUN</span></div>
+      <div class="card-f"><span>Check-in submitted · Sun</span><span>Coach replied · 2 min</span></div>
+    </div>`
+},
+/* 6 — FEATURE 03 */ {
+  atm:'full', ghost:{right:'-210px',bottom:'-120px',width:'560px'}, align:'center',
+  html:`
+    <div class="eyebrow">03 — Built For Both</div>
+    <h1 class="s">PTs <span class="chrome">&amp;</span> Athletes.<br>One Platform.</h1>
+    <div class="rule"></div>
+    <div class="split">
+      <div class="col">
+        <div class="lbl">For Coaches</div>
+        <ul><li>Build once, deploy to every client</li><li>See who trained and who didn’t</li><li>Scale past the WhatsApp ceiling</li></ul>
+      </div>
+      <div class="col">
+        <div class="lbl">For Athletes</div>
+        <ul><li>Today’s session, already loaded</li><li>Log sets in two taps</li><li>Real answers from a real coach</li></ul>
+      </div>
+    </div>
+    <p class="lede" style="margin-top:44px">One login. <b>One source of truth.</b></p>`
+},
+/* 7 — PROOF */ {
+  atm:'soft', ghost:{left:'50%',top:'46%',width:'700px',transform:'translate(-50%,-50%)',opacity:'.04'}, align:'center',
+  html:`
+    <div class="eyebrow">What Changes</div>
+    <h1 class="m" style="margin-bottom:46px">The Math<br>Is Simple.</h1>
+    <div class="stats">
+      <div class="stat"><div class="v chrome">00</div><div class="k">Spreadsheets<small>Nothing to maintain, ever</small></div></div>
+      <div class="stat"><div class="v chrome">01</div><div class="k">Dashboard<small>Every program, log and check-in</small></div></div>
+      <div class="stat"><div class="v chrome">24/7</div><div class="k">Accountability<small>Your coach is always one tap away</small></div></div>
+    </div>`
+},
+/* 8 — CTA */ {
+  atm:'full', ghost:{left:'50%',top:'50%',width:'820px',transform:'translate(-50%,-50%)',opacity:'.06'}, align:'center',
+  html:`
+    <div class="eyebrow">Join Now</div>
+    <h1>Stop<br>Guessing.<br><span class="chrome">Start</span><br>Training.</h1>
+    <div class="rule"></div>
+    <p class="lede" style="margin-bottom:46px">Bring your coach. Or find one.
+      CoachX is open for <b>PTs and athletes</b> today.</p>
+    <div><a class="btn">Join CoachX <span>${arrow.replace(/#8A8A8E/g,'#070707')}</span></a></div>
+    <div class="cta-meta"><span>@CoachX</span><i></i><span>Link In Bio</span><i></i><span>Free To Start</span></div>`
+}
+];
+
+/* ============ RENDER ============ */
+const deck = document.getElementById('deck');
+const N = SLIDES.length;
+const pad2 = n => String(n).padStart(2,'0');
+
+deck.innerHTML = SLIDES.map((s,i)=>{
+  const g = s.ghost||{};
+  const gstyle = Object.entries(g).filter(([k])=>k!=='opacity')
+      .map(([k,v])=>`${k.replace(/[A-Z]/g,m=>'-'+m.toLowerCase())}:${v}`).join(';');
+  const gop = g.opacity ? `opacity:${g.opacity};` : '';
+  const shaft = s.atm==='full' ? `<div class="atm atm-shaft"></div><div class="atm-tube"></div>` : '';
+  const photo = s.photo ? `<div class="atm atm-photo" style="background-image:url('${s.photo}')"></div><div class="atm atm-scrim"></div>` : '';
+  return `
+  <section class="slide" data-i="${i+1}">
+    ${photo}
+    <div class="atm atm-glow"></div>
+    ${shaft}
+    <div class="ghostx" style="${gstyle};${gop}">${ghostX()}</div>
+    <div class="atm atm-vig"></div>
+    <div class="atm atm-grain">
+      <svg xmlns="http://www.w3.org/2000/svg"><filter id="gr${i}"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#gr${i})"/></svg>
+    </div>
+    <div class="frame"><i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i></div>
+    <div class="inner">
+      <div class="head">
+        <div class="mark">${markSVG(i)}</div>
+        <div class="count"><b>${pad2(i+1)}</b> / ${pad2(N)}</div>
+      </div>
+      <div class="body ${s.align==='end'?'end':s.align==='top'?'top':''}">${s.html}</div>
+      <div class="foot">
+        <div class="bars">${SLIDES.map((_,j)=>`<i class="${j===i?'on':''}"></i>`).join('')}</div>
+        ${s.foot || `<div class="handle">CoachX · Train Smarter</div>`}
+      </div>
+    </div>
+  </section>`;
+}).join('');
+document.documentElement.classList.add('ready');
+</script>
+</body>
+</html>
