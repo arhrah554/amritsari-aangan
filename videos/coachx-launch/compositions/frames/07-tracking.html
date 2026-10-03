@@ -90,7 +90,7 @@
       font-family: "Archivo";
       font-weight: 900;
       font-stretch: 125%;
-      font-size: 146px;
+      font-size: 126px;
       line-height: 0.9;
       letter-spacing: -0.01em;
       text-transform: uppercase;
@@ -130,9 +130,9 @@
     [id="07-tracking-card"] {
       position: absolute;
       left: 60px;
-      top: 568px;
+      top: 540px;
       width: 960px;
-      height: 566px;
+      height: 596px;
       box-sizing: border-box;
       padding: 38px 40px 0 40px;
       background: rgba(255,255,255,0.03);
@@ -178,7 +178,7 @@
       display: flex;
       align-items: baseline;
       justify-content: flex-end;
-      width: 300px;
+      width: 268px;
     }
     [id="07-tracking-count"] {
       display: inline-block;
@@ -221,7 +221,7 @@
     [id="07-tracking-bars"] {
       position: relative;
       margin-top: 28px;
-      height: 340px;
+      height: 370px;
       display: flex;
       justify-content: space-between;
       align-items: stretch;
@@ -229,7 +229,7 @@
     [class~="07-tracking-col"] {
       position: relative;
       width: 96px;
-      height: 340px;
+      height: 370px;
     }
     [class~="07-tracking-slot"] {
       position: absolute;
@@ -391,10 +391,10 @@
     }
   </style>
 
-  <div id="root" data-composition-id="07-tracking" data-width="1080" data-height="1920">
+  <div id="root" data-composition-id="07-tracking" data-width="1080" data-height="1920" data-duration="6.398">
 
     <!-- ground: full-duration clip on the lowest track -->
-    <div id="07-tracking-bg" class="clip" data-start="0" data-duration="5.998" data-track-index="0">
+    <div id="07-tracking-bg" class="clip" data-start="0" data-duration="6.398" data-track-index="0">
       <svg id="07-tracking-x" viewBox="0 0 1400 1400" aria-hidden="true">
         <defs>
           <linearGradient id="07-tracking-xgrad" x1="0" y1="0" x2="1" y2="1">
@@ -410,7 +410,7 @@
     </div>
 
     <!-- camera wrapper: slow continuous push-in under every reveal -->
-    <div id="07-tracking-cam" class="clip" data-start="0" data-duration="5.998" data-track-index="1">
+    <div id="07-tracking-cam" class="clip" data-start="0" data-duration="6.398" data-track-index="1">
 
       <div class="07-tracking-bracket" id="07-tracking-br-l"></div>
       <div class="07-tracking-bracket" id="07-tracking-br-r"></div>
@@ -491,7 +491,7 @@
     </div>
 
     <!-- static grain over everything -->
-    <svg id="07-tracking-grain" class="clip" data-start="0" data-duration="5.998" data-track-index="2" viewBox="0 0 1080 1920" preserveAspectRatio="none" aria-hidden="true">
+    <svg id="07-tracking-grain" class="clip" data-start="0" data-duration="6.398" data-track-index="2" viewBox="0 0 1080 1920" preserveAspectRatio="none" aria-hidden="true">
       <filter id="07-tracking-noise" x="0" y="0" width="100%" height="100%">
         <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/>
         <feColorMatrix type="saturate" values="0"/>
@@ -547,7 +547,7 @@
       }, T2);
       tl.fromTo(count, { scale: 0.55 }, { scale: 1, duration: COUNT_DUR, ease: "power3.out" }, T2);
       tl.fromTo($("07-tracking-stat-label"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, T2 + 0.15);
-      tl.fromTo($("07-tracking-count-suffix"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.7)" }, T2 + COUNT_DUR);
+      tl.fromTo($("07-tracking-count-suffix"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, T2 + COUNT_DUR);
 
       // SUN glow blooms in as the white bar lands (ambient-glow-bloom, hero form)
       var SUN_START = T2 + BAR_STAGGER * 6;
@@ -556,7 +556,7 @@
       // ── Scene 3 (2.75–3.96s) "Get a reply." — check-in from right, coach reply from left + stamp ──
       tl.fromTo($("07-tracking-athlete"), { opacity: 0, x: 260 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 2.75);
       tl.fromTo($("07-tracking-coach"), { opacity: 0, x: -260 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 3.22);
-      tl.fromTo($("07-tracking-stamp"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.38, ease: "back.out(1.8)" }, 3.55);
+      tl.fromTo($("07-tracking-stamp"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.38, ease: "power3.out" }, 3.55);
 
       // ── Scene 4 (3.96–6.0s) "Your coach sees every rep." — SEEN ✓✓ ticks in, SUN glow blooms once, hold ──
       tl.fromTo($("07-tracking-seen-text"), { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" }, 3.96);

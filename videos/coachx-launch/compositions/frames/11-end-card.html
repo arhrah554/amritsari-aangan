@@ -198,10 +198,10 @@
       font-family: "Archivo", sans-serif;
       font-weight: 600;
       font-stretch: 125%;
-      font-size: 21px;
-      letter-spacing: 0.32em;
+      font-size: 24px;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: #9DA2AA;
+      color: #B4B8BF;
       white-space: nowrap;
     }
     .ec11-meta span {
@@ -359,15 +359,15 @@
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 2.74);
       tl.fromTo(q(".ec11-line-2"), { scale: 1.04 }, { scale: 1, duration: 0.9, ease: "expo.out" }, 2.74);
 
-      // ── Scene 5 (3.7–5.095): CTA button rises in, then the meta line; one last streak; hold; fade to black
+      // ── Scene 5 (3.3–5.095): CTA button rises in as "Push harder" lands, then the meta line; one last streak; hold; fade to black
       tl.fromTo(q(".ec11-btn"),
         { opacity: 0, y: 40, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out" }, 3.7);
-      tl.fromTo(q(".ec11-arrow"), { x: -14 }, { x: 0, duration: 0.5, ease: "back.out(2)" }, 3.85);
+        { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out" }, 3.3);
+      tl.fromTo(q(".ec11-arrow"), { x: -14 }, { x: 0, duration: 0.5, ease: "power3.out" }, 3.45);
 
       tl.fromTo([q(".ec11-meta-a"), q(".ec11-meta-d1"), q(".ec11-meta-b"), q(".ec11-meta-d2"), q(".ec11-meta-c")],
         { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.06 }, 3.98);
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05 }, 3.55);
 
       // final specular streak across the logo + soft frame flare
       tl.fromTo(q(".ec11-band-b"), { x: -260 }, { x: 1000, duration: 0.6, ease: "power2.inOut" }, 4.0);

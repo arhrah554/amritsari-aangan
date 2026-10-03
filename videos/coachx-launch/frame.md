@@ -11,6 +11,7 @@ unit: the frame — 1920×1080 primary; 9:16 and 1:1 documented
 principle: atoms are sacred · composition is free · numbers come from the script
 
 colors:
+  canvas: "#0A0A0C"   # the video ground — the assembler paints #root with this
   ink-black: "#0A0A0C"
   ink-black-alt: "#18191A"
   fire-orange: "#C9CDD3"   # chrome silver — the brand accent (gradient: #FFFFFF → #C9CDD3 → #6E737B)

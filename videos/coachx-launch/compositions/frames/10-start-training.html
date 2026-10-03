@@ -127,15 +127,15 @@
     [class~="10-start-training-grain"] svg { display: block; width: 1080px; height: 1920px; }
   </style>
 
-  <div id="root" data-composition-id="10-start-training" data-width="1080" data-height="1920" data-duration="2.743">
+  <div id="root" data-composition-id="10-start-training" data-width="1080" data-height="1920" data-duration="3.343">
 
     <!-- ground -->
     <div class="clip 10-start-training-layer 10-start-training-ground"
-         data-start="0" data-duration="2.743" data-track-index="0"></div>
+         data-start="0" data-duration="3.343" data-track-index="0"></div>
 
     <!-- photo strobe: hero 0.0 -> divider 0.55 -> about 0.95 -> divider 1.31 (hold) -->
     <div id="10-start-training-photos" class="clip 10-start-training-layer"
-         data-start="0" data-duration="2.743" data-track-index="1">
+         data-start="0" data-duration="3.343" data-track-index="1">
       <div id="10-start-training-ph-hero" class="10-start-training-photo">
         <img id="10-start-training-img-hero" src="assets/hero.jpg" alt="" />
       </div>
@@ -152,10 +152,10 @@
 
     <!-- shade for legibility -->
     <div class="clip 10-start-training-layer 10-start-training-shade"
-         data-start="0" data-duration="2.743" data-track-index="2"></div>
+         data-start="0" data-duration="3.343" data-track-index="2"></div>
 
     <!-- type: beats replace each other in place -->
-    <div class="clip 10-start-training-layer" data-start="0" data-duration="2.743" data-track-index="3">
+    <div class="clip 10-start-training-layer" data-start="0" data-duration="3.343" data-track-index="3">
       <div id="10-start-training-cam" class="10-start-training-cam">
         <div id="10-start-training-s1" class="10-start-training-stack">
           <span id="10-start-training-stop" class="10-start-training-word">Stop</span>
@@ -173,11 +173,11 @@
 
     <!-- flash frames -->
     <div id="10-start-training-flash" class="clip 10-start-training-layer"
-         data-start="0" data-duration="2.743" data-track-index="4"></div>
+         data-start="0" data-duration="3.343" data-track-index="4"></div>
 
     <!-- static grain -->
     <div class="clip 10-start-training-layer 10-start-training-grain"
-         data-start="0" data-duration="2.743" data-track-index="5" aria-hidden="true">
+         data-start="0" data-duration="3.343" data-track-index="5" aria-hidden="true">
       <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <filter id="10-start-training-noise">
           <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="10" stitchTiles="stitch" />
@@ -242,10 +242,10 @@
       tl.fromTo($("img-div-b"), { scale: 1.08 }, { scale: 1.025, duration: 0.3, ease: "power3.out" }, HIT2);
       tl.to($("img-div-b"), { scale: 1, duration: D - (HIT2 + 0.3), ease: "sine.out" }, HIT2 + 0.3);
 
-      // START: letter-spacing collapse; TRAINING.: heavy rise-slam, 10% larger, chrome
+      // START: tracking-collapse snap (as a horizontal squeeze); TRAINING.: heavy rise-slam, 10% larger, chrome
       tl.fromTo($("start"),
-        { letterSpacing: "0.32em", opacity: 0 },
-        { letterSpacing: "-0.01em", opacity: 1, duration: 0.36, ease: "expo.out" }, HIT2);
+        { scaleX: 1.35, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.36, ease: "expo.out" }, HIT2);
       tl.fromTo($("chrome"),
         { y: 110, scale: 1.3, filter: "blur(18px)", opacity: 0 },
         { y: 0, scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.42, ease: "circ.out" }, HIT2 + 0.07);
