@@ -1,0 +1,157 @@
+<template>
+  <style>
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* Full-bleed ground: near-pure black with the faintest vignette lift at centre */
+    #n03-not-anymore-ground {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 45% at 50% 45%, #0B0B0D 0%, #050506 55%, #000000 100%);
+    }
+
+    /* Centred stack — optical centre of the 0..1594 safe region, nudged toward canvas centre */
+    #n03-not-anymore-stack {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1720px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #n03-not-anymore-words {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .n03-not-anymore-word {
+      display: block;
+      font-family: "Archivo";
+      font-weight: 900;
+      font-stretch: 125%;
+      text-transform: uppercase;
+      font-size: 148px;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    #n03-not-anymore-not {
+      color: #F2F2F2;
+    }
+
+    #n03-not-anymore-anymore {
+      background: linear-gradient(180deg, #FFFFFF 0%, #D9DCE1 38%, #7C818A 62%, #E9EBEE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding-bottom: 6px;
+    }
+
+    #n03-not-anymore-rule-wrap {
+      position: relative;
+      width: 420px;
+      height: 2px;
+      margin-top: 56px;
+    }
+
+    #n03-not-anymore-rule {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 420px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(201,205,211,0) 0%, rgba(201,205,211,0.85) 18%, #FFFFFF 50%, rgba(201,205,211,0.85) 82%, rgba(201,205,211,0) 100%);
+      transform-origin: 0% 50%;
+    }
+
+    #n03-not-anymore-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    #n03-not-anymore-grain svg {
+      display: block;
+      width: 1080px;
+      height: 1920px;
+    }
+  </style>
+
+  <div id="root" data-composition-id="03-not-anymore" data-width="1080" data-height="1920">
+    <!-- Track 0: full-bleed black ground -->
+    <div id="n03-not-anymore-ground" class="clip" data-start="0" data-duration="1.643" data-track-index="0"></div>
+
+    <!-- Track 1: the two words + hairline -->
+    <div id="n03-not-anymore-stack" class="clip" data-start="0" data-duration="1.643" data-track-index="1">
+      <div id="n03-not-anymore-words">
+        <span id="n03-not-anymore-not" class="n03-not-anymore-word">Not</span>
+        <span id="n03-not-anymore-anymore" class="n03-not-anymore-word">Anymore.</span>
+      </div>
+      <div id="n03-not-anymore-rule-wrap">
+        <div id="n03-not-anymore-rule"></div>
+      </div>
+    </div>
+
+    <!-- Track 2: static grain over everything -->
+    <div id="n03-not-anymore-grain" class="clip" data-start="0" data-duration="1.643" data-track-index="2">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none">
+        <filter id="n03-not-anymore-noise" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="1080" height="1920" filter="url(#n03-not-anymore-noise)" />
+      </svg>
+    </div>
+  </div>
+
+  <script src="assets/vendor/gsap.min.js"></script>
+  <script>
+    (function () {
+      var D = 1.643;
+      var tl = gsap.timeline({ paused: true });
+
+      // Lock the timeline to the frame's exact duration.
+      tl.to({}, { duration: D }, 0);
+
+      // Scene 1 (0.0–0.3s): pure black, nothing. The words are held invisible
+      // by the fromTo below (immediateRender), so the opening is empty ground + grain.
+
+      // Scene 2 (0.3s): "Not anymore." — hard-cut flash in, both words together, no scale.
+      tl.fromTo("#n03-not-anymore-words",
+        { opacity: 0 },
+        { opacity: 1, duration: 0.001, ease: "none" },
+        0.3);
+      // The flash: words land overexposed and settle to true value in ~0.16s.
+      tl.fromTo("#n03-not-anymore-words",
+        { filter: "brightness(2.4)" },
+        { filter: "brightness(1)", duration: 0.16, ease: "power2.out" },
+        0.3);
+
+      // Single thin hairline draws left -> right under the words over 0.6s.
+      tl.fromTo("#n03-not-anymore-rule",
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.6, ease: "power2.inOut" },
+        0.36);
+
+      // 0.96s -> end: absolute stillness. The held breath before the hit. No exit.
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["03-not-anymore"] = tl;
+    })();
+  </script>
+</template>
