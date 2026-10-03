@@ -1,0 +1,253 @@
+{
+ "1": {
+  "duration_s": 4.758,
+  "text": "You put in the reps. Every. Single. Day.",
+  "phrases": [
+   {
+    "text": "You put in the reps.",
+    "start": 0.6,
+    "end": 1.83
+   },
+   {
+    "text": "Every.",
+    "start": 2.07,
+    "end": 2.67
+   },
+   {
+    "text": "Single.",
+    "start": 2.91,
+    "end": 3.5
+   },
+   {
+    "text": "Day.",
+    "start": 3.74,
+    "end": 4.31
+   }
+  ]
+ },
+ "2": {
+  "duration_s": 8.0,
+  "text": "But your program? Buried in a chat. Spreadsheet screenshots. \"Did you do Day three?\" Progress nobody tracks.",
+  "phrases": [
+   {
+    "text": "But your program?",
+    "start": 0.2,
+    "end": 1.34
+   },
+   {
+    "text": "Buried in a chat.",
+    "start": 1.5,
+    "end": 2.59
+   },
+   {
+    "text": "Spreadsheet screenshots.",
+    "start": 2.75,
+    "end": 4.26
+   },
+   {
+    "text": "\"Did you do Day three?\"",
+    "start": 4.42,
+    "end": 5.76
+   },
+   {
+    "text": "Progress nobody tracks.",
+    "start": 5.92,
+    "end": 7.6
+   }
+  ]
+ },
+ "3": {
+  "duration_s": 1.643,
+  "text": "Not anymore.",
+  "phrases": [
+   {
+    "text": "Not anymore.",
+    "start": 0.3,
+    "end": 1.34
+   }
+  ]
+ },
+ "4": {
+  "duration_s": 2.803,
+  "text": "Introducing CoachX.",
+  "phrases": [
+   {
+    "text": "Introducing CoachX.",
+    "start": 0.7,
+    "end": 2.2
+   }
+  ]
+ },
+ "5": {
+  "duration_s": 6.861,
+  "text": "One app. Both sides of the rep. Coaches build. Athletes train. Everything syncs.",
+  "phrases": [
+   {
+    "text": "One app.",
+    "start": 0.2,
+    "end": 1.0
+   },
+   {
+    "text": "Both sides of the rep.",
+    "start": 1.16,
+    "end": 2.63
+   },
+   {
+    "text": "Coaches build.",
+    "start": 2.79,
+    "end": 3.88
+   },
+   {
+    "text": "Athletes train.",
+    "start": 4.04,
+    "end": 5.21
+   },
+   {
+    "text": "Everything syncs.",
+    "start": 5.37,
+    "end": 6.51
+   }
+  ]
+ },
+ "6": {
+  "duration_s": 5.904,
+  "text": "Your coach builds it. It lands on your dashboard. Already loaded. Already weighted.",
+  "phrases": [
+   {
+    "text": "Your coach builds it.",
+    "start": 0.2,
+    "end": 1.4
+   },
+   {
+    "text": "It lands on your dashboard.",
+    "start": 1.56,
+    "end": 3.15
+   },
+   {
+    "text": "Already loaded.",
+    "start": 3.31,
+    "end": 4.36
+   },
+   {
+    "text": "Already weighted.",
+    "start": 4.52,
+    "end": 5.55
+   }
+  ]
+ },
+ "7": {
+  "duration_s": 5.998,
+  "text": "Log the set. Drop the check-in. Get a reply. Your coach sees every rep.",
+  "phrases": [
+   {
+    "text": "Log the set.",
+    "start": 0.2,
+    "end": 1.22
+   },
+   {
+    "text": "Drop the check-in.",
+    "start": 1.38,
+    "end": 2.59
+   },
+   {
+    "text": "Get a reply.",
+    "start": 2.75,
+    "end": 3.8
+   },
+   {
+    "text": "Your coach sees every rep.",
+    "start": 3.96,
+    "end": 5.65
+   }
+  ]
+ },
+ "8": {
+  "duration_s": 7.723,
+  "text": "For athletes: today's session, loaded. For coaches: build once, deploy to all. One platform.",
+  "phrases": [
+   {
+    "text": "For athletes:",
+    "start": 0.2,
+    "end": 1.18
+   },
+   {
+    "text": "today's session, loaded.",
+    "start": 1.34,
+    "end": 2.9
+   },
+   {
+    "text": "For coaches:",
+    "start": 3.06,
+    "end": 4.05
+   },
+   {
+    "text": "build once, deploy to all.",
+    "start": 4.21,
+    "end": 5.94
+   },
+   {
+    "text": "One platform.",
+    "start": 6.1,
+    "end": 7.27
+   }
+  ]
+ },
+ "9": {
+  "duration_s": 5.689,
+  "text": "Zero spreadsheets. One dashboard. Twenty-four seven accountability.",
+  "phrases": [
+   {
+    "text": "Zero spreadsheets.",
+    "start": 0.2,
+    "end": 1.52
+   },
+   {
+    "text": "One dashboard.",
+    "start": 1.74,
+    "end": 2.95
+   },
+   {
+    "text": "Twenty-four seven accountability.",
+    "start": 3.17,
+    "end": 5.34
+   }
+  ]
+ },
+ "10": {
+  "duration_s": 2.743,
+  "text": "Stop guessing. Start training.",
+  "phrases": [
+   {
+    "text": "Stop guessing.",
+    "start": 0.1,
+    "end": 1.15
+   },
+   {
+    "text": "Start training.",
+    "start": 1.31,
+    "end": 2.34
+   }
+  ]
+ },
+ "11": {
+  "duration_s": 5.095,
+  "text": "CoachX. Train smarter. Push harder.",
+  "phrases": [
+   {
+    "text": "CoachX.",
+    "start": 0.45,
+    "end": 1.35
+   },
+   {
+    "text": "Train smarter.",
+    "start": 1.51,
+    "end": 2.58
+   },
+   {
+    "text": "Push harder.",
+    "start": 2.74,
+    "end": 3.69
+   }
+  ]
+ }
+}
