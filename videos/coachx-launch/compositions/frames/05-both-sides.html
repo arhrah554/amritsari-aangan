@@ -1,0 +1,460 @@
+<template id="05-both-sides-template">
+  <div
+    id="root"
+    data-composition-id="05-both-sides"
+    data-start="0"
+    data-duration="6.861"
+    data-width="1080"
+    data-height="1920"
+  >
+    <style>
+      @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+      @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        font-family: "Inter", sans-serif;
+      }
+
+      /* ---------- full-bleed ground (clip layer, not #root) ---------- */
+      [class~="05-both-sides-ground"] {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(90% 55% at 62% 30%, #17181B 0%, #0E0F11 42%, #0A0A0C 64%, #000000 100%);
+        overflow: hidden;
+      }
+      [class~="05-both-sides-x"] {
+        position: absolute;
+        left: -160px;
+        top: 0px;
+        width: 1400px;
+        height: 1400px;
+        opacity: 0.06;
+        filter: blur(2px);
+      }
+
+      /* ---------- stage (content, camera push) ---------- */
+      [class~="05-both-sides-stage"] {
+        position: absolute;
+        inset: 0;
+        transform-origin: 30% 40%;
+      }
+
+      /* deck chrome: hairline corner brackets */
+      [class~="05-both-sides-corner"] {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-color: #484B50;
+        border-style: solid;
+        border-width: 0;
+      }
+
+      /* kicker */
+      [class~="05-both-sides-kicker"] {
+        position: absolute;
+        left: 84px;
+        top: 452px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+      }
+      [class~="05-both-sides-stub"] {
+        width: 52px;
+        height: 1px;
+        background: #9DA2AA;
+        transform-origin: 0% 50%;
+      }
+      [class~="05-both-sides-kicker-text"] {
+        font-family: "Archivo", sans-serif;
+        font-weight: 600;
+        font-stretch: 125%;
+        font-size: 24px;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: #9DA2AA;
+        white-space: nowrap;
+      }
+
+      /* headline stack */
+      [class~="05-both-sides-head"] {
+        position: absolute;
+        left: 80px;
+        top: 512px;
+        width: 940px;
+      }
+      [class~="05-both-sides-line"] {
+        display: block;
+        position: relative;
+        font-family: "Archivo", sans-serif;
+        font-weight: 900;
+        font-stretch: 125%;
+        font-size: 106px;
+        line-height: 0.92;
+        letter-spacing: -0.005em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        color: #F2F2F2;
+        padding: 6px 0 4px;
+        transform-origin: 0% 55%;
+      }
+      [class~="05-both-sides-outline"] {
+        color: transparent;
+        -webkit-text-stroke: 2px #C9CDD3;
+      }
+      [class~="05-both-sides-chrome"] {
+        background: linear-gradient(180deg, #FFFFFF 0%, #D9DCE1 38%, #7C818A 62%, #E9EBEE 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      /* single specular sweep riding over the chrome word */
+      [class~="05-both-sides-spec"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 6px 0 4px;
+        background: linear-gradient(110deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 60%);
+        background-size: 300% 100%;
+        background-position: 100% 0%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      /* three-beat strip */
+      [class~="05-both-sides-strip"] {
+        position: absolute;
+        left: 84px;
+        top: 1170px;
+        width: 912px;
+        height: 260px;
+      }
+      [class~="05-both-sides-rule"] {
+        position: absolute;
+        left: 0;
+        top: 60px;
+        width: 912px;
+        height: 1px;
+        background: linear-gradient(90deg, #6E737B 0%, #484B50 70%, #262728 100%);
+        transform-origin: 0% 50%;
+      }
+      [class~="05-both-sides-lit"] {
+        position: absolute;
+        left: 0;
+        top: 59px;
+        width: 616px;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(201,205,211,0.35) 0%, #E9EBEE 100%);
+        transform-origin: 0% 50%;
+      }
+      [class~="05-both-sides-pulse"] {
+        position: absolute;
+        left: -110px;
+        top: 30px;
+        width: 220px;
+        height: 62px;
+        background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,0.95) 0%, rgba(233,235,238,0.45) 22%, rgba(201,205,211,0) 70%);
+      }
+      [class~="05-both-sides-glow"] {
+        position: absolute;
+        left: 616px;
+        top: 60px;
+        width: 300px;
+        height: 300px;
+        margin: -150px 0 0 -150px;
+        background: radial-gradient(50% 50% at 50% 50%, rgba(255,255,255,0.55) 0%, rgba(201,205,211,0.22) 30%, rgba(110,115,123,0) 70%);
+      }
+      [class~="05-both-sides-item"] {
+        position: absolute;
+        top: 0;
+        width: 296px;
+        height: 260px;
+      }
+      [class~="05-both-sides-num"] {
+        position: absolute;
+        left: 0;
+        top: 8px;
+        font-family: "Archivo", sans-serif;
+        font-weight: 600;
+        font-stretch: 125%;
+        font-size: 20px;
+        letter-spacing: 0.32em;
+        color: #484B50;
+      }
+      [class~="05-both-sides-dot"] {
+        position: absolute;
+        left: -9px;
+        top: 51px;
+        width: 19px;
+        height: 19px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #D9DCE1 40%, #7C818A 100%);
+      }
+      [class~="05-both-sides-label"] {
+        position: absolute;
+        left: 0;
+        top: 100px;
+        font-family: "Archivo", sans-serif;
+        font-stretch: 125%;
+        text-transform: uppercase;
+        white-space: nowrap;
+        line-height: 1.3;
+      }
+      [class~="05-both-sides-label-a"] {
+        display: block;
+        font-weight: 600;
+        font-size: 24px;
+        letter-spacing: 0.3em;
+        color: #9DA2AA;
+      }
+      [class~="05-both-sides-label-b"] {
+        display: block;
+        font-weight: 800;
+        font-size: 44px;
+        letter-spacing: 0.06em;
+        color: #F2F2F2;
+        margin-top: 6px;
+      }
+      [class~="05-both-sides-label-b"][class~="05-both-sides-chrome"] {
+        color: transparent;
+      }
+
+      /* static grain */
+      [class~="05-both-sides-grain"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0.06;
+        pointer-events: none;
+      }
+    </style>
+
+    <!-- track 0: full-bleed ground + giant faint chrome X -->
+    <div
+      id="05-both-sides-bg"
+      class="clip 05-both-sides-ground"
+      data-start="0"
+      data-duration="6.861"
+      data-track-index="0"
+    >
+      <svg id="05-both-sides-x" class="05-both-sides-x" viewBox="0 0 1000 1000" aria-hidden="true">
+        <defs>
+          <linearGradient id="05-both-sides-xgrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFFFFF" />
+            <stop offset="0.38" stop-color="#D9DCE1" />
+            <stop offset="0.62" stop-color="#7C818A" />
+            <stop offset="1" stop-color="#E9EBEE" />
+          </linearGradient>
+        </defs>
+        <rect x="430" y="40" width="140" height="920" rx="14" fill="url(#05-both-sides-xgrad)" transform="rotate(38 500 500)" />
+        <rect x="430" y="40" width="140" height="920" rx="14" fill="url(#05-both-sides-xgrad)" transform="rotate(-38 500 500)" />
+      </svg>
+    </div>
+
+    <!-- track 1: the type block + three-beat strip -->
+    <div
+      id="05-both-sides-stage"
+      class="clip 05-both-sides-stage"
+      data-start="0"
+      data-duration="6.861"
+      data-track-index="1"
+    >
+      <div id="05-both-sides-c1" class="05-both-sides-corner" style="left:70px;top:70px;border-left-width:1px;border-top-width:1px"></div>
+      <div id="05-both-sides-c2" class="05-both-sides-corner" style="left:980px;top:70px;border-right-width:1px;border-top-width:1px"></div>
+      <div id="05-both-sides-c3" class="05-both-sides-corner" style="left:70px;top:1540px;border-left-width:1px;border-bottom-width:1px"></div>
+      <div id="05-both-sides-c4" class="05-both-sides-corner" style="left:980px;top:1540px;border-right-width:1px;border-bottom-width:1px"></div>
+
+      <div class="05-both-sides-kicker">
+        <div id="05-both-sides-stub" class="05-both-sides-stub"></div>
+        <div id="05-both-sides-kicker-text" class="05-both-sides-kicker-text">The fix</div>
+      </div>
+
+      <div class="05-both-sides-head">
+        <div id="05-both-sides-l1" class="05-both-sides-line">One app.</div>
+        <div id="05-both-sides-l2" class="05-both-sides-line 05-both-sides-outline">Both sides</div>
+        <div id="05-both-sides-l3" class="05-both-sides-line">
+          <span class="05-both-sides-chrome">Of the rep.</span>
+          <span id="05-both-sides-spec" class="05-both-sides-spec" aria-hidden="true">Of the rep.</span>
+        </div>
+      </div>
+
+      <div class="05-both-sides-strip">
+        <div id="05-both-sides-rule" class="05-both-sides-rule"></div>
+        <div id="05-both-sides-lit" class="05-both-sides-lit"></div>
+        <div id="05-both-sides-glow" class="05-both-sides-glow"></div>
+        <div id="05-both-sides-pulse" class="05-both-sides-pulse"></div>
+
+        <div class="05-both-sides-item" style="left:0px">
+          <div id="05-both-sides-n1" class="05-both-sides-num">01</div>
+          <div id="05-both-sides-d1" class="05-both-sides-dot"></div>
+          <div id="05-both-sides-t1" class="05-both-sides-label">
+            <span class="05-both-sides-label-a">Coaches</span>
+            <span class="05-both-sides-label-b">Build</span>
+          </div>
+        </div>
+        <div class="05-both-sides-item" style="left:308px">
+          <div id="05-both-sides-n2" class="05-both-sides-num">02</div>
+          <div id="05-both-sides-d2" class="05-both-sides-dot"></div>
+          <div id="05-both-sides-t2" class="05-both-sides-label">
+            <span class="05-both-sides-label-a">Athletes</span>
+            <span class="05-both-sides-label-b">Train</span>
+          </div>
+        </div>
+        <div class="05-both-sides-item" style="left:616px">
+          <div id="05-both-sides-n3" class="05-both-sides-num">03</div>
+          <div id="05-both-sides-d3" class="05-both-sides-dot"></div>
+          <div id="05-both-sides-t3" class="05-both-sides-label">
+            <span class="05-both-sides-label-a">Everything</span>
+            <span class="05-both-sides-label-b 05-both-sides-chrome">Syncs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- track 2: static grain over everything -->
+    <div
+      id="05-both-sides-grain-layer"
+      class="clip"
+      data-start="0"
+      data-duration="6.861"
+      data-track-index="2"
+      style="position:absolute;inset:0;pointer-events:none"
+    >
+      <svg class="05-both-sides-grain" width="1080" height="1920" aria-hidden="true">
+        <filter id="05-both-sides-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="1080" height="1920" filter="url(#05-both-sides-noise)" />
+      </svg>
+    </div>
+
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script>
+      (function () {
+        var FID = "05-both-sides";
+        var D = 6.861;
+        var root = document.querySelector('[data-composition-id="' + FID + '"]');
+        function $(id) {
+          return root.querySelector('[id="' + FID + "-" + id + '"]');
+        }
+
+        // VO cues (seconds from frame start)
+        var CUE_ONE = 0.12; // "One app."
+        var CUE_BOTH = 1.16; // "Both sides…"
+        var CUE_REP = 1.78; // "…of the rep."
+        var CUE_COACH = 2.79; // "Coaches build."
+        var CUE_ATH = 4.04; // "Athletes train."
+        var CUE_SYNC = 5.37; // "Everything syncs."
+
+        var tl = gsap.timeline({ paused: true });
+        tl.to({}, { duration: D }, 0); // length anchor
+
+        // ---- macro camera: slow push on the stage, X drifts the other way ----
+        tl.fromTo($("stage"), { scale: 1 }, { scale: 1.035, duration: D, ease: "none" }, 0);
+        tl.fromTo(
+          $("x"),
+          { opacity: 0, scale: 1.08, rotation: -2 },
+          { opacity: 0.055, scale: 1, rotation: 0, duration: 1.2, ease: "power2.out" },
+          0
+        );
+        tl.fromTo($("x"), { x: 0, y: 0 }, { x: -36, y: 24, duration: D, ease: "none" }, 0);
+
+        // ---- Scene 1 (0.0–1.16): kicker + "ONE APP." slam ----
+        ["c1", "c2", "c3", "c4"].forEach(function (c, i) {
+          tl.fromTo($(c), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.out" }, 0.02 + i * 0.04);
+        });
+        tl.fromTo($("stub"), { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 0.0);
+        tl.fromTo(
+          $("kicker-text"),
+          { opacity: 0, x: -16, letterSpacing: "0.6em" },
+          { opacity: 1, x: 0, letterSpacing: "0.32em", duration: 0.55, ease: "power3.out" },
+          0.04
+        );
+        tl.fromTo(
+          $("l1"),
+          { opacity: 0, scale: 1.45, filter: "blur(18px)" },
+          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.42, ease: "power4.out" },
+          CUE_ONE
+        );
+        // impact recoil on the slam
+        tl.fromTo($("l1"), { y: 0 }, { y: 6, duration: 0.08, ease: "power2.out" }, CUE_ONE + 0.36);
+        tl.to($("l1"), { y: 0, duration: 0.3, ease: "power2.out" }, CUE_ONE + 0.44);
+
+        // ---- Scene 2 (1.16–2.79): outline "BOTH SIDES", chrome "OF THE REP." ----
+        tl.fromTo(
+          $("l2"),
+          { opacity: 0, y: 40, filter: "blur(14px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" },
+          CUE_BOTH
+        );
+        tl.fromTo(
+          $("l3"),
+          { opacity: 0, y: 40, filter: "blur(14px)" },
+          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" },
+          CUE_REP
+        );
+
+        // ---- Scene 3 (2.79–5.37): hairline draws, beats tick in left→right ----
+        tl.fromTo($("rule"), { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, CUE_COACH - 0.24);
+
+        function beat(n, t) {
+          tl.fromTo(
+            $("d" + n),
+            { scale: 0, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(3)" },
+            t
+          );
+          tl.fromTo($("n" + n), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, t + 0.04);
+          tl.fromTo(
+            $("t" + n),
+            { opacity: 0, y: 22, filter: "blur(8px)" },
+            { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "power3.out" },
+            t
+          );
+        }
+        beat(1, CUE_COACH);
+        // one specular pass across the chrome line, filling the gap before beat 2
+        tl.fromTo(
+          $("spec"),
+          { backgroundPosition: "100% 0%" },
+          { backgroundPosition: "0% 0%", duration: 0.9, ease: "power1.inOut" },
+          3.15
+        );
+        beat(2, CUE_ATH);
+
+        // ---- Scene 4 (5.37–6.86): third beat + pulse connects the dots, glow, hold ----
+        beat(3, CUE_SYNC);
+        var P0 = CUE_SYNC + 0.14;
+        var PD = 0.76;
+        tl.fromTo($("pulse"), { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, P0);
+        tl.fromTo($("pulse"), { x: 0 }, { x: 616, duration: PD, ease: "power2.inOut" }, P0);
+        tl.fromTo($("lit"), { scaleX: 0 }, { scaleX: 1, duration: PD, ease: "power2.inOut" }, P0);
+        // pulse passes each dot: dot 1 at start, dot 2 at the midpoint (inOut → 50% time = 50% travel)
+        tl.fromTo($("d1"), { scale: 1 }, { scale: 1.5, duration: 0.12, ease: "power2.out" }, P0);
+        tl.to($("d1"), { scale: 1, duration: 0.3, ease: "power2.out" }, P0 + 0.12);
+        tl.fromTo($("d2"), { scale: 1 }, { scale: 1.6, duration: 0.1, ease: "power2.out" }, P0 + PD * 0.5 - 0.04);
+        tl.to($("d2"), { scale: 1, duration: 0.3, ease: "power2.out" }, P0 + PD * 0.5 + 0.06);
+        // arrival: pulse dissolves into a soft glow on the third dot
+        tl.to($("pulse"), { opacity: 0, duration: 0.25, ease: "power1.out" }, P0 + PD - 0.06);
+        tl.fromTo($("d3"), { scale: 1 }, { scale: 1.45, duration: 0.14, ease: "power2.out" }, P0 + PD - 0.04);
+        tl.to($("d3"), { scale: 1.15, duration: 0.4, ease: "power2.out" }, P0 + PD + 0.1);
+        tl.fromTo(
+          $("glow"),
+          { opacity: 0, scale: 0.5 },
+          { opacity: 0.45, scale: 1, duration: 0.45, ease: "power2.out" },
+          P0 + PD - 0.08
+        );
+        // quiet settle through the hold (bounded, no loop)
+        tl.to($("glow"), { opacity: 0.36, scale: 1.06, duration: D - (P0 + PD + 0.37), ease: "sine.inOut" }, P0 + PD + 0.37);
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines[FID] = tl;
+      })();
+    </script>
+  </div>
+</template>
