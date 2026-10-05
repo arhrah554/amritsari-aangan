@@ -1,0 +1,54 @@
+# Netlify: the pages in public/ are the website, netlify/functions/api.mjs is the server.
+# In Netlify's "Import from Git" screen set Base directory = delulu-tickets (if this folder lives
+# inside a bigger repo). Build command can stay empty.
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "zisi"
+  # Uses Postgres on Netlify; the built-in database is only for laptops.
+  external_node_modules = ["pg"]
+  # zisi can't see this dynamic import; the function reads it at startup.
+  included_files = ["event.config.js"]
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/p/*"
+  to = "/pass.html"
+  status = 200
+
+[[redirects]]
+  from = "/t/*"
+  to = "/pass.html"
+  status = 200
+
+[[redirects]]
+  from = "/scan"
+  to = "/scan.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+[[redirects]]
+  from = "/policies"
+  to = "/policies.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+    X-Frame-Options = "DENY"

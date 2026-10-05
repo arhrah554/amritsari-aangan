@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin · DELULU</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#12021f" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+  </head>
+  <body>
+    <form class="panel login-card" id="login" hidden>
+      <div class="brand" id="login-brand"></div>
+      <h1>Admin</h1>
+      <p class="muted">Sales, check-ins, door sales and refunds.</p>
+      <label>Password
+        <input name="password" type="password" autocomplete="current-password" required />
+      </label>
+      <p class="error" id="login-error" hidden></p>
+      <button class="btn btn-big btn-block" type="submit">Log in</button>
+    </form>
+
+    <div id="app" hidden>
+      <div class="demo-ribbon" id="demo-ribbon" hidden>🧪 <b>Demo mode</b>: payments are simulated. Add Razorpay keys before selling for real.</div>
+      <header class="topbar">
+        <a class="brand" href="/" id="brand"></a>
+        <nav class="admin-nav">
+          <a class="btn btn-ghost btn-small" href="/scan">📷 Scanner</a>
+          <a class="btn btn-ghost btn-small" href="/api/admin/export.csv">⬇️ Export CSV</a>
+          <button class="btn btn-ghost btn-small" id="logout" type="button">Log out</button>
+        </nav>
+      </header>
+
+      <main class="wrap admin">
+        <section class="kpis" id="kpis"></section>
+
+        <section class="panel">
+          <div class="panel-head"><h2>Passes</h2><span class="muted" id="updated"></span></div>
+          <div class="table-wrap"><table class="tbl" id="pass-table"></table></div>
+          <div class="counters" id="counters"></div>
+        </section>
+
+        <section class="panel">
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-tab="orders">Orders</button>
+            <button role="tab" aria-selected="false" data-tab="door">Sell at door / Comp</button>
+            <button role="tab" aria-selected="false" data-tab="scans">Scan log</button>
+          </div>
+
+          <div data-panel="orders">
+            <form class="toolbar" id="search">
+              <input type="search" name="q" placeholder="Search name, phone, email, booking or ticket ID" />
+              <select name="status" aria-label="Status">
+                <option value="paid">Paid</option>
+                <option value="">All</option>
+                <option value="pending">Pending / abandoned</option>
+                <option value="refunded">Cancelled</option>
+                <option value="failed">Failed</option>
+              </select>
+            </form>
+            <div id="orders"></div>
+          </div>
+
+          <div data-panel="door" hidden>
+            <form id="door" class="door-form">
+              <div class="two">
+                <label>Name <input name="name" required maxlength="80" /></label>
+                <label>Mobile <input name="phone" type="tel" inputmode="numeric" required maxlength="14" /></label>
+              </div>
+              <div class="two">
+                <label>Email (optional, passes are emailed if set) <input name="email" type="email" maxlength="120" /></label>
+                <label>Type
+                  <select name="source">
+                    <option value="door">Door sale: cash / UPI collected at gate</option>
+                    <option value="comp">Complimentary: free (guests, sponsors, crew)</option>
+                  </select>
+                </label>
+              </div>
+              <label>Note (optional) <input name="note" maxlength="200" placeholder="e.g. Paid ₹798 cash to Rahul" /></label>
+              <div id="door-passes" class="door-passes"></div>
+              <div class="door-total"><span>Total to collect</span><b id="door-total">₹0</b></div>
+              <p class="error" id="door-error" hidden></p>
+              <button class="btn btn-big" type="submit">Issue passes</button>
+            </form>
+            <div id="door-result"></div>
+          </div>
+
+          <div data-panel="scans" hidden>
+            <div class="table-wrap"><table class="tbl" id="scans"></table></div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

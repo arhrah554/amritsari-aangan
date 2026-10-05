@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <title>Gate scanner · DELULU</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#12021f" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/scan.css" />
+  </head>
+  <body class="scan-body">
+    <form class="panel login-card" id="login" hidden>
+      <div class="brand" id="login-brand"></div>
+      <h1>Gate scanner</h1>
+      <p class="muted">For DELULU staff. Ask the organiser for today's PIN.</p>
+      <label>Where are you?
+        <input name="gate" placeholder="e.g. Main Gate, Food Counter" maxlength="40" required />
+      </label>
+      <label>Staff PIN
+        <input name="pin" type="password" inputmode="numeric" autocomplete="current-password" required />
+      </label>
+      <p class="error" id="login-error" hidden></p>
+      <button class="btn btn-big btn-block" type="submit">Start scanning</button>
+    </form>
+
+    <div class="scan-app" id="app" hidden>
+      <header class="scan-top">
+        <div class="scan-where"><b id="gate"></b><span id="role" class="muted"></span></div>
+        <div class="scan-count" id="count" aria-live="polite"></div>
+        <button class="icon-btn" id="logout" type="button" aria-label="Log out">⎋</button>
+      </header>
+
+      <nav class="modes" id="modes" aria-label="Scan mode"></nav>
+
+      <div class="viewport" id="viewport">
+        <video id="video" playsinline muted></video>
+        <div class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <button class="btn btn-big" id="start" type="button">📷 Tap to start camera</button>
+        <p class="cam-error" id="cam-error" hidden></p>
+        <button class="icon-btn torch" id="torch" type="button" aria-label="Torch" hidden>🔦</button>
+      </div>
+
+      <form class="manual" id="manual">
+        <input name="code" placeholder="Or type ticket ID: DL-XXXX-XXXX" autocapitalize="characters" autocomplete="off" spellcheck="false" />
+        <button class="btn" type="submit">Check</button>
+      </form>
+      <p class="scan-hint muted">Each pass works once per mode. Hold the QR 15–25 cm from the camera. Turn up the buyer's screen brightness if it won't read.</p>
+    </div>
+
+    <div class="result" id="result" hidden role="alertdialog" aria-live="assertive">
+      <div class="result-icon" id="r-icon"></div>
+      <div class="result-title" id="r-title"></div>
+      <div class="result-reason" id="r-reason"></div>
+      <div class="result-card" id="r-card"></div>
+      <div class="result-student" id="r-student" hidden>🎓 CHECK COLLEGE ID</div>
+      <div class="result-actions" id="r-actions"></div>
+    </div>
+
+    <script src="/vendor/jsQR.js"></script>
+    <script type="module" src="/js/scan.js"></script>
+  </body>
+</html>

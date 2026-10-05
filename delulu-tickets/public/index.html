@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Navratri Nights · DELULU PRODUCTION</title>
+    <meta name="description" content="Dandiya • Music • Food • Fun. Book your Navratri Nights passes by DELULU PRODUCTION: UPI, cards and netbanking, instant QR passes." />
+    <meta name="theme-color" content="#12021f" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="demo-ribbon" id="demo-ribbon" hidden>
+      🧪 <b>Demo mode</b>: payments are simulated, no real money moves. Add Razorpay keys to go live.
+    </div>
+
+    <header class="topbar">
+      <a class="brand" href="/" id="brand"></a>
+      <a class="chip" href="#" id="my-passes" hidden>🎟️ My passes</a>
+    </header>
+
+    <section class="hero">
+      <div class="toran" aria-hidden="true"></div>
+      <svg class="mandala" viewBox="-100 -100 200 200" aria-hidden="true" id="mandala"></svg>
+      <p class="presents" id="presents">DELULU PRODUCTION presents</p>
+      <h1 class="title" id="title"><span>Navratri</span><span>Nights</span></h1>
+      <p class="tagline" id="tagline">Dandiya • Music • Food • Fun</p>
+      <div class="facts" id="facts"></div>
+      <a class="btn btn-big" href="#passes">GET YOUR PASSES →</a>
+    </section>
+
+    <main>
+      <section class="section" id="passes">
+        <div class="wrap">
+          <h2 class="section-title">Choose your pass</h2>
+          <p class="section-sub">Pick how many of each. One pass = one person.</p>
+          <div id="closed" class="closed-note" hidden>Sales are closed right now. Follow us for updates!</div>
+
+          <div class="groups">
+            <div class="group" data-audience="student">
+              <div class="group-head">
+                <h3>🎓 Student passes</h3>
+                <p>College ID is checked at the entrance</p>
+              </div>
+              <div class="grid"></div>
+            </div>
+
+            <div class="group" data-audience="all">
+              <div class="group-head">
+                <h3>✨ Open to all</h3>
+                <p>No student ID needed</p>
+              </div>
+              <div class="grid"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" style="padding-top: 0">
+        <div class="wrap">
+          <h2 class="section-title">How it works</h2>
+          <p class="section-sub">No screenshots of payments. No paper. Just your QR.</p>
+          <div class="steps">
+            <div class="step">
+              <h3>Pick & pay</h3>
+              <p>Choose your passes and pay securely with UPI, cards or netbanking.</p>
+            </div>
+            <div class="step">
+              <h3>Get your QR passes</h3>
+              <p>Instantly on screen and in your email: one QR for each person in your group.</p>
+            </div>
+            <div class="step">
+              <h3>Scan & dance</h3>
+              <p>Show the QR at the gate. Each QR works once, so keep it to yourself.</p>
+            </div>
+          </div>
+
+          <div class="faq">
+            <details>
+              <summary>I'm booking for my friends. How do they get in?</summary>
+              <p>You get one QR per person. Use “Send this pass” on each one to forward it to that friend on WhatsApp, or show them all from your phone and enter together.</p>
+            </details>
+            <details>
+              <summary>Who can buy a Student Pass?</summary>
+              <p>Anyone with a valid college ID card. It is checked at the entrance. Not a student? Pick the General Adult Pass.</p>
+            </details>
+            <details>
+              <summary>Money got deducted but I didn't get my pass?</summary>
+              <p>Don't pay again. Your booking confirms automatically within a few minutes; open “My passes” at the top of this page on the same phone, or contact us with your booking ID.</p>
+            </details>
+            <details>
+              <summary>Can I use a screenshot of my QR?</summary>
+              <p>Yes. A screenshot or printout works. But anyone with that screenshot can use it, and only the first scan gets in.</p>
+            </details>
+            <details>
+              <summary>Refunds?</summary>
+              <p>See our <a href="/policies#refunds">refund & cancellation policy</a>.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div id="footer-brand">© DELULU PRODUCTION</div>
+      <nav>
+        <a href="/policies#terms">Terms</a>
+        <a href="/policies#refunds">Refunds & cancellations</a>
+        <a href="/policies#privacy">Privacy</a>
+        <a href="/policies#contact">Contact</a>
+      </nav>
+      <div id="footer-contact"></div>
+    </footer>
+
+    <div class="cartbar" id="cartbar" hidden>
+      <div>
+        <div class="count" id="cart-count"></div>
+        <div class="total" id="cart-total"></div>
+      </div>
+      <button class="btn" id="open-checkout" type="button">Checkout →</button>
+    </div>
+
+    <dialog class="sheet" id="checkout" aria-labelledby="checkout-title">
+      <div class="sheet-head">
+        <h2 id="checkout-title">Checkout</h2>
+        <button class="icon-btn" type="button" data-close aria-label="Close">✕</button>
+      </div>
+      <form class="sheet-body" id="checkout-form" novalidate>
+        <div class="summary" id="summary"></div>
+        <div class="notice" id="student-notice" hidden>
+          🎓 <span>Every person on a <b>Student pass</b> must show a college ID at the gate, or they'll need to upgrade to a General pass.</span>
+        </div>
+        <label>Full name
+          <input name="name" autocomplete="name" placeholder="As you'd like it on the pass" required maxlength="80" />
+        </label>
+        <label>Mobile number
+          <div class="phone-input">
+            <span>+91</span>
+            <input name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="98765 43210" required maxlength="14" />
+          </div>
+        </label>
+        <label>Email (your passes are sent here)
+          <input name="email" type="email" autocomplete="email" placeholder="you@gmail.com" required maxlength="120" />
+        </label>
+        <label class="check">
+          <input type="checkbox" name="agree" required />
+          <span>I agree to the <a href="/policies" target="_blank" rel="noopener">terms & refund policy</a>.</span>
+        </label>
+        <p class="error" id="checkout-error" role="alert" hidden></p>
+        <button class="btn btn-big btn-block" id="pay-btn" type="submit">Pay</button>
+        <p class="secure">🔒 Secure payment via Razorpay · UPI · Cards · Netbanking</p>
+      </form>
+    </dialog>
+
+    <dialog class="sheet" id="demo-pay" aria-labelledby="demo-title">
+      <div class="sheet-head">
+        <h2 id="demo-title">🧪 Demo payment</h2>
+        <button class="icon-btn" type="button" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="sheet-body">
+        <p>This site is in <b>demo mode</b>. On the live site, Razorpay opens here so the buyer can pay <b id="demo-amount"></b> by UPI, card or netbanking.</p>
+        <p class="muted">Tap below to pretend the payment went through and see the passes the buyer gets.</p>
+        <button class="btn btn-big btn-block" id="demo-success" type="button">✓ Simulate successful payment</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="/js/index.js"></script>
+  </body>
+</html>

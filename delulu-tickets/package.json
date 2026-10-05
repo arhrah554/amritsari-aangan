@@ -1,0 +1,24 @@
+{
+  "name": "delulu-tickets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ticketing OS for DELULU PRODUCTION events: pass sales, Razorpay checkout, QR passes, gate scanner and admin dashboard.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test --test-concurrency=1 \"test/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "express": "^5.2.1",
+    "nodemailer": "^10.0.15",
+    "pg": "^8.23.1",
+    "qrcode": "^1.5.4",
+    "serverless-http": "^4.0.0"
+  }
+}

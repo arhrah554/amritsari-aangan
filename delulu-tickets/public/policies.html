@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Policies · DELULU PRODUCTION</title>
+    <meta name="theme-color" content="#12021f" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <style>
+      .doc { width: min(760px, 100% - 32px); margin: 0 auto; padding: 32px 0 80px; }
+      .doc h1 { font-family: var(--display); font-weight: 400; font-size: 2.4rem; margin: 0 0 4px; }
+      .doc h2 { margin: 36px 0 8px; scroll-margin-top: 80px; }
+      .doc p, .doc li { color: var(--muted); }
+      .doc .fill { color: var(--amber); }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" id="brand"></a>
+      <a class="chip" href="/">← Event</a>
+    </header>
+    <!--
+      EDIT BEFORE GOING LIVE: replace every [bracketed] value. Razorpay reviews
+      these pages when activating your account, so make them match your business.
+    -->
+    <main class="doc">
+      <h1>Policies</h1>
+      <p>Last updated: <span class="fill">[date]</span></p>
+
+      <h2 id="terms">Terms & conditions</h2>
+      <ul>
+        <li>Tickets are sold by <span class="fill">[legal name of organiser / business]</span> ("DELULU PRODUCTION", "we").</li>
+        <li>Each pass admits one person, once. The QR code is the ticket: whoever presents it first is admitted. Keep it private.</li>
+        <li>Student passes require a valid college ID at entry. Holders without one may be asked to pay the difference to a General pass or be refused entry.</li>
+        <li>Perks (food, dandiya sticks) are collected once per pass at the marked counters on the event day, subject to availability.</li>
+        <li>We may refuse entry for unsafe behaviour, intoxication or violation of venue rules, without a refund.</li>
+        <li>Event timings and line-up may change. Major changes will be announced on our social channels.</li>
+        <li>By attending you agree that you may appear in photos and videos taken at the event.</li>
+      </ul>
+
+      <h2 id="refunds">Cancellation & refund policy</h2>
+      <ul>
+        <li>Passes are <b>non-refundable and non-transferable for cash</b> once purchased, except as below. <span class="fill">[edit to match your policy]</span></li>
+        <li>If the event is <b>cancelled by us</b>, the full ticket amount is refunded to the original payment method within 7–10 working days.</li>
+        <li>If the event is <b>postponed</b>, passes stay valid for the new date. Refunds are offered on request if you can't attend the new date.</li>
+        <li>If you were charged but did not receive a pass, contact us with your booking ID or payment ID: we will issue the pass or refund you in full.</li>
+        <li>Refunds are processed through Razorpay to the original payment method.</li>
+      </ul>
+
+      <h2 id="delivery">Delivery</h2>
+      <p>Passes are delivered digitally: shown on screen immediately after payment and sent to the email address you provide. Nothing is shipped.</p>
+
+      <h2 id="privacy">Privacy policy</h2>
+      <ul>
+        <li>We collect your name, mobile number and email to issue passes, contact you about the event and handle support.</li>
+        <li>Payments are processed by Razorpay; we never see or store your card, UPI PIN or bank details.</li>
+        <li>We don't sell your data. We keep booking records for accounting and may delete them on request after the event.</li>
+      </ul>
+
+      <h2 id="contact">Contact us</h2>
+      <p>
+        <span class="fill">[Legal name]</span><br />
+        <span class="fill">[Registered address]</span>, Hyderabad, Telangana<br />
+        Phone / WhatsApp: <span class="fill">[+91 XXXXX XXXXX]</span><br />
+        Email: <span class="fill">[email@example.com]</span>
+      </p>
+    </main>
+    <script type="module">
+      import { brandHtml } from '/js/common.js';
+      document.getElementById('brand').innerHTML = brandHtml();
+    </script>
+  </body>
+</html>

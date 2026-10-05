@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Your passes · DELULU PRODUCTION</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#12021f" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Yatra+One&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" id="brand"></a>
+      <a class="chip" href="/">← Event</a>
+    </header>
+    <main class="pass-page">
+      <div id="state" class="state-card"><span class="spinner"></span><p>Loading your passes…</p></div>
+      <section id="success" hidden>
+        <div class="hello">
+          <h1 id="hello-title">You're in! 🎉</h1>
+          <p id="hello-sub"></p>
+        </div>
+        <div class="callout" id="save-tip">
+          📲 <b>Save your passes:</b> take a screenshot of each QR or bookmark this page. Show the QR at the gate; each one lets one person in, once.
+        </div>
+        <div class="row-actions" id="actions">
+          <button class="btn btn-ghost btn-small" id="share-all" type="button">🔗 Share this page</button>
+          <button class="btn btn-ghost btn-small" id="print" type="button">🖨️ Save as PDF</button>
+        </div>
+      </section>
+      <div id="tickets"></div>
+    </main>
+    <script type="module" src="/js/pass.js"></script>
+  </body>
+</html>
