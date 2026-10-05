@@ -1,427 +1,103 @@
 <template>
   <style>
-    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
-    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+    
+#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
+.f09-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.f09-ground{background:#000}
+.f09-grain{opacity:.035;pointer-events:none}
+.f09-grain svg{display:block;width:1080px;height:1920px}
+.f09-abs{position:absolute}
+.f09-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
+.f09-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
+.f09-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
+.f09-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
+.f09-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
+.f09-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.f09-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
+.f09-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
+.f09-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
+.f09-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
+.f09-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
 
-    #root {
-      position: absolute;
-      inset: 0;
-      width: 1080px;
-      height: 1920px;
-      overflow: hidden;
-      color: #F2F2F2;
-      font-family: "Inter", sans-serif;
-    }
+    
+#f09-k{left:90px;top:250px}
+.f09-mrow{left:90px;width:900px;height:300px}
+.f09-num{position:absolute;left:0;top:30px;font-family:"Outfit",sans-serif;font-weight:200;font-size:180px;line-height:1;letter-spacing:-.01em}
+.f09-txt{position:absolute;left:470px;top:72px;width:430px}
+.f09-txt div{font-family:"Outfit",sans-serif;font-weight:500;font-size:30px;letter-spacing:.28em;text-transform:uppercase;color:#F4F4F5}
+.f09-txt p{margin:14px 0 0;font-family:"Inter",sans-serif;font-size:27px;line-height:1.4;color:#A1A1AA}
+.f09-mrow i{position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.18),rgba(255,255,255,0));transform-origin:0 50%}
+#f09-halo{left:-40px;top:1050px;width:620px;height:420px}
 
-    /* ---- full-bleed ground (clip, lowest track) ---- */
-    #\30 9-the-math-bg, #\30 9-the-math-stage {
-      position: absolute;
-      inset: 0;
-      width: 1080px;
-      height: 1920px;
-      overflow: hidden;
-    }
-    #\30 9-the-math-bg {
-      background:
-        radial-gradient(1100px 900px at 18% 8%, rgba(255,255,255,0.055), rgba(255,255,255,0) 70%),
-        radial-gradient(1400px 1300px at 50% 55%, #0E0F11 0%, #0A0A0C 55%, #000000 100%);
-    }
-
-    /* ---- giant faint chrome X ---- */
-    #\30 9-the-math-x {
-      position: absolute;
-      left: -160px;
-      top: 160px;
-      width: 1400px;
-      height: 1400px;
-      opacity: 0.06;
-      filter: blur(2px);
-    }
-    /* one-pass light streak across the X */
-    #\30 9-the-math-streak {
-      position: absolute;
-      left: 0;
-      top: 380px;
-      width: 260px;
-      height: 1300px;
-      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0) 100%);
-      filter: blur(30px);
-      opacity: 0;
-    }
-
-    /* ---- camera wrapper ---- */
-    #\30 9-the-math-cam {
-      position: absolute;
-      inset: 0;
-      transform-origin: 50% 45%;
-    }
-
-    /* ---- corner brackets (deck chrome) ---- */
-    .\30 9-the-math-corner {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border-color: rgba(201,205,211,0.45);
-      border-style: solid;
-      border-width: 0;
-    }
-    #\30 9-the-math-c-tl { left: 60px; top: 110px; border-left-width: 1px; border-top-width: 1px; }
-    #\30 9-the-math-c-tr { right: 60px; top: 110px; border-right-width: 1px; border-top-width: 1px; }
-    #\30 9-the-math-c-bl { left: 60px; top: 1530px; border-left-width: 1px; border-bottom-width: 1px; }
-    #\30 9-the-math-c-br { right: 60px; top: 1530px; border-right-width: 1px; border-bottom-width: 1px; }
-
-    /* ---- kicker ---- */
-    #\30 9-the-math-kicker {
-      position: absolute;
-      left: 60px;
-      top: 318px;
-      display: flex;
-      align-items: center;
-      gap: 26px;
-    }
-    #\30 9-the-math-kicker-stub {
-      width: 64px;
-      height: 1px;
-      background: #9DA2AA;
-      transform-origin: left center;
-    }
-    #\30 9-the-math-kicker-text {
-      font-family: "Archivo", sans-serif;
-      font-weight: 600;
-      font-stretch: 125%;
-      font-size: 30px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: #9DA2AA;
-      white-space: nowrap;
-    }
-
-    /* ---- rows ---- */
-    .\30 9-the-math-hair {
-      position: absolute;
-      left: 60px;
-      width: 960px;
-      height: 1px;
-      background: rgba(255,255,255,0.13);
-      transform-origin: left center;
-    }
-    .\30 9-the-math-row {
-      position: absolute;
-      left: 0;
-      width: 1080px;
-    }
-    #\30 9-the-math-row1 { top: 430px; height: 290px; }
-    #\30 9-the-math-row2 { top: 720px; height: 290px; }
-    #\30 9-the-math-row3 { top: 1010px; height: 470px; }
-
-    .\30 9-the-math-num {
-      position: absolute;
-      left: 52px;
-      display: flex;
-      align-items: flex-start;
-      font-family: "Archivo", sans-serif;
-      font-weight: 900;
-      font-stretch: 125%;
-      font-variant-numeric: tabular-nums;
-      letter-spacing: -0.02em;
-      line-height: 1;
-      transform-origin: 0% 50%;
-    }
-    #\30 9-the-math-num1, #\30 9-the-math-num2 { top: 30px; font-size: 230px; }
-    #\30 9-the-math-num3 { top: 22px; font-size: 300px; }
-
-    /* odometer reel: a 1em window over a vertical strip of digits */
-    .\30 9-the-math-reel {
-      position: relative;
-      display: block;
-      height: 1em;
-      overflow: hidden;
-    }
-    .\30 9-the-math-strip {
-      display: block;
-    }
-    .\30 9-the-math-strip span,
-    .\30 9-the-math-slash {
-      display: block;
-      height: 1em;
-      line-height: 1;
-      background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 14%, #D9DCE1 40%, #7C818A 64%, #E9EBEE 92%, #E9EBEE 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .\30 9-the-math-slash {
-      letter-spacing: -0.06em;
-    }
-
-    .\30 9-the-math-copy {
-      position: absolute;
-      left: 540px;
-      width: 480px;
-    }
-    #\30 9-the-math-copy1, #\30 9-the-math-copy2 { top: 96px; }
-    #\30 9-the-math-copy3 { top: 346px; }
-    .\30 9-the-math-label {
-      font-family: "Archivo", sans-serif;
-      font-weight: 600;
-      font-stretch: 125%;
-      font-size: 38px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #F2F2F2;
-      white-space: nowrap;
-      line-height: 1.1;
-    }
-    .\30 9-the-math-sub {
-      margin-top: 18px;
-      font-family: "Inter", sans-serif;
-      font-weight: 400;
-      font-size: 31px;
-      line-height: 1.35;
-      color: #9DA2AA;
-    }
-    #\30 9-the-math-label3 { font-size: 40px; }
-
-    /* white glow behind 24/7 */
-    #\30 9-the-math-glow-wrap {
-      position: absolute;
-      left: -120px;
-      top: -150px;
-      width: 1180px;
-      height: 640px;
-    }
-    #\30 9-the-math-glow {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(closest-side, rgba(255,255,255,0.55) 0%, rgba(214,218,224,0.22) 45%, rgba(214,218,224,0) 100%);
-      opacity: 0;
-      filter: blur(8px);
-    }
-
-    /* grain */
-    #\30 9-the-math-grain {
-      position: absolute;
-      inset: 0;
-      width: 1080px;
-      height: 1920px;
-      opacity: 0.06;
-      pointer-events: none;
-    }
   </style>
 
-  <div id="root" data-composition-id="09-the-math" data-width="1080" data-height="1920">
+  <div id="root" data-composition-id="09-the-math" data-width="1080" data-height="1920" data-duration="6.289">
+    
+    <div id="f09-ground" class="clip f09-layer f09-ground" data-start="0" data-duration="6.289" data-track-index="0"></div>
+    <div id="f09-stage" class="clip f09-layer" data-start="0" data-duration="6.289" data-track-index="1">
 
-    <div id="09-the-math-bg" class="clip" data-start="0" data-duration="5.689" data-track-index="0">
-      <svg id="09-the-math-x" viewBox="0 0 1400 1400" aria-hidden="true">
-        <defs>
-          <linearGradient id="09-the-math-xg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#FFFFFF" />
-            <stop offset="0.4" stop-color="#C9CDD3" />
-            <stop offset="0.65" stop-color="#6E737B" />
-            <stop offset="1" stop-color="#E9EBEE" />
-          </linearGradient>
-        </defs>
-        <g transform="translate(700 700)">
-          <rect x="-110" y="-760" width="220" height="1520" rx="34" fill="url(#09-the-math-xg)" transform="rotate(45)" />
-          <rect x="-110" y="-760" width="220" height="1520" rx="34" fill="url(#09-the-math-xg)" transform="rotate(-45)" />
-        </g>
-      </svg>
-      <div id="09-the-math-streak"></div>
-    </div>
-
-    <div id="09-the-math-stage" class="clip" data-start="0" data-duration="5.689" data-track-index="1">
-      <div id="09-the-math-cam">
-
-        <div class="09-the-math-corner" id="09-the-math-c-tl"></div>
-        <div class="09-the-math-corner" id="09-the-math-c-tr"></div>
-        <div class="09-the-math-corner" id="09-the-math-c-bl"></div>
-        <div class="09-the-math-corner" id="09-the-math-c-br"></div>
-
-        <div id="09-the-math-kicker">
-          <div id="09-the-math-kicker-stub"></div>
-          <div id="09-the-math-kicker-text">The Math</div>
-        </div>
-
-        <div class="09-the-math-hair" id="09-the-math-hair0" style="top:430px"></div>
-
-        <!-- Row 1: 00 SPREADSHEETS -->
-        <div class="09-the-math-row" id="09-the-math-row1">
-          <div class="09-the-math-num" id="09-the-math-num1">
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r1a"></div></div>
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r1b"></div></div>
-          </div>
-          <div class="09-the-math-copy" id="09-the-math-copy1">
-            <div class="09-the-math-label" id="09-the-math-label1">Spreadsheets</div>
-            <div class="09-the-math-sub" id="09-the-math-sub1">Nothing to maintain. Ever.</div>
-          </div>
-        </div>
-        <div class="09-the-math-hair" id="09-the-math-hair1" style="top:720px"></div>
-
-        <!-- Row 2: 01 DASHBOARD -->
-        <div class="09-the-math-row" id="09-the-math-row2">
-          <div class="09-the-math-num" id="09-the-math-num2">
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r2a"></div></div>
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r2b"></div></div>
-          </div>
-          <div class="09-the-math-copy" id="09-the-math-copy2">
-            <div class="09-the-math-label" id="09-the-math-label2">Dashboard</div>
-            <div class="09-the-math-sub" id="09-the-math-sub2">Every program, log and check-in.</div>
-          </div>
-        </div>
-        <div class="09-the-math-hair" id="09-the-math-hair2" style="top:1010px"></div>
-
-        <!-- Row 3: 24/7 ACCOUNTABILITY (climax) -->
-        <div class="09-the-math-row" id="09-the-math-row3">
-          <div id="09-the-math-glow-wrap"><div id="09-the-math-glow"></div></div>
-          <div class="09-the-math-num" id="09-the-math-num3">
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r3a"></div></div>
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r3b"></div></div>
-            <div class="09-the-math-reel"><span class="09-the-math-slash">/</span></div>
-            <div class="09-the-math-reel"><div class="09-the-math-strip" id="09-the-math-r3c"></div></div>
-          </div>
-          <div class="09-the-math-copy" id="09-the-math-copy3">
-            <div class="09-the-math-label" id="09-the-math-label3">Accountability</div>
-            <div class="09-the-math-sub" id="09-the-math-sub3">Your coach, one tap away.</div>
-          </div>
-        </div>
-        <div class="09-the-math-hair" id="09-the-math-hair3" style="top:1480px"></div>
-
+      <img id="f09-xm" class="f09-xmark" src="assets/x-mark.png" alt="">
+      <div id="f09-halo" class="f09-glow"></div>
+      <div id="f09-k" class="f09-abs f09-kicker"><i></i>The math</div>
+      <div id="f09-row0" class="f09-abs f09-mrow" style="top:430px">
+        <div id="f09-n0" class="f09-num f09-chrome">00</div>
+        <div id="f09-t0" class="f09-txt"><div>Spreadsheets</div><p>Nothing to maintain. Ever.</p></div>
+        <i id="f09-ln0"></i>
+      </div>
+      <div id="f09-row1" class="f09-abs f09-mrow" style="top:760px">
+        <div id="f09-n1" class="f09-num f09-chrome">01</div>
+        <div id="f09-t1" class="f09-txt"><div>Dashboard</div><p>Every program, log and check-in.</p></div>
+        <i id="f09-ln1"></i>
+      </div>
+      <div id="f09-row2" class="f09-abs f09-mrow" style="top:1090px">
+        <div id="f09-n2" class="f09-num f09-chrome">24/7</div>
+        <div id="f09-t2" class="f09-txt"><div>Accountability</div><p>Your coach, one tap away.</p></div>
+        <i id="f09-ln2"></i>
       </div>
 
-      <svg id="09-the-math-grain" viewBox="0 0 1080 1920" aria-hidden="true">
-        <filter id="09-the-math-noise">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="9" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <rect width="1080" height="1920" filter="url(#09-the-math-noise)" />
-      </svg>
     </div>
+    <div id="f09-grain" class="clip f09-layer f09-grain" data-start="0" data-duration="6.289" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f09-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f09-noise)"/></svg></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
-      var D = 5.689;
-      var CUE1 = 0.20, CUE2 = 1.74, CUE3 = 3.17; // narration phrase onsets
 
-      function $(id) { return document.getElementById(id); }
-      function E(name) { return document.getElementById("09-the-math-" + name); }
+  var D = 5.689, ID = "09-the-math";
+  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
+  var q = function (s) { return root.querySelector(s); };
+  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+  var tl = gsap.timeline({ paused: true });
+  tl.to({}, { duration: D }, 0);
+  // The one reveal: up through blur, a small rise, a long settle.
+  function rise(el, t, o) {
+    o = o || {};
+    tl.fromTo(el,
+      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
+      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
+  }
+  // A full-shot drift that starts at t=0 and eases out by the end.
+  function drift(el, from, to) {
+    var a = { duration: D, ease: "sine.inOut" };
+    for (var k in to) a[k] = to[k];
+    tl.fromTo(el, from, a, 0);
+  }
 
-      // Build odometer strips: digits 0..9 plus a trailing 0 so the reel wraps seamlessly.
-      ["09-the-math-r1a", "09-the-math-r1b", "09-the-math-r2a", "09-the-math-r2b",
-       "09-the-math-r3a", "09-the-math-r3b", "09-the-math-r3c"].forEach(function (id) {
-        var strip = $(id);
-        var html = "";
-        for (var i = 0; i <= 10; i++) html += "<span>" + (i % 10) + "</span>";
-        strip.innerHTML = html;
+
+      drift(q("#f09-xm"), { scale: 1.05 }, { scale: 1.0 });
+      rise(q("#f09-k"), 0.20, { y: 10, d: 1.0 });
+      var T = [0.20, 1.74, 3.17];
+      [0, 1, 2].forEach(function (i) {
+        rise(q("#f09-n" + i), T[i] - 0.05, { y: 26, d: 1.2, blur: 14 });
+        rise(q("#f09-t" + i), T[i] + 0.2, { y: 14, d: 1.1 });
+        tl.fromTo(q("#f09-ln" + i), { scaleX: 0 }, { scaleX: 1, duration: 1.3, ease: "power2.inOut" }, T[i] + 0.15);
       });
-
-      // Reel position p (in digits) -> strip offset. p is wrapped into [0,10).
-      function setReel(el, p) {
-        var w = ((p % 10) + 10) % 10;
-        el.style.transform = "translateY(" + (-w) + "em)";
-      }
-
-      var r1a = $("09-the-math-r1a"), r1b = $("09-the-math-r1b");
-      var r2a = $("09-the-math-r2a"), r2b = $("09-the-math-r2b");
-      var r3a = $("09-the-math-r3a"), r3b = $("09-the-math-r3b"), r3c = $("09-the-math-r3c");
-
-      // initial reel states (pre-roll values)
-      setReel(r1a, 9); setReel(r1b, 9);   // 99
-      setReel(r2a, 0); setReel(r2b, 0);   // 00
-      setReel(r3a, 0); setReel(r3b, 0); setReel(r3c, 0);
-
-      var tl = gsap.timeline({ paused: true });
-      tl.to({}, { duration: D }, 0); // exact-length anchor
-
-      // ---------- macro camera: slow continuous push underneath ----------
-      tl.fromTo(E("cam"), { scale: 1 }, { scale: 1.03, duration: D, ease: "none" }, 0);
-      tl.fromTo(E("x"),
-        { scale: 0.94, rotation: -3 },
-        { scale: 1.04, rotation: 2, duration: D, ease: "none" }, 0);
-      tl.fromTo(E("x"), { opacity: 0 }, { opacity: 0.065, duration: 0.6, ease: "power2.out" }, 0);
-
-      // ---------- Scene 1 (0.0–1.74): kicker, chrome X, row 1 "00" ----------
-      tl.fromTo([E("c-tl"), E("c-tr"), E("c-bl"), E("c-br")], { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out", stagger: 0.04 }, 0);
-      tl.fromTo(E("kicker-stub"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 0.0);
-      tl.fromTo(E("kicker-text"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.06);
-      tl.fromTo(E("hair0"), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 0.05);
-
-      // counting-dynamic-scale: roll 99 -> 00 + scale growth on the SAME ease/duration
-      var ROLL1 = 0.4;
-      var s1 = { u: 0 };
-      tl.fromTo(s1, { u: 0 }, {
-        u: 1, duration: ROLL1, ease: "power3.out",
-        onUpdate: function () {
-          setReel(r1a, 9 * (1 - s1.u));          // tens 9 -> 0
-          setReel(r1b, 19 * (1 - s1.u));         // ones 9 -> 0 with one extra lap
-        }
-      }, CUE1);
-      tl.fromTo(E("num1"),
-        { scale: 0.58, opacity: 0, filter: "blur(10px)" },
-        { scale: 1, opacity: 1, filter: "blur(0px)", duration: ROLL1, ease: "power3.out" }, CUE1);
-      tl.fromTo(E("label1"), { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, CUE1 + 0.12);
-      tl.fromTo(E("sub1"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUE1 + 0.3);
-      tl.fromTo(E("hair1"), { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, CUE1 + 0.15);
-
-      // ---------- Scene 2 (1.74–3.17): row 2 "01" ----------
-      var ROLL2 = 0.45;
-      var s2 = { u: 0 };
-      tl.fromTo(s2, { u: 0 }, {
-        u: 1, duration: ROLL2, ease: "power3.out",
-        onUpdate: function () {
-          setReel(r2a, 0);
-          setReel(r2b, 11 * s2.u);               // ones 0 -> 1 via a full lap (counts UP)
-        }
-      }, CUE2);
-      tl.fromTo(E("num2"),
-        { x: -140, scale: 0.7, opacity: 0, filter: "blur(10px)" },
-        { x: 0, scale: 1, opacity: 1, filter: "blur(0px)", duration: ROLL2, ease: "power3.out" }, CUE2);
-      tl.fromTo(E("label2"), { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.45, ease: "expo.out" }, CUE2 + 0.12);
-      tl.fromTo(E("sub2"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUE2 + 0.3);
-      tl.fromTo(E("hair2"), { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power2.inOut" }, CUE2 + 0.15);
-
-      // ---------- Scene 3 (3.17–5.69): "24/7" slam + glow bloom + hold ----------
-      var ROLL3 = 0.5;
-      var s3 = { u: 0 };
-      tl.fromTo(s3, { u: 0 }, {
-        u: 1, duration: ROLL3, ease: "power3.out",
-        onUpdate: function () {
-          setReel(r3a, 12 * s3.u);               // 0 -> 2 (+1 lap)
-          setReel(r3b, 14 * s3.u);               // 0 -> 4 (+1 lap)
-          setReel(r3c, 17 * s3.u);               // 0 -> 7 (+1 lap)
-        }
-      }, CUE3);
-      // kinetic slam: drops in from oversized + blurred, lands hard
-      tl.fromTo(E("num3"),
-        { scale: 1.55, opacity: 0, filter: "blur(18px)" },
-        { scale: 1, opacity: 1, filter: "blur(0px)", duration: ROLL3, ease: "power4.out" }, CUE3);
-      // earlier rows step back so the climax dominates
-      tl.to([E("num1"), E("num2")], { opacity: 0.55, duration: 0.5, ease: "power2.out" }, CUE3 + 0.05);
-      tl.to([E("label1"), E("label2")], { opacity: 0.6, duration: 0.5, ease: "power2.out" }, CUE3 + 0.05);
-
-      // ambient-glow-bloom (hero bloom): lands with the slam settle, then a bounded breathe
-      var GLOW_PEAK = 0.38, BLOOM_START = CUE3 + 0.05, BLOOM_DUR = 0.6;
-      tl.fromTo(E("glow"),
-        { opacity: 0, scale: 0.85 },
-        { opacity: GLOW_PEAK, scale: 1, duration: BLOOM_DUR, ease: "power2.out" }, BLOOM_START);
-      // bounded breathe during the hold — one finite swell on the wrapper (no yoyo / repeat)
-      var BREATHE_START = BLOOM_START + BLOOM_DUR;
-      tl.fromTo(E("glow-wrap"),
-        { scale: 1, opacity: 0.84 },
-        { scale: 1.04, opacity: 1, duration: D - BREATHE_START, ease: "sine.inOut" }, BREATHE_START);
-
-      tl.fromTo(E("label3"), { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, CUE3 + 0.35);
-      tl.fromTo(E("sub3"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, CUE3 + 0.6);
-      tl.fromTo(E("hair3"), { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, CUE3 + 0.3);
-
-      // one-pass light streak across the X during the hold
-      tl.fromTo(E("streak"),
-        { x: -400, rotation: 24, opacity: 0 },
-        { x: 1300, rotation: 24, opacity: 1, duration: 1.8, ease: "none" }, 3.5);
+      tl.fromTo(q("#f09-halo"), { opacity: 0 }, { opacity: 1, duration: 1.8, ease: "power1.out" }, T[2] + 0.3);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines["09-the-math"] = tl;
+      window.__timelines[ID] = tl;
     })();
   </script>
 </template>

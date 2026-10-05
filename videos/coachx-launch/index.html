@@ -22,7 +22,7 @@
         width: 1080px;
         height: 1920px;
         overflow: hidden;
-        background: #0A0A0C;
+        background: #000000;
       }
       .scene {
         z-index: 1; /* frames above hoisted video */
@@ -48,7 +48,7 @@
         data-composition-id="01-cold-open"
         data-composition-src="compositions/frames/01-cold-open.html"
         data-start="0"
-        data-duration="5.358"
+        data-duration="5.558"
         data-track-index="0"
       ></div>
       <audio
@@ -66,7 +66,7 @@
         data-composition-id="02-buried"
         data-composition-src="compositions/frames/02-buried.html"
         data-start="4.758"
-        data-duration="8"
+        data-duration="8.6"
         data-track-index="1"
       ></div>
       <audio
@@ -102,7 +102,7 @@
         data-composition-id="04-introducing"
         data-composition-src="compositions/frames/04-introducing.html"
         data-start="14.401"
-        data-duration="3.203"
+        data-duration="3.603"
         data-track-index="1"
       ></div>
       <audio
@@ -120,7 +120,7 @@
         data-composition-id="05-both-sides"
         data-composition-src="compositions/frames/05-both-sides.html"
         data-start="17.204"
-        data-duration="7.361"
+        data-duration="7.561"
         data-track-index="0"
       ></div>
       <audio
@@ -138,7 +138,7 @@
         data-composition-id="06-delivery"
         data-composition-src="compositions/frames/06-delivery.html"
         data-start="24.065"
-        data-duration="6.404"
+        data-duration="6.604"
         data-track-index="1"
       ></div>
       <audio
@@ -156,7 +156,7 @@
         data-composition-id="07-tracking"
         data-composition-src="compositions/frames/07-tracking.html"
         data-start="29.969"
-        data-duration="6.398"
+        data-duration="6.698"
         data-track-index="0"
       ></div>
       <audio
@@ -174,7 +174,7 @@
         data-composition-id="08-built-for-both"
         data-composition-src="compositions/frames/08-built-for-both.html"
         data-start="35.967"
-        data-duration="8.123"
+        data-duration="8.423"
         data-track-index="1"
       ></div>
       <audio
@@ -192,7 +192,7 @@
         data-composition-id="09-the-math"
         data-composition-src="compositions/frames/09-the-math.html"
         data-start="43.69"
-        data-duration="5.689"
+        data-duration="6.289"
         data-track-index="0"
       ></div>
       <audio
@@ -210,7 +210,7 @@
         data-composition-id="10-start-training"
         data-composition-src="compositions/frames/10-start-training.html"
         data-start="49.379"
-        data-duration="3.343"
+        data-duration="3.643"
         data-track-index="1"
       ></div>
       <audio
@@ -244,7 +244,7 @@
         class="clip"
         style="z-index:0;position:absolute;left:0px;top:0px;width:1080px;height:1920px;object-fit:cover"
         data-start="0"
-        data-duration="5.4"
+        data-duration="5.5"
         data-track-index="1002"
       ></video>
 
@@ -255,7 +255,7 @@
         data-start="0"
         data-duration="57.217"
         data-track-index="11"
-        data-volume="0.85"
+        data-volume="0.78"
       ></audio>
 
     </div>
@@ -265,20 +265,24 @@
       window.__timelines["main"] = gsap.timeline({ paused: true });
       // ── frame transitions (injected by transitions.mjs) ──
       (function () { var tl = window.__timelines["main"];
-        tl.to("#el-01-cold-open", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 4.758);
-        tl.fromTo("#el-02-buried", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 4.758);
-        tl.to("#el-04-introducing", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 17.204);
-        tl.fromTo("#el-05-both-sides", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 17.204);
-        tl.to("#el-05-both-sides", { y: -1920, duration: 0.5, ease: "power3.inOut" }, 24.065);
-        tl.fromTo("#el-06-delivery", { y: 1920, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 24.065);
-        tl.to("#el-06-delivery", { y: -1920, duration: 0.5, ease: "power3.inOut" }, 29.969);
-        tl.fromTo("#el-07-tracking", { y: 1920, opacity: 1 }, { y: 0, opacity: 1, duration: 0.5, ease: "power3.inOut" }, 29.969);
-        tl.to("#el-07-tracking", { scaleX: 0, transformOrigin: "left center", duration: 0.4, ease: "power3.inOut" }, 35.967);
-        tl.fromTo("#el-08-built-for-both", { scaleX: 0, transformOrigin: "right center", opacity: 1 }, { scaleX: 1, transformOrigin: "right center", opacity: 1, duration: 0.4, ease: "power3.inOut" }, 35.967);
-        tl.to("#el-08-built-for-both", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "power3.in" }, 43.69);
-        tl.fromTo("#el-09-the-math", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "power3.out" }, 43.69);
-        tl.to("#el-10-start-training", { filter: "blur(10px)", scale: 1.03, opacity: 0, duration: 0.6, ease: "power2.inOut" }, 52.122);
-        tl.fromTo("#el-11-end-card", { filter: "blur(10px)", scale: 0.97, opacity: 0 }, { filter: "blur(0px)", scale: 1, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 52.122);
+        tl.to("#el-01-cold-open", { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 4.758);
+        tl.fromTo("#el-02-buried", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.inOut" }, 4.758);
+        tl.to("#el-02-buried", { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 12.758);
+        tl.fromTo("#el-03-not-anymore", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.inOut" }, 12.758);
+        tl.to("#el-04-introducing", { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 17.204);
+        tl.fromTo("#el-05-both-sides", { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power2.inOut" }, 17.204);
+        tl.to("#el-05-both-sides", { opacity: 0, duration: 0.7, ease: "power2.inOut" }, 24.065);
+        tl.fromTo("#el-06-delivery", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 24.065);
+        tl.to("#el-06-delivery", { opacity: 0, duration: 0.7, ease: "power2.inOut" }, 29.969);
+        tl.fromTo("#el-07-tracking", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 29.969);
+        tl.to("#el-07-tracking", { opacity: 0, duration: 0.7, ease: "power2.inOut" }, 35.967);
+        tl.fromTo("#el-08-built-for-both", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 35.967);
+        tl.to("#el-08-built-for-both", { opacity: 0, duration: 0.7, ease: "power2.inOut" }, 43.69);
+        tl.fromTo("#el-09-the-math", { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power2.inOut" }, 43.69);
+        tl.to("#el-09-the-math", { opacity: 0, duration: 0.6, ease: "power2.inOut" }, 49.379);
+        tl.fromTo("#el-10-start-training", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.inOut" }, 49.379);
+        tl.to("#el-10-start-training", { opacity: 0, duration: 0.9, ease: "power2.inOut" }, 52.122);
+        tl.fromTo("#el-11-end-card", { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.inOut" }, 52.122);
         tl.to({}, { duration: 57.217 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
       })();
     </script>

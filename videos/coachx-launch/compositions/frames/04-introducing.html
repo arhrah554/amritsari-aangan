@@ -1,293 +1,95 @@
 <template>
   <style>
-    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
-    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+    
+#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
+.f04-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.f04-ground{background:#000}
+.f04-grain{opacity:.035;pointer-events:none}
+.f04-grain svg{display:block;width:1080px;height:1920px}
+.f04-abs{position:absolute}
+.f04-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
+.f04-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
+.f04-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
+.f04-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
+.f04-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
+.f04-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.f04-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
+.f04-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
+.f04-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
+.f04-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
+.f04-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
 
-    #root {
-      position: absolute;
-      inset: 0;
-      width: 1080px;
-      height: 1920px;
-      overflow: hidden;
-    }
+    
+#f04-bloom{}
+#f04-lab{left:0;top:690px;width:1080px;font-size:24px;letter-spacing:.5em;padding-left:.5em;color:#8B8F97}
+#f04-lock{left:110px;top:760px;width:860px;height:377px}
+#f04-lock img{position:absolute;left:0;top:0;width:860px;height:377px}
+#f04-x{transform-origin:76% 50%}
+#f04-sheen{left:110px;top:760px;width:860px;height:377px;overflow:hidden;-webkit-mask-image:url("assets/logo-x.png");-webkit-mask-size:860px 377px;mask-image:url("assets/logo-x.png");mask-size:860px 377px}
+#f04-band{position:absolute;top:-80px;left:0;width:180px;height:540px}
+#f04-band i{display:block;width:100%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.85),rgba(255,255,255,0));transform:rotate(18deg)}
+#f04-halo{left:140px;top:640px;width:800px;height:620px}
 
-    /* full-bleed ground: ink-black with a pure-black vignette */
-    [id="04-introducing-bg"] {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 55% at 50% 44%, #141518 0%, #0A0A0C 55%, #000000 100%);
-    }
-
-    [id="04-introducing-stage"] {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
-    }
-    [id="04-introducing-cam"],
-    [id="04-introducing-shake"] {
-      position: absolute;
-      inset: 0;
-    }
-    [id="04-introducing-cam"] { transform-origin: 50% 45%; }
-
-    /* soft silver bloom behind the lockup */
-    [id="04-introducing-bloom"] {
-      position: absolute;
-      left: -110px;
-      top: 430px;
-      width: 1300px;
-      height: 800px;
-      background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(233,235,238,1) 0%, rgba(201,205,211,0.55) 38%, rgba(201,205,211,0) 72%);
-      opacity: 0;
-    }
-
-    /* impact light: shockwave rings + anamorphic flare, centred on the X crossing (797, 807) */
-    [class~="04-introducing-ring"] {
-      position: absolute;
-      left: 597px;
-      top: 607px;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,255,255,0) 54%, rgba(255,255,255,0.95) 62%, rgba(233,235,238,0.35) 66%, rgba(255,255,255,0) 72%);
-      opacity: 0;
-    }
-    [id="04-introducing-flare"] {
-      position: absolute;
-      left: -200px;
-      top: 777px;
-      width: 1480px;
-      height: 60px;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 100%) center / 100% 4px no-repeat,
-        radial-gradient(ellipse 50% 50% at 50% 50%, rgba(233,235,238,0.45) 0%, rgba(233,235,238,0) 100%);
-      opacity: 0;
-    }
-
-    /* kicker label — "— INTRODUCING" */
-    [id="04-introducing-label"] {
-      position: absolute;
-      left: 110px;
-      top: 606px;
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      font-family: "Archivo", sans-serif;
-      font-weight: 600;
-      font-stretch: 125%;
-      font-size: 24px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: #9DA2AA;
-      line-height: 1;
-      white-space: nowrap;
-    }
-    [id="04-introducing-stub"] {
-      display: block;
-      width: 46px;
-      height: 1px;
-      background: #9DA2AA;
-      transform-origin: 0 50%;
-    }
-
-    /* the lockup: 686x301 PNG shown at 860px wide, centred at ~45% height */
-    [id="04-introducing-lockup"] {
-      position: absolute;
-      left: 110px;
-      top: 675px;
-      width: 860px;
-      height: 377.35px;
-    }
-    [class~="04-introducing-layer"] {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 860px;
-      height: 377.35px;
-    }
-    [class~="04-introducing-layer"] img {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 860px;
-      height: 377.35px;
-      display: block;
-    }
-
-    /* COACH wordmark — top-left band of the PNG, revealed by a soft-edged mask wipe */
-    [id="04-introducing-word"] {
-      --w: 0;
-      transform-origin: 0% 30%;
-      -webkit-mask-image: linear-gradient(90deg, #000 calc((var(--w) - 14) * 1%), rgba(0,0,0,0) calc(var(--w) * 1%));
-      mask-image: linear-gradient(90deg, #000 calc((var(--w) - 14) * 1%), rgba(0,0,0,0) calc(var(--w) * 1%));
-    }
-    [class~="04-introducing-cw"] { clip-path: polygon(0 0, 66.03% 0, 66.03% 45.18%, 0 45.18%); }
-
-    /* the X — slams in as one group; inside it the two blades slash along their own axes */
-    [id="04-introducing-xgroup"] { transform-origin: 79.9% 34.9%; }
-    [class~="04-introducing-ca"] { clip-path: polygon(62.68% 0, 74.64% 0, 108.89% 100%, 96.94% 100%); }
-    [class~="04-introducing-cbt"] { clip-path: polygon(74.64% 0, 100% 0, 100% 74.09%); }
-    [class~="04-introducing-cbb"] { clip-path: polygon(0 45.18%, 78.13% 45.18%, 96.94% 100%, 0 100%); }
-
-    /* specular sweeps, masked to the logo's own alpha */
-    [class~="04-introducing-sheen"] {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 860px;
-      height: 377.35px;
-      overflow: hidden;
-      -webkit-mask-image: url("assets/logo.png");
-      mask-image: url("assets/logo.png");
-      -webkit-mask-size: 100% 100%;
-      mask-size: 100% 100%;
-      -webkit-mask-repeat: no-repeat;
-      mask-repeat: no-repeat;
-    }
-    [class~="04-introducing-sheen-x"] { clip-path: polygon(66.03% 0, 100% 0, 100% 100%, 0 100%, 0 45.18%, 66.03% 45.18%); }
-    [class~="04-introducing-band"] {
-      position: absolute;
-      left: 0;
-      top: -40px;
-      width: 300px;
-      height: 460px;
-      background: linear-gradient(112deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.35) 42%, rgba(255,255,255,1) 50%, rgba(255,255,255,0.35) 58%, rgba(255,255,255,0) 72%);
-    }
-
-    /* grain */
-    [id="04-introducing-grain"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0.06;
-      pointer-events: none;
-    }
-    [id="04-introducing-grain"] svg { width: 100%; height: 100%; display: block; }
-
-    /* impact flash */
-    [id="04-introducing-flash"] {
-      position: absolute;
-      inset: 0;
-      background: #FFFFFF;
-    }
   </style>
 
-  <div id="root" data-composition-id="04-introducing" data-width="1080" data-height="1920" data-start="0" data-duration="3.203">
+  <div id="root" data-composition-id="04-introducing" data-width="1080" data-height="1920" data-duration="3.603">
+    
+    <div id="f04-ground" class="clip f04-layer f04-ground" data-start="0" data-duration="3.603" data-track-index="0"></div>
+    <div id="f04-stage" class="clip f04-layer" data-start="0" data-duration="3.603" data-track-index="1">
 
-    <div id="04-introducing-bg" class="clip" data-start="0" data-duration="3.203" data-track-index="0"></div>
-
-    <div id="04-introducing-stage" class="clip" data-start="0" data-duration="3.203" data-track-index="1">
-      <div id="04-introducing-cam">
-        <div id="04-introducing-shake">
-
-          <div id="04-introducing-bloom"></div>
-          <div id="04-introducing-flare"></div>
-          <div id="04-introducing-ring1" class="04-introducing-ring"></div>
-          <div id="04-introducing-ring2" class="04-introducing-ring"></div>
-
-          <div id="04-introducing-label"><span id="04-introducing-stub"></span><span id="04-introducing-labeltext">Introducing</span></div>
-
-          <div id="04-introducing-lockup">
-            <!-- COACH wordmark -->
-            <div id="04-introducing-word" class="04-introducing-layer">
-              <img class="04-introducing-cw" src="assets/logo.png" alt="" />
-            </div>
-
-            <!-- chrome X: two blades -->
-            <div id="04-introducing-xgroup" class="04-introducing-layer">
-              <div id="04-introducing-blade-b" class="04-introducing-layer">
-                <img class="04-introducing-cbt" src="assets/logo.png" alt="" />
-                <img class="04-introducing-cbb" src="assets/logo.png" alt="" />
-              </div>
-              <div id="04-introducing-blade-a" class="04-introducing-layer">
-                <img class="04-introducing-ca" src="assets/logo.png" alt="" />
-              </div>
-              <div class="04-introducing-sheen 04-introducing-sheen-x">
-                <div id="04-introducing-band-x" class="04-introducing-band"></div>
-              </div>
-            </div>
-
-            <!-- final specular streak across the whole lockup -->
-            <div class="04-introducing-sheen">
-              <div id="04-introducing-band-all" class="04-introducing-band"></div>
-            </div>
-          </div>
-
-        </div>
+      <div id="f04-bloom" class="f04-layer f04-bloom"></div>
+      <div id="f04-halo" class="f04-glow"></div>
+      <div id="f04-lab" class="f04-abs f04-title">Introducing</div>
+      <div id="f04-lock" class="f04-abs">
+        <img id="f04-x" src="assets/logo-x.png" alt="">
+        <img id="f04-w" src="assets/logo-word.png" alt="">
       </div>
+      <div id="f04-sheen" class="f04-abs"><div id="f04-band"><i></i></div></div>
+
     </div>
-
-    <div id="04-introducing-grain" class="clip" data-start="0" data-duration="3.203" data-track-index="2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920" preserveAspectRatio="none">
-        <filter id="04-introducing-noise" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <rect width="1080" height="1920" filter="url(#04-introducing-noise)" />
-      </svg>
-    </div>
-
-    <div id="04-introducing-flash" class="clip" data-start="0" data-duration="0.2" data-track-index="3"></div>
-
+    <div id="f04-grain" class="clip f04-layer f04-grain" data-start="0" data-duration="3.603" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f04-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f04-noise)"/></svg></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+
+  var D = 2.803, ID = "04-introducing";
+  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
+  var q = function (s) { return root.querySelector(s); };
+  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+  var tl = gsap.timeline({ paused: true });
+  tl.to({}, { duration: D }, 0);
+  // The one reveal: up through blur, a small rise, a long settle.
+  function rise(el, t, o) {
+    o = o || {};
+    tl.fromTo(el,
+      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
+      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
+  }
+  // A full-shot drift that starts at t=0 and eases out by the end.
+  function drift(el, from, to) {
+    var a = { duration: D, ease: "sine.inOut" };
+    for (var k in to) a[k] = to[k];
+    tl.fromTo(el, from, a, 0);
+  }
+
+
+      // A soft projector bloom carries the impact — light, not a flash.
+      tl.fromTo(q("#f04-bloom"), { opacity: 0 }, { opacity: 0.30, duration: 0.14, ease: "power1.out" }, 0);
+      tl.to(q("#f04-bloom"), { opacity: 0, duration: 1.3, ease: "power2.out" }, 0.14);
+      // The X resolves out of the light, then the name joins it.
+      tl.fromTo(q("#f04-x"), { opacity: 0, scale: 1.07, filter: "blur(18px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.5, ease: "power3.out" }, 0.05);
+      tl.fromTo(q("#f04-halo"), { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power1.out" }, 0.2);
+      rise(q("#f04-lab"), 0.65, { y: 10, d: 1.0 });
+      tl.fromTo(q("#f04-w"), { opacity: 0, x: -22, filter: "blur(12px)" }, { opacity: 1, x: 0, filter: "blur(0px)", duration: 1.3, ease: "power2.out" }, 0.75);
+      // One slow glint along the blade.
+      tl.fromTo(q("#f04-band"), { x: 80 }, { x: 900, duration: 1.4, ease: "power1.inOut" }, 1.25);
+
       window.__timelines = window.__timelines || {};
-      var D = 2.803;
-      var $ = function (n) { return document.getElementById("04-introducing-" + n); };
-
-      var cam = $("cam"), shake = $("shake"), flash = $("flash");
-      var ring1 = $("ring1"), ring2 = $("ring2"), flare = $("flare");
-      var xgroup = $("xgroup"), bladeA = $("blade-a"), bladeB = $("blade-b");
-      var bandX = $("band-x"), bandAll = $("band-all");
-      var word = $("word"), label = $("label"), stub = $("stub"), bloom = $("bloom");
-
-      var tl = gsap.timeline({ paused: true });
-
-      /* ---------- Scene 1 (0.0–0.35s): IMPACT ---------- */
-      // white flash frame -> black over 0.12s
-      tl.fromTo(flash, { opacity: 1 }, { opacity: 0, duration: 0.12, ease: "power2.out" }, 0);
-      // radial shockwave rings from the impact point
-      tl.fromTo(ring1, { scale: 0.12, opacity: 0.95 }, { scale: 3.4, opacity: 0, duration: 0.35, ease: "power2.out" }, 0);
-      tl.fromTo(ring2, { scale: 0.08, opacity: 0.6 }, { scale: 2.4, opacity: 0, duration: 0.32, ease: "power3.out" }, 0.04);
-      // anamorphic flare across the crossing
-      tl.fromTo(flare, { scaleX: 0.15, opacity: 1 }, { scaleX: 1.25, opacity: 0, duration: 0.45, ease: "power2.out" }, 0.01);
-      // camera shake, <=10px, decaying to rest by 0.4s
-      tl.set(shake, { x: 0, y: 0 }, 0);
-      var shakes = [[9, -6], [-8, 6], [6, -5], [-5, 3], [3, -2], [-2, 1], [1, -1], [0, 0]];
-      shakes.forEach(function (p, i) {
-        tl.to(shake, { x: p[0], y: p[1], duration: 0.05, ease: "none" }, i * 0.05);
-      });
-      // macro camera settle underneath the whole shot (stops at 2.2s for the dead-still hold)
-      tl.fromTo(cam, { scale: 1.035 }, { scale: 1, duration: 2.2, ease: "power2.out" }, 0);
-
-      /* ---------- Scene 2 (0.0–0.7s): the X slashes in and slams ---------- */
-      tl.fromTo(xgroup, { opacity: 0 }, { opacity: 1, duration: 0.05, ease: "none" }, 0);
-      tl.fromTo(xgroup, { scale: 2.4, rotation: -8 }, { scale: 1, rotation: 0, duration: 0.7, ease: "expo.out" }, 0);
-      tl.fromTo(xgroup, { filter: "blur(16px)" }, { filter: "blur(0px)", duration: 0.32, ease: "power2.out" }, 0);
-      // blade "\" slashes down-right along its axis; blade "/" slashes up-right along its axis
-      tl.fromTo(bladeA, { x: -203, y: -260 }, { x: 0, y: 0, duration: 0.36, ease: "power4.out" }, 0);
-      tl.fromTo(bladeB, { x: -257, y: 220 }, { x: 0, y: 0, duration: 0.38, ease: "power4.out" }, 0);
-      // specular sweep runs along the blades as they land
-      tl.fromTo(bandX, { x: -50 }, { x: 900, duration: 0.45, ease: "power2.inOut" }, 0.3);
-
-      /* ---------- Scene 3 (0.7–2.2s): label, bloom, COACH tracks in ---------- */
-      tl.fromTo(label, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 0.7);
-      tl.fromTo(stub, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 0.7);
-      tl.fromTo(bloom, { opacity: 0, scale: 0.82 }, { opacity: 0.12, scale: 1, duration: 1.1, ease: "power2.out" }, 0.7);
-      // mask wipe left -> right with a soft leading edge, plus a tracking slide
-      tl.fromTo(word, { "--w": 0 }, { "--w": 100, duration: 1.15, ease: "power2.inOut" }, 0.75);
-      tl.fromTo(word, { x: -70, scaleX: 1.06 }, { x: 0, scaleX: 1, duration: 1.25, ease: "power3.out" }, 0.75);
-
-      /* ---------- Scene 4 (2.2–2.8s): dead-still hold, one slow streak ---------- */
-      tl.fromTo(bandAll, { x: -320 }, { x: 900, duration: 0.58, ease: "power1.inOut" }, 2.2);
-
-      // pin the timeline to the frame's exact duration
-      tl.to({}, { duration: D }, 0);
-
-      window.__timelines["04-introducing"] = tl;
+      window.__timelines[ID] = tl;
     })();
   </script>
 </template>

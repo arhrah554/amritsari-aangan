@@ -11,8 +11,8 @@ unit: the frame — 1920×1080 primary; 9:16 and 1:1 documented
 principle: atoms are sacred · composition is free · numbers come from the script
 
 colors:
-  canvas: "#0A0A0C"   # the video ground — the assembler paints #root with this
-  ink-black: "#0A0A0C"
+  canvas: "#000000"   # the video ground — the site's pure black; the assembler paints #root with this
+  ink-black: "#000000"
   ink-black-alt: "#18191A"
   fire-orange: "#C9CDD3"   # chrome silver — the brand accent (gradient: #FFFFFF → #C9CDD3 → #6E737B)
   cream: "#F2F2F2"
@@ -95,17 +95,17 @@ components:
 
 ## Brand adaptation (READ FIRST — the frontmatter is the source of truth)
 
-**CoachX overrides — these beat anything the preset prose says below:**
+**CoachX overrides (v2) — these beat anything the preset prose says below:**
 
-- **Register:** dark only. Ground `#0A0A0C` → pure black vignette; there is **no orange/silver flood register**. Silver is an accent and a *material*, never a background fill.
-- **Display type is UPPERCASE Archivo, `font-stretch: 125%` (Archivo Expanded), weight 900**, line-height ~0.9, tight but not negative-crushed. Load Archivo with the width axis: `family=Archivo:wdth,wght@62..125,100..900`.
-- **Chrome word treatment:** in a 2–3 line headline, ONE line/word carries a brushed-chrome gradient fill (`linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%)` via `background-clip:text`), the rest are flat `#F2F2F2`. A slow specular sweep (a bright 20° band) may travel across the chrome word once.
-- **Outline word:** the deck also sets one word as a hairline outline (`-webkit-text-stroke: 2px #C9CDD3; color: transparent`) — e.g. "BOTH SIDES".
-- **Labels/kickers:** small Archivo 600 uppercase, `letter-spacing: 0.32em`, `#9DA2AA`, preceded by a 36×1px hairline stub — "— THE PROBLEM".
-- **Body:** Inter 400, `#C9CDD3`, key phrase in `#FFFFFF` 600.
-- **Signature motif:** a giant faint chrome **X** (two crossed blades, ~6% opacity, slightly blurred) sits behind type; a soft white light streak/flare can pass across it. Grain overlay ~6% always on. Black-and-white photography only.
-- **UI cards** (workout list, volume chart): `rgba(255,255,255,0.03)` fill, 1px `rgba(255,255,255,0.10)` border, 14px radius, Inter + tracked labels, silver checks; the tallest bar is pure white with a glow.
-- **Fonts** — display Archivo (expanded), body Inter; ignore any preset font name lingering in prose.
+- **Ground:** the website's pure black `#000` — no lifted centre, no vignette grey. Silver is an accent and a material, never a fill. Photography and footage are black-and-white and graded down to sit on that black.
+- **Title type is Outfit** — the typeface of the logo's COACH wordmark — uppercase, weight 300, letter-spacing 0.32em (padded left by the same amount so it centres). This is the trailer's title-card voice.
+- **Headlines:** Outfit 600 uppercase, tracking 0.03em, two lines; the second line carries the brushed-chrome gradient (`linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%)` via `background-clip:text`). A short silver rule sits under them.
+- **Kickers:** Outfit 400, 22px, letter-spacing 0.34em, `#8B8F97`, led by a 40×1px hairline — "— 01 / DELIVERY".
+- **Body:** Inter 400, `#A1A1AA` (the site's dim grey); the key phrase in `#F4F4F5`.
+- **Background X:** the logo's own chrome blade X (`assets/x-mark.png`, cut from the logo), ~1300px wide at 5–6% opacity, 1.5px blur. Never a drawn stand-in.
+- **UI cards:** `rgba(255,255,255,0.035)` fill, 1px `rgba(255,255,255,0.10)` border, 30px radius, deep black shadow, a soft silver glow behind; held in 3D perspective and drifting slowly flatter across the shot.
+- **Motion:** one reveal — fade up through ~12px blur with a ~22px rise over ~1.1s, `power2.out`, on the word that names it. Nothing flashes, shakes or strobes; the reveal frame gets a soft projector bloom instead. Frames dissolve into each other.
+- **Fonts** — Outfit (titles, headlines, kickers) and Inter (body); ignore any preset font name lingering in prose.
 - **Colors** — use the frontmatter hex; "fire-orange" in prose means **chrome silver #C9CDD3**, "cream" means **#F2F2F2**.
 
 ## Overview

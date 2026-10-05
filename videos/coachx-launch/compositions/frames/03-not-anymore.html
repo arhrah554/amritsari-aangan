@@ -1,157 +1,74 @@
 <template>
   <style>
-    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
-    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
+    
+#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
+.f03-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
+.f03-ground{background:#000}
+.f03-grain{opacity:.035;pointer-events:none}
+.f03-grain svg{display:block;width:1080px;height:1920px}
+.f03-abs{position:absolute}
+.f03-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
+.f03-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
+.f03-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
+.f03-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
+.f03-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
+.f03-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.f03-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
+.f03-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
+.f03-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
+.f03-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
+.f03-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
 
-    #root {
-      position: absolute;
-      inset: 0;
-      width: 1080px;
-      height: 1920px;
-      overflow: hidden;
-    }
+    
+#f03-t{left:0;top:860px;width:1080px;font-size:62px}
+#f03-r{left:360px;top:968px;width:360px;height:1px;background:linear-gradient(90deg,rgba(201,205,211,0),#C9CDD3,rgba(201,205,211,0));transform-origin:50% 50%}
 
-    /* Full-bleed ground: near-pure black with the faintest vignette lift at centre */
-    #n03-not-anymore-ground {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 45% at 50% 45%, #0B0B0D 0%, #050506 55%, #000000 100%);
-    }
-
-    /* Centred stack — optical centre of the 0..1594 safe region, nudged toward canvas centre */
-    #n03-not-anymore-stack {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 1080px;
-      height: 1720px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #n03-not-anymore-words {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .n03-not-anymore-word {
-      display: block;
-      font-family: "Archivo";
-      font-weight: 900;
-      font-stretch: 125%;
-      text-transform: uppercase;
-      font-size: 148px;
-      line-height: 0.9;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    #n03-not-anymore-not {
-      color: #F2F2F2;
-    }
-
-    #n03-not-anymore-anymore {
-      background: linear-gradient(180deg, #FFFFFF 0%, #D9DCE1 38%, #7C818A 62%, #E9EBEE 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      padding-bottom: 6px;
-    }
-
-    #n03-not-anymore-rule-wrap {
-      position: relative;
-      width: 420px;
-      height: 2px;
-      margin-top: 56px;
-    }
-
-    #n03-not-anymore-rule {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 420px;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(201,205,211,0) 0%, rgba(201,205,211,0.85) 18%, #FFFFFF 50%, rgba(201,205,211,0.85) 82%, rgba(201,205,211,0) 100%);
-      transform-origin: 0% 50%;
-    }
-
-    #n03-not-anymore-grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.06;
-      pointer-events: none;
-    }
-    #n03-not-anymore-grain svg {
-      display: block;
-      width: 1080px;
-      height: 1920px;
-    }
   </style>
 
   <div id="root" data-composition-id="03-not-anymore" data-width="1080" data-height="1920">
-    <!-- Track 0: full-bleed black ground -->
-    <div id="n03-not-anymore-ground" class="clip" data-start="0" data-duration="1.643" data-track-index="0"></div>
+    
+    <div id="f03-ground" class="clip f03-layer f03-ground" data-start="0" data-duration="1.643" data-track-index="0"></div>
+    <div id="f03-stage" class="clip f03-layer" data-start="0" data-duration="1.643" data-track-index="1">
 
-    <!-- Track 1: the two words + hairline -->
-    <div id="n03-not-anymore-stack" class="clip" data-start="0" data-duration="1.643" data-track-index="1">
-      <div id="n03-not-anymore-words">
-        <span id="n03-not-anymore-not" class="n03-not-anymore-word">Not</span>
-        <span id="n03-not-anymore-anymore" class="n03-not-anymore-word">Anymore.</span>
-      </div>
-      <div id="n03-not-anymore-rule-wrap">
-        <div id="n03-not-anymore-rule"></div>
-      </div>
-    </div>
+      <div id="f03-t" class="f03-abs f03-title">Not anymore.</div>
+      <div id="f03-r" class="f03-abs"></div>
 
-    <!-- Track 2: static grain over everything -->
-    <div id="n03-not-anymore-grain" class="clip" data-start="0" data-duration="1.643" data-track-index="2">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none">
-        <filter id="n03-not-anymore-noise" x="0" y="0" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" stitchTiles="stitch" />
-          <feColorMatrix type="saturate" values="0" />
-        </filter>
-        <rect width="1080" height="1920" filter="url(#n03-not-anymore-noise)" />
-      </svg>
     </div>
+    <div id="f03-grain" class="clip f03-layer f03-grain" data-start="0" data-duration="1.643" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f03-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f03-noise)"/></svg></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
-      var D = 1.643;
-      var tl = gsap.timeline({ paused: true });
 
-      // Lock the timeline to the frame's exact duration.
-      tl.to({}, { duration: D }, 0);
+  var D = 1.643, ID = "03-not-anymore";
+  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
+  var q = function (s) { return root.querySelector(s); };
+  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
+  var tl = gsap.timeline({ paused: true });
+  tl.to({}, { duration: D }, 0);
+  // The one reveal: up through blur, a small rise, a long settle.
+  function rise(el, t, o) {
+    o = o || {};
+    tl.fromTo(el,
+      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
+      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
+  }
+  // A full-shot drift that starts at t=0 and eases out by the end.
+  function drift(el, from, to) {
+    var a = { duration: D, ease: "sine.inOut" };
+    for (var k in to) a[k] = to[k];
+    tl.fromTo(el, from, a, 0);
+  }
 
-      // Scene 1 (0.0–0.3s): pure black, nothing. The words are held invisible
-      // by the fromTo below (immediateRender), so the opening is empty ground + grain.
 
-      // Scene 2 (0.3s): "Not anymore." — hard-cut flash in, both words together, no scale.
-      tl.fromTo("#n03-not-anymore-words",
-        { opacity: 0 },
-        { opacity: 1, duration: 0.001, ease: "none" },
-        0.3);
-      // The flash: words land overexposed and settle to true value in ~0.16s.
-      tl.fromTo("#n03-not-anymore-words",
-        { filter: "brightness(2.4)" },
-        { filter: "brightness(1)", duration: 0.16, ease: "power2.out" },
-        0.3);
-
-      // Single thin hairline draws left -> right under the words over 0.6s.
-      tl.fromTo("#n03-not-anymore-rule",
-        { scaleX: 0 },
-        { scaleX: 1, duration: 0.6, ease: "power2.inOut" },
-        0.36);
-
-      // 0.96s -> end: absolute stillness. The held breath before the hit. No exit.
+      rise(q("#f03-t"), 0.20, { y: 0, d: 1.0, blur: 14 });
+      tl.fromTo(q("#f03-r"), { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 1.1, ease: "power2.inOut" }, 0.50);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines["03-not-anymore"] = tl;
+      window.__timelines[ID] = tl;
     })();
   </script>
 </template>

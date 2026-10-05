@@ -10,21 +10,25 @@ music: dark cinematic trailer — low pulsing heartbeat drone and ticking build,
 
 ## Video direction
 
-**Canvas:** 1080×1920, 9:16 Reel. Ground is pure black `#0A0A0C` with a faint radial lift (centre `#16161A`), a ~6% film-grain overlay on every frame, and a slight vignette. Keep all key content in the top ~83%; the bottom band holds at most a small label.
+**v2 (current).** The first cut moved like a highlight reel and read as busy and distorted. This version takes its grammar from the client's reference trailer. Frames are generated from one shared kit by `tools/build_frames.py`, which is the source of truth for every shot below.
 
-**Palette (frame.md roles):** ink `#F2F2F2` for type; chrome silver `#C9CDD3` is the only accent, used as a *material* — the brushed-chrome gradient fill on ONE word/line per headline, hairline outlines, 1px rules, checkmarks; muted `#9DA2AA` for labels; card fills `rgba(255,255,255,0.03)` with `rgba(255,255,255,0.10)` borders. No other hue anywhere. Photography is black-and-white only.
+**Canvas:** 1080×1920, 9:16 Reel. Ground is the website's pure black `#000`, with a ~3.5% static film grain. Key content stays in the top ~83%.
 
-**Type:** display = Archivo 900, `font-stretch:125%` (load `Archivo:wdth,wght@62..125,100..900`), UPPERCASE, line-height ~0.9; labels = Archivo 600 uppercase, letter-spacing 0.32em, preceded by a 36×1px hairline stub; body/UI = Inter. Headline scale on 1080 wide: hero words ~150–190px, secondary ~90–110px.
+**Palette:** `#F4F4F5` for type; chrome silver `#C9CDD3` as the only accent, used as a material: the gradient on one line per headline, hairlines, checks. `#A1A1AA` and `#8B8F97` (the site's greys) for body and labels. No other hue. Photography is black-and-white, graded dark.
 
-**Signature motif:** the giant faint chrome **X** (two crossed blades, 5–7% opacity, ~1400px, slightly blurred) behind type on frames 1, 5, 9 and 11; on the reveal (frame 4) the real blades ARE the X. A white specular light streak (a soft 20° band) may cross a chrome word once per frame — never more.
+**Type:** title cards are Outfit 300, uppercase, tracked 0.32em, the logo wordmark's own typeface. Headlines are Outfit 600 with a chrome second line. Body is Inter.
 
-**Motion grammar:** long-tail `power3.out` / `expo.out` settles, no bounce, no overshoot. This is a trailer: entrances are FAST (0.25–0.45s) and hit on the word — slam-scale from 1.15→1 with a 1-frame white flash or blur-to-sharp, never a slow fade. Every piece reveals ON its spoken cue (cue times are given per Scene, in seconds from the frame's start — they come from the real narration). Between reveals, hold still; the only sanctioned aliveness is a subtle jitter or one slow push of ≤4% across the WHOLE frame that starts at t=0 (never a late drift).
+**Background X:** the logo's own blade X (`assets/x-mark.png`), faint behind frames 5, 9 and 11. On the reveal (frame 4) the real logo layers resolve in place.
 
-**Rhythm:** frames 1–2 build tension (slower, darker, more negative space). Frame 3 is the deliberate held breath — near-empty, still. Frame 4 is the explosion. Frames 5–9 drive at a steady trailer cadence. Frame 10 is the peak (strobe). Frame 11 settles and holds — the calm after.
+**Motion grammar:** one reveal for everything, fading up through blur with a small rise (~1.1s, `power2.out`), landing on the word that names it. UI cards sit in 3D perspective and ease slowly flatter for the whole shot, with a soft silver glow behind. Lines that have been said step back to ~45% when the next one lands. No white flashes, camera shake, strobes, slams or bounce. The reveal (frame 4) and the end card get a soft projector bloom.
 
-**Audio:** narration per frame + the trailer score (tools/make_score.py) are already final; whooshes and impacts are baked into the score on the frame grid, so frames carry NO `<audio>` elements and need no `sfx:` fetch. Visual hits should land exactly on: 14.40s (F4 start — the impact), each feature frame's start (a braam), 49.48s and 50.69s (F10's two commands), 52.12s (F11 start).
+**Transitions:** dissolves throughout (0.6–0.9s). Frame 4 enters on a cut because its bloom carries the change.
 
-**Never:** colour other than black/white/silver; stock icons; emoji; drop shadows with colour; bouncy easing; infinite loops; everything entering at once (slideshow); many things drifting independently (screensaver); text in the bottom 17%.
+**Rhythm:** frames 1–2 build quietly; frame 3 is the held breath; frame 4 is the one big moment; frames 5–9 move at an even, unhurried pace; frame 10 is a single photograph and two lines; frame 11 settles and fades to black.
+
+**Audio:** the narration per frame and the score (`tools/make_score.py`) are mixed at the root. The score is sustained pad harmony with a soft half-time pulse; frames carry no audio.
+
+**Never:** colours other than black, white and silver; drop shadows with colour; bouncy easing; hard flashes; distortion transitions (squeeze, zoom-through, push); everything entering at once; many elements drifting independently.
 
 ## Frame 1 — Cold open
 - scene: Out of total black, the athlete turns slowly into hard light; "YOU PUT IN THE REPS." stamps in word by word
@@ -57,7 +61,7 @@ Scene 3 (2.07–4.76s): the line cuts away and ONE huge word replaces it in plac
 - voiceover: "But your program? Buried in a chat. Spreadsheet screenshots. 'Did you do Day three?' Progress nobody tracks."
 - duration: 8s
 - poster: 5.0s
-- transition_in: blur-crossfade
+- transition_in: crossfade 0.8s
 - status: outline
 - src: compositions/frames/02-buried.html
 - type: pain_point
@@ -84,7 +88,7 @@ Scene 5 (5.92–8.0s): on "Progress nobody tracks." a hairline-outlined progress
 - voiceover: "Not anymore."
 - duration: 1.643s
 - poster: 1.2s
-- transition_in: cut
+- transition_in: crossfade 0.6s
 - status: outline
 - src: compositions/frames/03-not-anymore.html
 - type: pain_point
@@ -133,7 +137,7 @@ Scene 4 (2.2–2.8s): hold the lockup dead still; one slow specular streak cross
 - voiceover: "One app. Both sides of the rep. Coaches build. Athletes train. Everything syncs."
 - duration: 6.861s
 - poster: 4.8s
-- transition_in: zoom-through
+- transition_in: crossfade 0.8s
 - status: outline
 - src: compositions/frames/05-both-sides.html
 - type: benefit_highlight
@@ -159,7 +163,7 @@ Scene 4 (5.37–6.86s): on "Everything syncs." a third item "EVERYTHING SYNCS" l
 - voiceover: "Your coach builds it. It lands on your dashboard. Already loaded. Already weighted."
 - duration: 5.904s
 - poster: 4.4s
-- transition_in: push-slide UP
+- transition_in: crossfade 0.7s
 - status: outline
 - src: compositions/frames/06-delivery.html
 - type: feature_showcase
@@ -185,7 +189,7 @@ Scene 4 (4.52–5.9s): on "Already weighted." the weights on each row flash whit
 - voiceover: "Log the set. Drop the check-in. Get a reply. Your coach sees every rep."
 - duration: 5.998s
 - poster: 4.4s
-- transition_in: push-slide UP
+- transition_in: crossfade 0.7s
 - status: outline
 - src: compositions/frames/07-tracking.html
 - type: feature_showcase
@@ -211,7 +215,7 @@ Scene 4 (3.96–6.0s): on "Your coach sees every rep." a small "SEEN ✓✓" rec
 - voiceover: "For athletes: today's session, loaded. For coaches: build once, deploy to all. One platform."
 - duration: 7.723s
 - poster: 5.2s
-- transition_in: squeeze
+- transition_in: crossfade 0.7s
 - status: outline
 - src: compositions/frames/08-built-for-both.html
 - type: benefit_highlight
@@ -238,7 +242,7 @@ Scene 5 (6.1–7.72s): on "One platform." a chrome pill "ONE PLATFORM" lands on 
 - voiceover: "Zero spreadsheets. One dashboard. Twenty-four seven accountability."
 - duration: 5.689s
 - poster: 4.2s
-- transition_in: zoom-through
+- transition_in: crossfade 0.7s
 - status: outline
 - src: compositions/frames/09-the-math.html
 - type: social_proof
@@ -263,7 +267,7 @@ Scene 3 (3.17–5.69s): on "Twenty-four seven accountability." row 3 at ~64%: "2
 - voiceover: "Stop guessing. Start training."
 - duration: 2.743s
 - poster: 2.8s
-- transition_in: cut
+- transition_in: crossfade 0.6s
 - status: outline
 - src: compositions/frames/10-start-training.html
 - type: cta
@@ -287,7 +291,7 @@ Scene 2 (1.31–2.74s): on "Start training." (the second hit) another white flas
 - voiceover: "CoachX. Train smarter. Push harder."
 - duration: 5.095s
 - poster: 3.8s
-- transition_in: blur-crossfade
+- transition_in: crossfade 0.9s
 - status: outline
 - src: compositions/frames/11-end-card.html
 - type: branding
