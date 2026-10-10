@@ -27,7 +27,7 @@ math: 00 spreadsheets / 01 dashboard / 24/7 accountability), and the close
 
 ## Assets
 
-- assets/logo.png — the CoachX lockup (wide-tracked COACH + chrome X), closes the video.
+- assets/logo.png — the CoachX lockup (wide-tracked high-contrast COACH + chrome X; the site's original logo, as supplied), closes the video.
 - assets/hero.jpg, assets/about.jpg, assets/divider.jpg — photos of Coach Sukumar Roy in the gym; texture and energy.
 - assets/train.mp4 — vertical training clip (H.264 SDR, 720x1280).
 - capture/deck/*.jpeg — the 8 carousel slides: brand look reference and copy source.

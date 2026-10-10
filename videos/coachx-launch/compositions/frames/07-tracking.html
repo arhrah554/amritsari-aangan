@@ -1,125 +1,565 @@
 <template>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f07-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f07-ground{background:#000}
-.f07-grain{opacity:.035;pointer-events:none}
-.f07-grain svg{display:block;width:1080px;height:1920px}
-.f07-abs{position:absolute}
-.f07-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f07-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f07-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f07-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f07-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f07-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f07-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f07-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f07-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f07-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f07-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f07-k{left:90px;top:200px}
-#f07-h1{left:90px;top:252px;font-size:76px}
-#f07-h2{left:90px;top:332px;font-size:76px}
-#f07-r{left:92px;top:446px}
-#f07-halo{left:60px;top:470px;width:960px;height:700px}
-#f07-persp{left:120px;top:540px;width:840px;height:500px;perspective:1900px}
-#f07-drift{position:absolute;inset:0;transform-style:preserve-3d}
-#f07-card{position:absolute;inset:0;padding:40px 46px}
-#f07-hd{display:flex;justify-content:space-between;align-items:flex-start}
-#f07-hd div{font-family:"Outfit",sans-serif;font-weight:600;font-size:24px;letter-spacing:.28em;color:#E4E4E7}
-#f07-pct{text-align:right;font-family:"Outfit",sans-serif;font-weight:600;font-size:46px;line-height:1}
-#f07-pct small{display:block;font-family:"Inter",sans-serif;font-weight:400;font-size:17px;letter-spacing:.18em;color:#8B8F97;margin-top:8px}
-#f07-chart{position:absolute;left:46px;right:46px;bottom:40px;height:300px;display:flex;align-items:flex-end;gap:22px}
-.f07-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:300px}
-.f07-bar{width:100%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,.08));transform-origin:50% 100%}
-.f07-sun{background:linear-gradient(180deg,#FFFFFF,#C9CDD3);box-shadow:0 0 40px rgba(255,255,255,.28)}
-.f07-col span{margin-top:14px;font-family:"Outfit",sans-serif;font-size:16px;letter-spacing:.24em;color:#8B8F97}
-.f07-bub{position:absolute;max-width:640px;padding:24px 30px;border-radius:28px;font-family:"Inter",sans-serif;font-size:28px;line-height:1.38;color:#E4E4E7}
-.f07-bub small{display:block;font-family:"Outfit",sans-serif;font-size:17px;letter-spacing:.3em;color:#8B8F97;margin-bottom:8px}
-#f07-b1{right:120px;top:1120px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}
-#f07-b2{left:120px;top:1300px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.14)}
-#f07-seen{right:126px;top:1252px;font-family:"Outfit",sans-serif;font-size:17px;letter-spacing:.32em;color:#8B8F97;display:flex;align-items:center;gap:10px}
+    #root {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      font-family: "Inter", sans-serif;
+      color: #F2F2F2;
+    }
 
+    /* ---------- ground (full-bleed clip, lowest track) ---------- */
+    [id="07-tracking-bg"] {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(120% 70% at 50% 18%, #18191A 0%, #0A0A0C 48%, #000000 100%);
+      overflow: hidden;
+    }
+    [id="07-tracking-x"] {
+      position: absolute;
+      left: -160px;
+      top: 330px;
+      width: 1400px;
+      height: 1400px;
+      opacity: 0.06;
+      filter: blur(2px);
+    }
+    [id="07-tracking-grain"] {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* ---------- camera wrapper ---------- */
+    [id="07-tracking-cam"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 50% 45%;
+    }
+
+    /* corner brackets (deck chrome) */
+    [class~="07-tracking-bracket"] {
+      position: absolute;
+      top: 70px;
+      width: 18px;
+      height: 18px;
+      border-top: 1px solid rgba(255,255,255,0.28);
+    }
+    [id="07-tracking-br-l"] { left: 70px; border-left: 1px solid rgba(255,255,255,0.28); }
+    [id="07-tracking-br-r"] { right: 70px; border-right: 1px solid rgba(255,255,255,0.28); }
+
+    /* ---------- kicker + headline ---------- */
+    [id="07-tracking-kicker"] {
+      position: absolute;
+      left: 80px;
+      top: 196px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-family: "Archivo";
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 22px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #9DA2AA;
+    }
+    [id="07-tracking-kicker-stub"] {
+      width: 36px;
+      height: 1px;
+      background: #9DA2AA;
+      transform-origin: left center;
+    }
+    [id="07-tracking-head"] {
+      position: absolute;
+      left: 76px;
+      top: 248px;
+      font-family: "Archivo";
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 126px;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+    [class~="07-tracking-line"] {
+      display: block;
+      overflow: hidden;
+      padding: 0 8px 6px 0;
+    }
+    [class~="07-tracking-line-in"] {
+      display: block;
+      position: relative;
+      white-space: nowrap;
+    }
+    [id="07-tracking-flat"] { color: #F2F2F2; }
+    [id="07-tracking-chrome"] {
+      background: linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    [id="07-tracking-sheen"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      color: transparent;
+      background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 42%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 58%, rgba(255,255,255,0) 100%);
+      background-size: 300% 100%;
+      background-position: 100% 0%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      opacity: 0.75;
+    }
+
+    /* ---------- WEEKLY VOLUME card ---------- */
+    [id="07-tracking-card"] {
+      position: absolute;
+      left: 60px;
+      top: 540px;
+      width: 960px;
+      height: 596px;
+      box-sizing: border-box;
+      padding: 38px 40px 0 40px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+    }
+    [id="07-tracking-card-head"] {
+      position: relative;
+      height: 86px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    [id="07-tracking-card-title"] {
+      font-family: "Archivo";
+      font-weight: 700;
+      font-stretch: 125%;
+      font-size: 30px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #F2F2F2;
+      padding-top: 10px;
+    }
+    [id="07-tracking-stat"] {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-top: -6px;
+    }
+    [id="07-tracking-stat-row"] {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    [id="07-tracking-stat-dot"] {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 10px rgba(255,255,255,0.9);
+    }
+    [id="07-tracking-count-wrap"] {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      width: 268px;
+    }
+    [id="07-tracking-count"] {
+      display: inline-block;
+      font-family: "Archivo";
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 56px;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: #FFFFFF;
+      transform-origin: right center;
+    }
+    [id="07-tracking-count-suffix"] {
+      display: inline-block;
+      font-family: "Archivo";
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 56px;
+      line-height: 1;
+      color: #C9CDD3;
+      margin-left: 2px;
+    }
+    [id="07-tracking-stat-label"] {
+      margin-top: 8px;
+      font-family: "Archivo";
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 16px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #9DA2AA;
+      margin-right: -0.32em;
+    }
+    [class~="07-tracking-hair"] {
+      height: 1px;
+      background: rgba(255,255,255,0.10);
+      transform-origin: left center;
+    }
+    [id="07-tracking-bars"] {
+      position: relative;
+      margin-top: 28px;
+      height: 370px;
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+    }
+    [class~="07-tracking-col"] {
+      position: relative;
+      width: 96px;
+      height: 370px;
+    }
+    [class~="07-tracking-slot"] {
+      position: absolute;
+      inset: 0;
+      border-radius: 4px 4px 0 0;
+      background: rgba(255,255,255,0.025);
+      border: 1px dashed rgba(255,255,255,0.08);
+      border-bottom: none;
+    }
+    [class~="07-tracking-bar"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 2px 2px 0 0;
+      background: linear-gradient(180deg, #55575B 0%, #2E2F32 65%, #1D1E20 100%);
+      transform-origin: 50% 100%;
+    }
+    [id="07-tracking-bar-sun"] {
+      background: linear-gradient(180deg, #FFFFFF 0%, #EEF0F2 40%, #C9CDD3 100%);
+    }
+    [id="07-tracking-glow"] {
+      position: absolute;
+      left: -90px;
+      right: -90px;
+      top: -90px;
+      bottom: -40px;
+      background: radial-gradient(50% 50% at 50% 42%, rgba(255,255,255,0.85) 0%, rgba(220,224,230,0.35) 38%, rgba(160,165,172,0) 72%);
+      filter: blur(14px);
+      pointer-events: none;
+    }
+    [id="07-tracking-baseline"] {
+      height: 1px;
+      background: rgba(255,255,255,0.16);
+      transform-origin: left center;
+    }
+    [id="07-tracking-days"] {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 18px;
+    }
+    [class~="07-tracking-day"] {
+      width: 96px;
+      text-align: center;
+      font-family: "Archivo";
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 17px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #6E737B;
+      text-indent: 0.22em;
+    }
+    [id="07-tracking-day-sun"] { color: #F2F2F2; }
+
+    /* ---------- check-in thread ---------- */
+    [class~="07-tracking-bubble"] {
+      position: absolute;
+      box-sizing: border-box;
+      padding: 26px 32px 28px 32px;
+      border-radius: 22px;
+    }
+    [id="07-tracking-athlete"] {
+      right: 60px;
+      top: 1172px;
+      width: 640px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-bottom-right-radius: 6px;
+    }
+    [id="07-tracking-coach"] {
+      left: 60px;
+      top: 1372px;
+      width: 780px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(201,205,211,0.32);
+      border-bottom-left-radius: 6px;
+    }
+    [class~="07-tracking-bub-head"] {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 28px;
+    }
+    [class~="07-tracking-bub-label"] {
+      font-family: "Archivo";
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 19px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #9DA2AA;
+    }
+    [id="07-tracking-coach-label"] { color: #F2F2F2; }
+    [class~="07-tracking-bub-body"] {
+      margin-top: 12px;
+      font-family: "Inter";
+      font-weight: 400;
+      font-size: 34px;
+      line-height: 1.3;
+      color: #C9CDD3;
+      white-space: nowrap;
+    }
+    [class~="07-tracking-key"] {
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+    [id="07-tracking-stamp"] {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 14px 7px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.06);
+      font-family: "Archivo";
+      font-weight: 700;
+      font-stretch: 125%;
+      font-size: 16px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #FFFFFF;
+      transform-origin: 100% 50%;
+    }
+    [id="07-tracking-stamp-dot"] {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 8px rgba(255,255,255,0.9);
+    }
+    [id="07-tracking-seen"] {
+      position: absolute;
+      right: 66px;
+      top: 1326px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: "Archivo";
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 17px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #C9CDD3;
+    }
+    [id="07-tracking-ticks"] {
+      width: 40px;
+      height: 22px;
+      overflow: visible;
+    }
+    [class~="07-tracking-tick"] {
+      fill: none;
+      stroke: #FFFFFF;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+    }
   </style>
 
-  <div id="root" data-composition-id="07-tracking" data-width="1080" data-height="1920" data-duration="6.698">
-    
-    <div id="f07-ground" class="clip f07-layer f07-ground" data-start="0" data-duration="6.698" data-track-index="0"></div>
-    <div id="f07-stage" class="clip f07-layer" data-start="0" data-duration="6.698" data-track-index="1">
+  <div id="root" data-composition-id="07-tracking" data-width="1080" data-height="1920" data-duration="6.398">
 
-      <div id="f07-k" class="f07-abs f07-kicker"><i></i>02 &nbsp;/&nbsp; Feedback</div>
-      <div id="f07-h1" class="f07-abs f07-head">Two-way</div>
-      <div id="f07-h2" class="f07-abs f07-head f07-chrome">tracking.</div>
-      <div id="f07-r" class="f07-abs f07-rule"></div>
-      <div id="f07-halo" class="f07-glow"></div>
-      <div id="f07-persp" class="f07-abs">
-        <div id="f07-drift">
-          <div id="f07-card" class="f07-card">
-            <div id="f07-hd"><div>WEEKLY VOLUME</div><div id="f07-pct"><span id="f07-num" class="f07-chrome">+0.0%</span><small>VS LAST WEEK</small></div></div>
-            <div id="f07-chart"><div class="f07-col"><div class="f07-bar" id="f07-bar0" style="height:105px"></div><span>MON</span></div><div class="f07-col"><div class="f07-bar" id="f07-bar1" style="height:137px"></div><span>TUE</span></div><div class="f07-col"><div class="f07-bar" id="f07-bar2" style="height:117px"></div><span>WED</span></div><div class="f07-col"><div class="f07-bar" id="f07-bar3" style="height:165px"></div><span>THU</span></div><div class="f07-col"><div class="f07-bar" id="f07-bar4" style="height:145px"></div><span>FRI</span></div><div class="f07-col"><div class="f07-bar" id="f07-bar5" style="height:195px"></div><span>SAT</span></div><div class="f07-col"><div class="f07-bar f07-sun" id="f07-bar6" style="height:250px"></div><span>SUN</span></div></div>
+    <!-- ground: full-duration clip on the lowest track -->
+    <div id="07-tracking-bg" class="clip" data-start="0" data-duration="6.398" data-track-index="0">
+      <svg id="07-tracking-x" viewBox="0 0 1400 1400" aria-hidden="true">
+        <!-- the CoachX logo's own X (assets/x-mark.png, cut from logo.png) -->
+        <image href="assets/x-mark.png" x="56" y="176.1" width="1288" height="1047.81" preserveAspectRatio="xMidYMid meet" />
+      </svg>
+    </div>
+
+    <!-- camera wrapper: slow continuous push-in under every reveal -->
+    <div id="07-tracking-cam" class="clip" data-start="0" data-duration="6.398" data-track-index="1">
+
+      <div class="07-tracking-bracket" id="07-tracking-br-l"></div>
+      <div class="07-tracking-bracket" id="07-tracking-br-r"></div>
+
+      <!-- Scene 1: kicker + headline -->
+      <div id="07-tracking-kicker">
+        <div id="07-tracking-kicker-stub"></div>
+        <span id="07-tracking-kicker-text">02 / Feedback</span>
+      </div>
+
+      <div id="07-tracking-head">
+        <span class="07-tracking-line"><span class="07-tracking-line-in" id="07-tracking-l1"><span id="07-tracking-flat">Two-Way</span></span></span>
+        <span class="07-tracking-line"><span class="07-tracking-line-in" id="07-tracking-l2"><span id="07-tracking-chrome">Tracking</span><span id="07-tracking-sheen" aria-hidden="true">Tracking</span></span></span>
+      </div>
+
+      <!-- Scene 1–2: WEEKLY VOLUME card -->
+      <div id="07-tracking-card">
+        <div id="07-tracking-card-head">
+          <div id="07-tracking-card-title">Weekly Volume</div>
+          <div id="07-tracking-stat">
+            <div id="07-tracking-stat-row">
+              <div id="07-tracking-stat-dot"></div>
+              <div id="07-tracking-count-wrap">
+                <span id="07-tracking-count">+0.0</span><span id="07-tracking-count-suffix">%</span>
+              </div>
+            </div>
+            <div id="07-tracking-stat-label">vs last week</div>
           </div>
         </div>
-      </div>
-      <div id="f07-b1" class="f07-bub"><small>CHECK-IN · SUN</small>Legs felt heavy on set 3.</div>
-      <div id="f07-seen" class="f07-abs">SEEN <svg width="30" height="16" viewBox="0 0 30 16"><path d="M1 8l5 5L15 3M12 12l1 1L23 3" fill="none" stroke="#C9CDD3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div id="f07-b2" class="f07-bub"><small>COACH · REPLIED IN 2 MIN</small>Drop to 3×8 next week. <span style="color:#fff">Great work.</span></div>
+        <div class="07-tracking-hair" id="07-tracking-hair-top"></div>
 
+        <div id="07-tracking-bars">
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div class="07-tracking-bar" style="height:38%"></div></div>
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div class="07-tracking-bar" style="height:52%"></div></div>
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div class="07-tracking-bar" style="height:44%"></div></div>
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div class="07-tracking-bar" style="height:66%"></div></div>
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div class="07-tracking-bar" style="height:58%"></div></div>
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div class="07-tracking-bar" style="height:79%"></div></div>
+          <div class="07-tracking-col"><div class="07-tracking-slot"></div><div id="07-tracking-glow"></div><div class="07-tracking-bar" id="07-tracking-bar-sun" style="height:100%"></div></div>
+        </div>
+        <div id="07-tracking-baseline"></div>
+        <div id="07-tracking-days">
+          <div class="07-tracking-day">Mon</div>
+          <div class="07-tracking-day">Tue</div>
+          <div class="07-tracking-day">Wed</div>
+          <div class="07-tracking-day">Thu</div>
+          <div class="07-tracking-day">Fri</div>
+          <div class="07-tracking-day">Sat</div>
+          <div class="07-tracking-day" id="07-tracking-day-sun">Sun</div>
+        </div>
+      </div>
+
+      <!-- Scene 3: athlete check-in (from right) -->
+      <div class="07-tracking-bubble" id="07-tracking-athlete">
+        <div class="07-tracking-bub-head">
+          <span class="07-tracking-bub-label">Check-in · Sun</span>
+        </div>
+        <div class="07-tracking-bub-body">Legs felt heavy on set 3.</div>
+      </div>
+
+      <!-- Scene 4: seen receipt under the athlete bubble -->
+      <div id="07-tracking-seen">
+        <span id="07-tracking-seen-text">Seen</span>
+        <svg id="07-tracking-ticks" viewBox="0 0 40 22" aria-hidden="true">
+          <path class="07-tracking-tick" id="07-tracking-tick1" pathLength="1" d="M2 12 L8 18 L20 4"/>
+          <path class="07-tracking-tick" id="07-tracking-tick2" pathLength="1" d="M14 15 L17 18 L37 4"/>
+        </svg>
+      </div>
+
+      <!-- Scene 3: coach reply (from left) + stamp -->
+      <div class="07-tracking-bubble" id="07-tracking-coach">
+        <div class="07-tracking-bub-head">
+          <span class="07-tracking-bub-label" id="07-tracking-coach-label">Coach</span>
+          <div id="07-tracking-stamp"><div id="07-tracking-stamp-dot"></div><span>Replied · 2 min</span></div>
+        </div>
+        <div class="07-tracking-bub-body">Drop to 3×8 next week. <span class="07-tracking-key">Great work.</span></div>
+      </div>
     </div>
-    <div id="f07-grain" class="clip f07-layer f07-grain" data-start="0" data-duration="6.698" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f07-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f07-noise)"/></svg></div>
+
+    <!-- static grain over everything -->
+    <svg id="07-tracking-grain" class="clip" data-start="0" data-duration="6.398" data-track-index="2" viewBox="0 0 1080 1920" preserveAspectRatio="none" aria-hidden="true">
+      <filter id="07-tracking-noise" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/>
+        <feColorMatrix type="saturate" values="0"/>
+      </filter>
+      <rect width="1080" height="1920" filter="url(#07-tracking-noise)"/>
+    </svg>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var D = 5.998;
+      var $ = function (id) { return document.getElementById(id); };
+      var all = function (cls) {
+        return Array.prototype.slice.call(document.querySelectorAll('[data-composition-id="07-tracking"] [class~="' + cls + '"]'));
+      };
 
-  var D = 5.998, ID = "07-tracking";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      var tl = gsap.timeline({ paused: true });
+      tl.to({}, { duration: D }, 0); // exact-length anchor
 
+      // ── Camera: slow continuous push-in under the whole shot (multi-phase-camera drift) ──
+      tl.fromTo($("07-tracking-cam"), { scale: 1 }, { scale: 1.035, duration: D, ease: "sine.inOut" }, 0);
 
-      rise(q("#f07-k"), 0.20, { y: 10, d: 1.0 });
-      rise(q("#f07-h1"), 0.20, { d: 1.2 });
-      rise(q("#f07-h2"), 0.55, { d: 1.2 });
-      tl.fromTo(q("#f07-r"), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 0.90);
-      drift(q("#f07-drift"), { rotationY: -15, rotationX: 7 }, { rotationY: -6, rotationX: 2.5 });
-      rise(q("#f07-persp"), 0.45, { y: 60, d: 1.4, blur: 12 });
-      tl.fromTo(q("#f07-halo"), { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power1.out" }, 0.50);
-      // Log the set: the week's volume climbs, Sunday tallest.
-      [0, 1, 2, 3, 4, 5, 6].forEach(function (i) {
-        tl.fromTo(q("#f07-bar" + i), { scaleY: 0 }, { scaleY: 1, duration: 1.2, ease: "power2.inOut" }, 0.80 + i * 0.09);
-      });
-      var n = { v: 0 };
-      tl.to(n, { v: 12.5, duration: 1.7, ease: "power2.out", onUpdate: function () {
-        q("#f07-num").textContent = "+" + n.v.toFixed(1) + "%";
-      } }, 0.80);
-      // Drop the check-in · get a reply · seen.
-      rise(q("#f07-b1"), 1.33, { y: 24, d: 1.0, blur: 8 });
-      rise(q("#f07-b2"), 2.70, { y: 24, d: 1.0, blur: 8 });
-      rise(q("#f07-seen"), 3.91, { y: 6, d: 0.9, blur: 6 });
+      // ── Scene 1 (0.0–1.38s) "Log the set." — kicker, headline, empty WEEKLY VOLUME card ──
+      tl.fromTo($("07-tracking-kicker-stub"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 0.0);
+      tl.fromTo($("07-tracking-kicker-text"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.05);
+      tl.fromTo($("07-tracking-l1"), { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power4.out" }, 0.0);
+      tl.fromTo($("07-tracking-l2"), { yPercent: 105 }, { yPercent: 0, duration: 0.6, ease: "power4.out" }, 0.1);
+      // one specular pass across the chrome word
+      tl.fromTo($("07-tracking-sheen"), { backgroundPosition: "100% 0%" }, { backgroundPosition: "0% 0%", duration: 1.1, ease: "none" }, 0.55);
+
+      tl.fromTo($("07-tracking-card"), { opacity: 0, y: 48, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" }, 0.2);
+      tl.fromTo($("07-tracking-card-title"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 0.45);
+      tl.fromTo($("07-tracking-hair-top"), { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, 0.5);
+      tl.fromTo($("07-tracking-baseline"), { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "power3.inOut" }, 0.6);
+      tl.fromTo(all("07-tracking-slot"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", stagger: 0.05 }, 0.55);
+      tl.fromTo(all("07-tracking-day"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05 }, 0.65);
+
+      // ── Scene 2 (1.38–2.75s) "Drop the check-in." — bars climb MON→SUN, +12.5% counts up ──
+      var T2 = 1.38;
+      var BAR_DUR = 0.75, BAR_STAGGER = 0.09;               // last bar lands at T2 + 6*0.09 + 0.75 = 2.67
+      var COUNT_DUR = BAR_STAGGER * 6 + BAR_DUR;            // number + bars resolve as one beat
+      tl.fromTo(all("07-tracking-bar"), { scaleY: 0 }, { scaleY: 1, duration: BAR_DUR, ease: "power3.out", stagger: BAR_STAGGER }, T2);
+
+      var count = $("07-tracking-count");
+      var state = { v: 0 };
+      tl.fromTo($("07-tracking-stat-row"), { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, T2);
+      tl.fromTo(state, { v: 0 }, {
+        v: 12.5,
+        duration: COUNT_DUR,
+        ease: "power3.out",
+        onUpdate: function () { count.textContent = "+" + (Math.round(state.v * 10) / 10).toFixed(1); }
+      }, T2);
+      tl.fromTo(count, { scale: 0.55 }, { scale: 1, duration: COUNT_DUR, ease: "power3.out" }, T2);
+      tl.fromTo($("07-tracking-stat-label"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, T2 + 0.15);
+      tl.fromTo($("07-tracking-count-suffix"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, T2 + COUNT_DUR);
+
+      // SUN glow blooms in as the white bar lands (ambient-glow-bloom, hero form)
+      var SUN_START = T2 + BAR_STAGGER * 6;
+      tl.fromTo($("07-tracking-glow"), { opacity: 0, scale: 0.85 }, { opacity: 0.3, scale: 1, duration: BAR_DUR, ease: "power2.out" }, SUN_START);
+
+      // ── Scene 3 (2.75–3.96s) "Get a reply." — check-in from right, coach reply from left + stamp ──
+      tl.fromTo($("07-tracking-athlete"), { opacity: 0, x: 260 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 2.75);
+      tl.fromTo($("07-tracking-coach"), { opacity: 0, x: -260 }, { opacity: 1, x: 0, duration: 0.55, ease: "power3.out" }, 3.22);
+      tl.fromTo($("07-tracking-stamp"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.38, ease: "power3.out" }, 3.55);
+
+      // ── Scene 4 (3.96–6.0s) "Your coach sees every rep." — SEEN ✓✓ ticks in, SUN glow blooms once, hold ──
+      tl.fromTo($("07-tracking-seen-text"), { opacity: 0, x: 14 }, { opacity: 1, x: 0, duration: 0.3, ease: "power2.out" }, 3.96);
+      tl.fromTo($("07-tracking-tick1"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 4.02);
+      tl.fromTo($("07-tracking-tick2"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.22, ease: "power2.out" }, 4.14);
+      // pulse-on-arrival: one breath past peak, then settle to the steady hold
+      tl.fromTo($("07-tracking-glow"), { opacity: 0.3, scale: 1 }, { opacity: 0.45, scale: 1.14, duration: 0.45, ease: "power2.out", immediateRender: false }, 3.98);
+      tl.fromTo($("07-tracking-glow"), { opacity: 0.45, scale: 1.14 }, { opacity: 0.3, scale: 1, duration: 0.95, ease: "power2.inOut", immediateRender: false }, 4.43);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines[ID] = tl;
+      window.__timelines["07-tracking"] = tl;
     })();
   </script>
 </template>

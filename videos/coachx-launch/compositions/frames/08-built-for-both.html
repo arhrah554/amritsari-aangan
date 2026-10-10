@@ -1,98 +1,458 @@
 <template>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f08-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f08-ground{background:#000}
-.f08-grain{opacity:.035;pointer-events:none}
-.f08-grain svg{display:block;width:1080px;height:1920px}
-.f08-abs{position:absolute}
-.f08-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f08-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f08-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f08-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f08-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f08-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f08-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f08-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f08-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f08-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f08-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f08-k{left:90px;top:200px}
-.f08-pc{position:absolute;left:70px;width:940px;height:560px;border-radius:30px;overflow:hidden;border:1px solid rgba(255,255,255,.10);box-shadow:0 60px 160px rgba(0,0,0,.9)}
-.f08-pc img{position:absolute;left:0;top:0;width:940px;height:560px;object-fit:cover;filter:grayscale(1) brightness(.68) contrast(1.06)}
-.f08-pc .f08-fade{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.88))}
-.f08-pc .f08-lbl{position:absolute;left:48px;bottom:44px}
-.f08-lbl div{font-family:"Outfit",sans-serif;font-weight:400;font-size:30px;letter-spacing:.32em;text-transform:uppercase;color:#F4F4F5}
-.f08-lbl p{margin:12px 0 0;font-family:"Inter",sans-serif;font-size:30px;color:#A1A1AA}
-.f08-lbl p b{font-weight:500;color:#F4F4F5}
-#f08-a{top:290px}
-#f08-a img{object-position:50% 9%;transform-origin:50% 22%}
-#f08-b{top:930px}
-#f08-b img{object-position:50% 10%;transform-origin:50% 22%}
-#f08-pill{left:330px;top:868px;width:420px;height:64px;border-radius:999px;background:#000;border:1px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center}
-#f08-pill span{font-family:"Outfit",sans-serif;font-weight:500;font-size:22px;letter-spacing:.42em;padding-left:.42em;text-transform:uppercase}
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      color: #F2F2F2;
+      font-family: "Inter", sans-serif;
+    }
 
+    /* ---------- ground ---------- */
+    .f08-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 60% at 50% 46%, #121315 0%, #0A0A0C 55%, #000000 100%);
+    }
+    .f08-glow {
+      position: absolute;
+      left: -160px;
+      width: 1400px;
+      height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(201,205,211,0.55) 0%, rgba(110,115,123,0.18) 38%, rgba(10,10,12,0) 70%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .f08-glow-a { top: 90px; }
+    .f08-glow-b { top: 770px; }
+
+    /* ---------- chrome: corner marks + kicker ---------- */
+    .f08-corner {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-color: #484B50;
+      border-style: solid;
+      border-width: 0;
+    }
+    .f08-corner-tl { left: 60px; top: 64px; border-left-width: 1px; border-top-width: 1px; }
+    .f08-corner-tr { right: 60px; top: 64px; border-right-width: 1px; border-top-width: 1px; }
+    .f08-corner-bl { left: 60px; top: 1548px; border-left-width: 1px; border-bottom-width: 1px; }
+    .f08-corner-br { right: 60px; top: 1548px; border-right-width: 1px; border-bottom-width: 1px; }
+
+    .f08-kicker {
+      position: absolute;
+      left: 60px;
+      top: 138px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-family: "Archivo", sans-serif;
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 24px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #9DA2AA;
+      white-space: nowrap;
+    }
+    .f08-kicker-stub { width: 46px; height: 1px; background: #9DA2AA; opacity: 0.8; }
+    .f08-kicker-num { color: #F2F2F2; }
+    .f08-kicker-sep { color: #484B50; }
+
+    /* ---------- split stage (perspective parent) ---------- */
+    .f08-stage {
+      position: absolute;
+      inset: 0;
+      perspective: 2200px;
+      perspective-origin: 50% 46%;
+    }
+    .f08-wrap {
+      position: absolute;
+      left: 60px;
+      width: 960px;
+      height: 640px;
+      transform-style: preserve-3d;
+      will-change: transform, opacity;
+    }
+    .f08-wrap-a { top: 220px; }
+    .f08-wrap-b { top: 900px; }
+    .f08-float { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .f08-card {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      background: #0D0E10;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    /* tilt-matched shadow: each card throws its shadow away from the side it faces */
+    .f08-wrap-a .f08-card { box-shadow: -28px 34px 70px rgba(0,0,0,0.75); }
+    .f08-wrap-b .f08-card { box-shadow: 28px 34px 70px rgba(0,0,0,0.75); }
+
+    .f08-photo {
+      position: absolute;
+      display: block;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.06);
+      will-change: transform;
+    }
+    /* athlete: anchored right, face + COACH X tank read in the upper 70% */
+    .f08-photo-a {
+      top: 0;
+      right: 0;
+      width: 760px;
+      height: 1013px;
+      object-position: 50% 0%;
+      transform-origin: 62% 22%;
+      -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, #000 24%);
+      mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, #000 24%);
+    }
+    /* coach: anchored left (mirrored), head bowed + COACH X tee print */
+    .f08-photo-b {
+      top: -30px;
+      left: 0;
+      width: 600px;
+      height: 946px;
+      object-position: 50% 0%;
+      transform-origin: 45% 22%;
+      -webkit-mask-image: linear-gradient(270deg, rgba(0,0,0,0) 0%, #000 26%);
+      mask-image: linear-gradient(270deg, rgba(0,0,0,0) 0%, #000 26%);
+    }
+    .f08-shade {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5,5,7,0) 50%, rgba(5,5,7,0.55) 72%, rgba(5,5,7,0.94) 100%);
+    }
+    .f08-card-edge {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 18%);
+      pointer-events: none;
+    }
+
+    .f08-copy {
+      position: absolute;
+      bottom: 44px;
+    }
+    .f08-copy-a { left: 48px; text-align: left; }
+    .f08-copy-b { right: 48px; text-align: right; }
+
+    .f08-label {
+      font-family: "Archivo", sans-serif;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 54px;
+      line-height: 0.9;
+      letter-spacing: -0.005em;
+      text-transform: uppercase;
+      color: #F2F2F2;
+      white-space: nowrap;
+    }
+    .f08-chrome {
+      background: linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .f08-type {
+      position: relative;
+      display: inline-block;
+      margin-top: 20px;
+      font-family: "Inter", sans-serif;
+      font-size: 34px;
+      line-height: 44px;
+      font-weight: 400;
+      color: #E6E8EB;
+      white-space: nowrap;
+      text-align: left;
+    }
+    .f08-type b { font-weight: 600; color: #FFFFFF; }
+    .f08-type-sizer { visibility: hidden; }
+    .f08-type-live { position: absolute; left: 0; top: 0; white-space: nowrap; }
+    .f08-caret {
+      display: inline-block;
+      width: 3px;
+      height: 36px;
+      margin-left: 4px;
+      vertical-align: -7px;
+      background: linear-gradient(180deg,#FFFFFF 0%,#C9CDD3 60%,#7C818A 100%);
+      opacity: 0;
+    }
+
+    /* ---------- seam: silver line + chrome pill ---------- */
+    .f08-line {
+      position: absolute;
+      top: 879px;
+      width: 480px;
+      height: 2px;
+    }
+    .f08-line-l {
+      left: 60px;
+      transform-origin: 100% 50%;
+      background: linear-gradient(270deg, #E9EBEE 0%, #C9CDD3 45%, rgba(201,205,211,0.15) 100%);
+    }
+    .f08-line-r {
+      left: 540px;
+      transform-origin: 0% 50%;
+      background: linear-gradient(90deg, #E9EBEE 0%, #C9CDD3 45%, rgba(201,205,211,0.15) 100%);
+    }
+    .f08-pill-glow {
+      position: absolute;
+      left: 190px;
+      top: 730px;
+      width: 700px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(233,235,238,0.55) 0%, rgba(201,205,211,0.12) 40%, rgba(10,10,12,0) 70%);
+      opacity: 0;
+    }
+    .f08-pill-slot {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 838px;
+      height: 84px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .f08-pill {
+      position: relative;
+      overflow: hidden;
+      padding: 0 50px;
+      height: 84px;
+      display: flex;
+      align-items: center;
+      border-radius: 999px;
+      background: linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.7), 0 0 0 6px rgba(10,10,12,0.9), 0 0 0 7px rgba(201,205,211,0.35);
+      font-family: "Archivo", sans-serif;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #0A0A0C;
+      white-space: nowrap;
+      transform-origin: 50% 50%;
+    }
+    .f08-pill-text { position: relative; z-index: 2; }
+    .f08-pill-sheen {
+      position: absolute;
+      top: -10px;
+      bottom: -10px;
+      left: 0;
+      width: 130px;
+      z-index: 1;
+      background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 100%);
+    }
+
+    .f08-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .f08-grain svg { width: 100%; height: 100%; display: block; }
   </style>
 
-  <div id="root" data-composition-id="08-built-for-both" data-width="1080" data-height="1920" data-duration="8.423">
-    
-    <div id="f08-ground" class="clip f08-layer f08-ground" data-start="0" data-duration="8.423" data-track-index="0"></div>
-    <div id="f08-stage" class="clip f08-layer" data-start="0" data-duration="8.423" data-track-index="1">
+  <div id="root" data-composition-id="08-built-for-both" data-width="1080" data-height="1920" data-start="0" data-duration="8.123">
 
-      <div id="f08-k" class="f08-abs f08-kicker"><i></i>03 &nbsp;/&nbsp; Built for both</div>
-      <div id="f08-a" class="f08-pc"><img id="f08-ia" src="assets/divider.jpg" alt=""><div class="f08-fade"></div>
-        <div class="f08-lbl"><div id="f08-la">For athletes</div><p id="f08-pa">Today's session, <b>already loaded.</b></p></div></div>
-      <div id="f08-b" class="f08-pc"><img id="f08-ib" src="assets/about.jpg" alt=""><div class="f08-fade"></div>
-        <div class="f08-lbl"><div id="f08-lb">For coaches</div><p id="f08-pb">Build once. <b>Deploy to every client.</b></p></div></div>
-      <div id="f08-pill" class="f08-abs"><span class="f08-chrome">One platform</span></div>
+    <div class="f08-bg clip" data-start="0" data-duration="8.123" data-track-index="0"></div>
 
+    <div class="f08-layer clip" data-start="0" data-duration="8.123" data-track-index="1" style="position:absolute;inset:0;">
+      <div class="f08-glow f08-glow-a" id="f08-glow-a"></div>
+      <div class="f08-glow f08-glow-b" id="f08-glow-b"></div>
+
+      <div class="f08-corner f08-corner-tl"></div>
+      <div class="f08-corner f08-corner-tr"></div>
+      <div class="f08-corner f08-corner-bl"></div>
+      <div class="f08-corner f08-corner-br"></div>
+
+      <div class="f08-kicker" id="f08-kicker">
+        <span class="f08-kicker-stub"></span>
+        <span class="f08-kicker-num">03</span>
+        <span class="f08-kicker-sep">/</span>
+        <span>Built for both</span>
+      </div>
+
+      <div class="f08-stage">
+        <!-- TOP: athletes -->
+        <div class="f08-wrap f08-wrap-a" id="f08-wrap-a">
+          <div class="f08-float" id="f08-float-a">
+            <div class="f08-card">
+              <img class="f08-photo f08-photo-a" id="f08-photo-a" src="assets/divider.jpg" alt="" />
+              <div class="f08-shade"></div>
+              <div class="f08-card-edge"></div>
+              <div class="f08-copy f08-copy-a">
+                <div class="f08-label" id="f08-label-a">For <span class="f08-chrome">Athletes</span></div>
+                <div class="f08-type" id="f08-type-a">
+                  <span class="f08-type-sizer">Today’s session, <b>already loaded.</b></span>
+                  <span class="f08-type-live"><span id="f08-seg-a0"></span><b id="f08-seg-a1"></b><span class="f08-caret" id="f08-caret-a"></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM: coaches -->
+        <div class="f08-wrap f08-wrap-b" id="f08-wrap-b">
+          <div class="f08-float" id="f08-float-b">
+            <div class="f08-card">
+              <img class="f08-photo f08-photo-b" id="f08-photo-b" src="assets/about.jpg" alt="" />
+              <div class="f08-shade"></div>
+              <div class="f08-card-edge"></div>
+              <div class="f08-copy f08-copy-b">
+                <div class="f08-label" id="f08-label-b">For <span class="f08-chrome">Coaches</span></div>
+                <div class="f08-type" id="f08-type-b">
+                  <span class="f08-type-sizer">Build once. <b>Deploy to every client.</b></span>
+                  <span class="f08-type-live"><span id="f08-seg-b0"></span><b id="f08-seg-b1"></b><span class="f08-caret" id="f08-caret-b"></span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- seam punctuation (outside the tilted cards so it stays flat) -->
+      <div class="f08-pill-glow" id="f08-pill-glow"></div>
+      <div class="f08-line f08-line-l" id="f08-line-l"></div>
+      <div class="f08-line f08-line-r" id="f08-line-r"></div>
+      <div class="f08-pill-slot">
+        <div class="f08-pill" id="f08-pill">
+          <span class="f08-pill-sheen" id="f08-pill-sheen"></span>
+          <span class="f08-pill-text">One platform</span>
+        </div>
+      </div>
+
+      <div class="f08-grain">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none">
+          <filter id="f08-noise"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="8" stitchTiles="stitch" /><feColorMatrix type="saturate" values="0" /></filter>
+          <rect width="1080" height="1920" filter="url(#f08-noise)" />
+        </svg>
+      </div>
     </div>
-    <div id="f08-grain" class="clip f08-layer f08-grain" data-start="0" data-duration="8.423" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f08-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f08-noise)"/></svg></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var ID = "08-built-for-both";
+      var D = 7.723;
+      var root = document.querySelector('[data-composition-id="' + ID + '"]');
+      var q = function (sel) { return root.querySelector(sel); };
 
-  var D = 7.723, ID = "08-built-for-both";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      var tl = gsap.timeline({ paused: true });
+      tl.to({}, { duration: D }, 0); // length anchor
 
+      var TILT = 10;          // static book-open tilt (deg)
+      var TILT_OVER = 10;     // pivot-into-place overshoot
+      var SLIDE = 460;        // entry slide distance (px)
 
-      rise(q("#f08-k"), 0.20, { y: 10, d: 1.0 });
-      // Athletes: the card rises, the photo settles slowly the whole shot.
-      rise(q("#f08-a"), 0.20, { y: 50, d: 1.4, blur: 12 });
-      drift(q("#f08-ia"), { scale: 1.09 }, { scale: 1.0 });
-      rise(q("#f08-la"), 0.45, { y: 12, d: 1.0 });
-      rise(q("#f08-pa"), 1.29, { y: 12, d: 1.0 });
-      // Coaches.
-      rise(q("#f08-b"), 2.96, { y: 50, d: 1.4, blur: 12 });
-      drift(q("#f08-ib"), { scale: 1.09 }, { scale: 1.0 });
-      rise(q("#f08-lb"), 3.21, { y: 12, d: 1.0 });
-      rise(q("#f08-pb"), 4.16, { y: 12, d: 1.0 });
-      // One platform — sealed on the seam between them.
-      tl.fromTo(q("#f08-pill"), { opacity: 0, scale: 0.96, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.1, ease: "power2.out" }, 6.05);
+      // ---- cue times (s, from frame start — real narration) ----
+      var T_A_IN = 0.08;      // "For athletes:"
+      var T_A_TYPE = 1.34;    // "today's session, loaded."
+      var T_B_IN = 3.06;      // "For coaches:"
+      var T_B_TYPE = 4.21;    // "build once, deploy to all."
+      var T_PILL = 6.10;      // "One platform."
+
+      // ===== Scene 1 (0.00–1.34): kicker slides down, TOP card opens in from the left =====
+      tl.fromTo(q("#f08-kicker"), { y: -28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" }, 0);
+      tl.fromTo(root.querySelectorAll(".f08-corner"), { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power2.out" }, 0);
+
+      tl.fromTo(q("#f08-wrap-a"),
+        { x: -SLIDE, rotateY: TILT + TILT_OVER, scale: 0.85, opacity: 0 },
+        { x: 0, rotateY: TILT, scale: 1, opacity: 1, duration: 1.0, ease: "power3.out" }, T_A_IN);
+      tl.fromTo(q("#f08-glow-a"), { opacity: 0, scale: 0.85 }, { opacity: 0.2, scale: 1, duration: 0.9, ease: "power2.out" }, T_A_IN + 0.2);
+      tl.fromTo(q("#f08-photo-a"), { scale: 1.08 }, { scale: 1, duration: D - T_A_IN, ease: "power1.out" }, T_A_IN);
+      tl.fromTo(q("#f08-label-a"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power2.out" }, T_A_IN + 0.5);
+
+      // ===== Scene 3 (3.06–4.21): BOTTOM card opens in from the right, opposite tilt =====
+      tl.fromTo(q("#f08-wrap-b"),
+        { x: SLIDE, rotateY: -TILT - TILT_OVER, scale: 0.85, opacity: 0 },
+        { x: 0, rotateY: -TILT, scale: 1, opacity: 1, duration: 1.0, ease: "power3.out" }, T_B_IN);
+      tl.fromTo(q("#f08-glow-b"), { opacity: 0, scale: 0.85 }, { opacity: 0.2, scale: 1, duration: 0.9, ease: "power2.out" }, T_B_IN + 0.2);
+      tl.fromTo(q("#f08-photo-b"), { scale: 1.08 }, { scale: 1, duration: D - T_B_IN, ease: "power1.out" }, T_B_IN);
+      tl.fromTo(q("#f08-label-b"), { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "power2.out" }, T_B_IN + 0.5);
+
+      // ===== Scenes 2 + 4: value lines type in (deterministic slice, seek-safe) =====
+      function typeLine(segs, start, cps) {
+        var total = 0;
+        segs.forEach(function (s) { total += s[0].length; });
+        var dur = total / cps;
+        var p = { n: 0 };
+        tl.to(p, {
+          n: total,
+          duration: dur,
+          ease: "none",
+          onUpdate: function () {
+            var k = Math.round(p.n);
+            segs.forEach(function (s) {
+              var take = Math.max(0, Math.min(s[0].length, k));
+              s[1].textContent = s[0].slice(0, take);
+              k -= s[0].length;
+            });
+          }
+        }, start);
+        return start + dur;
+      }
+      var A_END = typeLine([["Today’s session, ", q("#f08-seg-a0")], ["already loaded.", q("#f08-seg-a1")]], T_A_TYPE, 29);
+      var B_END = typeLine([["Build once. ", q("#f08-seg-b0")], ["Deploy to every client.", q("#f08-seg-b1")]], T_B_TYPE, 29);
+
+      // carets: one visible at a time — blink (idle) -> solid (typing) -> blink (done)
+      var caretA = q("#f08-caret-a");
+      var caretB = q("#f08-caret-b");
+      var A_BLINK = 0.9, A_HIDE = 3.7, B_BLINK = 3.7;
+      function caret(t, blinkOn, tStart, tEnd, hideAt) {
+        if (t < blinkOn || t >= hideAt) return 0;
+        if (t >= tStart && t < tEnd) return 1;
+        return Math.floor((t - blinkOn) / 0.4) % 2 === 0 ? 1 : 0;
+      }
+      var clock = { t: 0 };
+      tl.to(clock, {
+        t: D,
+        duration: D,
+        ease: "none",
+        onUpdate: function () {
+          caretA.style.opacity = String(caret(clock.t, A_BLINK, T_A_TYPE, A_END, A_HIDE));
+          caretB.style.opacity = String(caret(clock.t, B_BLINK, T_B_TYPE, B_END, 1e9));
+        }
+      }, 0);
+
+      // ===== phase-opposed idle on the pair (low-amplitude jitter, inner float layers) =====
+      function idle(el, start, period, sign) {
+        var ph = { p: 0 };
+        var dur = D - start;
+        tl.to(ph, {
+          p: (Math.PI * 2 * dur) / period,
+          duration: dur,
+          ease: "none",
+          onUpdate: function () {
+            el.style.transform = "translateY(" + (sign * Math.sin(ph.p) * 3).toFixed(3) + "px)";
+          }
+        }, start);
+      }
+      idle(q("#f08-float-a"), T_A_IN + 1.1, 2.6, -1);
+      idle(q("#f08-float-b"), T_B_IN + 1.1, 2.4, 1);
+
+      // ===== Scene 5 (6.10–7.72): chrome pill lands on the seam, silver line draws out =====
+      tl.fromTo(q("#f08-pill-glow"), { opacity: 0, scale: 0.8 }, { opacity: 0.3, scale: 1, duration: 0.7, ease: "power2.out" }, T_PILL);
+      tl.fromTo(q("#f08-pill"), { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, T_PILL);
+      tl.fromTo(q("#f08-line-l"), { scaleX: 0 }, { scaleX: 1, duration: 0.75, ease: "power2.out" }, T_PILL + 0.18);
+      tl.fromTo(q("#f08-line-r"), { scaleX: 0 }, { scaleX: 1, duration: 0.75, ease: "power2.out" }, T_PILL + 0.18);
+      tl.fromTo(q("#f08-pill-sheen"), { x: -170 }, { x: 640, duration: 0.9, ease: "none" }, T_PILL + 0.7);
 
       window.__timelines = window.__timelines || {};
       window.__timelines[ID] = tl;

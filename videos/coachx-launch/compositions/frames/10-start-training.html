@@ -1,82 +1,265 @@
 <template>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f10-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f10-ground{background:#000}
-.f10-grain{opacity:.035;pointer-events:none}
-.f10-grain svg{display:block;width:1080px;height:1920px}
-.f10-abs{position:absolute}
-.f10-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f10-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f10-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f10-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f10-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f10-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f10-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f10-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f10-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f10-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f10-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f10-ph{left:0;top:0;width:1080px;height:1920px;object-fit:cover;object-position:34% 30%;filter:grayscale(1) brightness(.6) contrast(1.1);transform-origin:40% 35%}
-#f10-scrim{background:linear-gradient(180deg,#000 0%,rgba(0,0,0,.25) 22%,rgba(0,0,0,.2) 48%,rgba(0,0,0,.85) 68%,#000 86%)}
-#f10-stop{left:0;top:1170px;width:1080px;font-size:56px}
-#f10-start{left:0;top:1160px;width:1080px;font-size:68px;font-weight:500;letter-spacing:.2em;padding-left:.2em}
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      color: #F2F2F2;
+      font-family: "Inter", sans-serif;
+    }
 
+    /* full-bleed layers (each a clip) */
+    [class~="10-start-training-layer"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+    [class~="10-start-training-ground"] { background: #0A0A0C; }
+
+    /* photo strobe — B&W, high contrast, ~55% brightness */
+    [class~="10-start-training-photo"] {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0;
+    }
+    [class~="10-start-training-photo"] img {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      object-fit: cover;
+      filter: grayscale(1) contrast(1.28) brightness(0.55);
+      will-change: transform;
+    }
+    /* hero.jpg 1100x1143 -> cover crops width; face ~45% across, upper third */
+    [id="10-start-training-ph-hero"] { opacity: 1; }
+    [id="10-start-training-ph-hero"] img { object-position: 42% 50%; transform-origin: 48% 26%; }
+    /* divider.jpg 1000x1333 -> face in top ~25%; keep it high, punch from the face */
+    [id="10-start-training-ph-div-a"] img,
+    [id="10-start-training-ph-div-b"] img { object-position: 52% 0%; transform-origin: 54% 14%; }
+    /* about.jpg 670x1056 -> chest-up, head bowed, face right of centre */
+    [id="10-start-training-ph-about"] img { object-position: 70% 0%; transform-origin: 58% 20%; }
+
+    /* legibility shade over the photos */
+    [class~="10-start-training-shade"] {
+      background:
+        radial-gradient(120% 60% at 50% 52%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 55%, rgba(0,0,0,0.7) 100%),
+        linear-gradient(180deg, rgba(10,10,12,0.25) 0%, rgba(10,10,12,0.05) 28%, rgba(10,10,12,0.5) 46%, rgba(10,10,12,0.62) 60%, rgba(10,10,12,0.85) 84%, rgba(0,0,0,0.96) 100%);
+    }
+
+    /* type */
+    [class~="10-start-training-cam"] {
+      position: absolute;
+      left: 0;
+      top: 780px;
+      width: 1080px;
+      height: 420px;
+      transform-origin: 50% 50%;
+    }
+    [class~="10-start-training-stack"] {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform-origin: 50% 50%;
+    }
+    [class~="10-start-training-word"] {
+      display: block;
+      font-family: "Archivo", sans-serif;
+      font-weight: 900;
+      font-stretch: 125%;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      text-align: center;
+      color: #F2F2F2;
+      transform-origin: 50% 55%;
+    }
+    [id="10-start-training-stop"]     { font-size: 250px; }
+    [id="10-start-training-guessing"] { font-size: 125px; margin-top: 6px; }
+    [id="10-start-training-start"]    { font-size: 200px; }
+    /* chrome climax word — 10% larger than GUESSING. */
+    [class~="10-start-training-chrome-wrap"] {
+      display: grid;
+      margin-top: 8px;
+      transform-origin: 50% 55%;
+    }
+    [class~="10-start-training-chrome-wrap"] > span {
+      grid-area: 1 / 1;
+      font-size: 137.5px;
+    }
+    [id="10-start-training-training"] {
+      background-image: linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* specular streak riding inside the chrome glyphs (one-pass sheen) */
+    [id="10-start-training-sheen"] {
+      background-image: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 46%, #FFFFFF 50%, rgba(255,255,255,0.55) 54%, rgba(255,255,255,0) 60%, rgba(255,255,255,0) 100%);
+      background-size: 300% 100%;
+      background-position: 100% 50%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* white flash frames on the two hits */
+    [id="10-start-training-flash"] {
+      background: #FFFFFF;
+      opacity: 0;
+    }
+
+    [class~="10-start-training-grain"] { opacity: 0.06; pointer-events: none; }
+    [class~="10-start-training-grain"] svg { display: block; width: 1080px; height: 1920px; }
   </style>
 
-  <div id="root" data-composition-id="10-start-training" data-width="1080" data-height="1920" data-duration="3.643">
-    
-    <div id="f10-ground" class="clip f10-layer f10-ground" data-start="0" data-duration="3.643" data-track-index="0"></div>
-    <div id="f10-stage" class="clip f10-layer" data-start="0" data-duration="3.643" data-track-index="1">
+  <div id="root" data-composition-id="10-start-training" data-width="1080" data-height="1920" data-duration="3.343">
 
-      <img id="f10-ph" class="f10-abs" src="assets/hero.jpg" alt="">
-      <div id="f10-scrim" class="f10-layer"></div>
-      <div id="f10-stop" class="f10-abs f10-title">Stop guessing.</div>
-      <div id="f10-start" class="f10-abs f10-title f10-chrome">Start training.</div>
+    <!-- ground -->
+    <div class="clip 10-start-training-layer 10-start-training-ground"
+         data-start="0" data-duration="3.343" data-track-index="0"></div>
 
+    <!-- photo strobe: hero 0.0 -> divider 0.55 -> about 0.95 -> divider 1.31 (hold) -->
+    <div id="10-start-training-photos" class="clip 10-start-training-layer"
+         data-start="0" data-duration="3.343" data-track-index="1">
+      <div id="10-start-training-ph-hero" class="10-start-training-photo">
+        <img id="10-start-training-img-hero" src="assets/hero.jpg" alt="" />
+      </div>
+      <div id="10-start-training-ph-div-a" class="10-start-training-photo">
+        <img id="10-start-training-img-div-a" src="assets/divider.jpg" alt="" />
+      </div>
+      <div id="10-start-training-ph-about" class="10-start-training-photo">
+        <img id="10-start-training-img-about" src="assets/about.jpg" alt="" />
+      </div>
+      <div id="10-start-training-ph-div-b" class="10-start-training-photo">
+        <img id="10-start-training-img-div-b" src="assets/divider.jpg" alt="" />
+      </div>
     </div>
-    <div id="f10-grain" class="clip f10-layer f10-grain" data-start="0" data-duration="3.643" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f10-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f10-noise)"/></svg></div>
+
+    <!-- shade for legibility -->
+    <div class="clip 10-start-training-layer 10-start-training-shade"
+         data-start="0" data-duration="3.343" data-track-index="2"></div>
+
+    <!-- type: beats replace each other in place -->
+    <div class="clip 10-start-training-layer" data-start="0" data-duration="3.343" data-track-index="3">
+      <div id="10-start-training-cam" class="10-start-training-cam">
+        <div id="10-start-training-s1" class="10-start-training-stack">
+          <span id="10-start-training-stop" class="10-start-training-word">Stop</span>
+          <span id="10-start-training-guessing" class="10-start-training-word">Guessing.</span>
+        </div>
+        <div id="10-start-training-s2" class="10-start-training-stack">
+          <span id="10-start-training-start" class="10-start-training-word">Start</span>
+          <div id="10-start-training-chrome" class="10-start-training-chrome-wrap">
+            <span id="10-start-training-training" class="10-start-training-word">Training.</span>
+            <span id="10-start-training-sheen" class="10-start-training-word" data-layout-allow-occlusion aria-hidden="true">Training.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- flash frames -->
+    <div id="10-start-training-flash" class="clip 10-start-training-layer"
+         data-start="0" data-duration="3.343" data-track-index="4"></div>
+
+    <!-- static grain -->
+    <div class="clip 10-start-training-layer 10-start-training-grain"
+         data-start="0" data-duration="3.343" data-track-index="5" aria-hidden="true">
+      <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <filter id="10-start-training-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="10" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="1080" height="1920" filter="url(#10-start-training-noise)" />
+      </svg>
+    </div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var D = 2.743;
+      var $ = function (id) { return document.getElementById("10-start-training-" + id); };
 
-  var D = 2.743, ID = "10-start-training";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      // Cue grid (seconds from frame start, from the narration)
+      var HIT1 = 0.10;   // "Stop guessing."  — first hit
+      var CUT_A = 0.55;  // hero -> divider
+      var CUT_B = 0.95;  // divider -> about
+      var HIT2 = 1.31;   // "Start training." — second hit, photo back to divider
+      var SHEEN = 1.78;  // specular streak across TRAINING.
 
+      var tl = gsap.timeline({ paused: true });
+      tl.to({}, { duration: D }, 0); // exact-length anchor
 
-      // One photograph, rising out of black and settling in slowly.
-      tl.fromTo(q("#f10-ph"), { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power1.out" }, 0);
-      drift(q("#f10-ph"), { scale: 1.0 }, { scale: 1.06 });
-      rise(q("#f10-stop"), 0.05, { y: 0, d: 0.9, blur: 14 });
-      tl.to(q("#f10-stop"), { opacity: 0, filter: "blur(10px)", duration: 0.55, ease: "power1.in" }, 1.01);
-      rise(q("#f10-start"), 1.26, { y: 0, d: 1.0, blur: 16 });
+      // ---------- Scene 1 (0.0–1.31): hero cut-in, flash, STOP / GUESSING. slam, photo strobe ----------
+      // hard cut in on hero.jpg with a scale punch 1.08 -> 1.0
+      tl.fromTo($("img-hero"), { scale: 1.08 }, { scale: 1, duration: 0.5, ease: "power3.out" }, 0);
+
+      // white flash frame on the first hit
+      tl.set($("flash"), { opacity: 1 }, HIT1);
+      tl.to($("flash"), { opacity: 0, duration: 0.16, ease: "power2.in" }, HIT1 + 0.034);
+
+      // kinetic-beat-slam: distinct entrance per phrase
+      tl.fromTo($("stop"),
+        { scale: 1.5, filter: "blur(16px)", opacity: 0 },
+        { scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.35, ease: "power4.out" }, HIT1);
+      tl.fromTo($("guessing"),
+        { x: 300, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.32, ease: "expo.out" }, HIT1 + 0.08);
+
+      // strobe hard cuts (each later layer covers the earlier one), each with a tiny scale punch
+      tl.set($("ph-div-a"), { opacity: 1 }, CUT_A);
+      tl.fromTo($("img-div-a"), { scale: 1.08 }, { scale: 1, duration: 0.38, ease: "power3.out" }, CUT_A);
+      tl.set($("ph-about"), { opacity: 1 }, CUT_B);
+      tl.fromTo($("img-about"), { scale: 1.08 }, { scale: 1, duration: 0.34, ease: "power3.out" }, CUT_B);
+
+      // type jolts on each photo cut (rides the strobe)
+      tl.fromTo($("s1"), { scale: 1.045 }, { scale: 1, duration: 0.22, ease: "power2.out", immediateRender: false }, CUT_A);
+      tl.fromTo($("s1"), { scale: 1.045 }, { scale: 1, duration: 0.22, ease: "power2.out", immediateRender: false }, CUT_B);
+
+      // ---------- Scene 2 (1.31–2.743): flash, in-place swap to START / TRAINING. (chrome), divider hold ----------
+      tl.set($("flash"), { opacity: 1 }, HIT2);
+      tl.to($("flash"), { opacity: 0, duration: 0.18, ease: "power2.in" }, HIT2 + 0.034);
+
+      // in-place hard-cut swap of the beat
+      tl.set($("s1"), { opacity: 0 }, HIT2);
+
+      // photo cuts back to divider.jpg (staring into the lens) and holds
+      tl.set($("ph-div-b"), { opacity: 1 }, HIT2);
+      tl.fromTo($("img-div-b"), { scale: 1.08 }, { scale: 1.025, duration: 0.3, ease: "power3.out" }, HIT2);
+      tl.to($("img-div-b"), { scale: 1, duration: D - (HIT2 + 0.3), ease: "sine.out" }, HIT2 + 0.3);
+
+      // START: tracking-collapse snap (as a horizontal squeeze); TRAINING.: heavy rise-slam, 10% larger, chrome
+      tl.fromTo($("start"),
+        { scaleX: 1.35, opacity: 0 },
+        { scaleX: 1, opacity: 1, duration: 0.36, ease: "expo.out" }, HIT2);
+      tl.fromTo($("chrome"),
+        { y: 110, scale: 1.3, filter: "blur(18px)", opacity: 0 },
+        { y: 0, scale: 1, filter: "blur(0px)", opacity: 1, duration: 0.42, ease: "circ.out" }, HIT2 + 0.07);
+
+      // fast specular streak through the chrome glyphs (gradient-text-sweep, one-pass sheen)
+      tl.fromTo($("sheen"),
+        { backgroundPosition: "100% 50%" },
+        { backgroundPosition: "0% 50%", duration: 0.42, ease: "none" }, SHEEN);
+
+      // hold to the end: slow push on the type (camera underneath the held beat)
+      tl.fromTo($("cam"), { scale: 1 }, { scale: 1.035, duration: D - (HIT2 + 0.4), ease: "none", immediateRender: false }, HIT2 + 0.4);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines[ID] = tl;
+      window.__timelines["10-start-training"] = tl;
     })();
   </script>
 </template>

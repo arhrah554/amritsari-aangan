@@ -1,79 +1,239 @@
 <template>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f01-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f01-ground{background:#000}
-.f01-grain{opacity:.035;pointer-events:none}
-.f01-grain svg{display:block;width:1080px;height:1920px}
-.f01-abs{position:absolute}
-.f01-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f01-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f01-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f01-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f01-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f01-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f01-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f01-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f01-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f01-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f01-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f01-scrim{background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 44%,rgba(0,0,0,.72) 62%,#000 80%)}
-#f01-a{left:0;top:1150px;width:1080px;font-size:44px}
-#f01-b{left:0;top:1236px;width:1080px;display:flex;justify-content:center;gap:40px}
-#f01-b span{font-family:"Outfit",sans-serif;font-weight:500;font-size:60px;letter-spacing:.16em;text-transform:uppercase;color:#F4F4F5;white-space:nowrap}
+    /* Root stays transparent: the hoisted approved video (train-open.mp4) shows through beneath. */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: transparent;
+    }
 
+    /* Layer 1 — scrim: transparent 0–52% → 0.85 ink at 70% → solid ink from 80% (hides burnt-in captions). */
+    [id="01-cold-open-scrim"] {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(10,10,12,0) 0%,
+        rgba(10,10,12,0) 52%,
+        rgba(10,10,12,0.85) 70%,
+        #0A0A0C 80%,
+        #0A0A0C 100%);
+      pointer-events: none;
+    }
+
+    /* Layer 2 — type stage (all content centred on y ≈ 1267 = 66% height). */
+    [id="01-cold-open-type"] {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    [class~="01-cold-open-display"] {
+      font-family: "Archivo", sans-serif;
+      font-weight: 900;
+      font-stretch: 125%;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      color: #F2F2F2;
+      white-space: nowrap;
+    }
+    [class~="01-cold-open-chrome"] {
+      background: linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Scene 2 headline — two lines, centred at 66% height. */
+    [id="01-cold-open-headline"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1181px;               /* 2 lines × 96px × 0.9 ≈ 173px tall → centre ≈ 1267 */
+      text-align: center;
+      font-size: 96px;
+      transform-origin: 50% 50%;
+    }
+    [class~="01-cold-open-line"] {
+      display: block;
+    }
+    [class~="01-cold-open-w"] {
+      display: inline-block;
+      transform-origin: 50% 60%;
+      will-change: transform, filter, opacity;
+    }
+
+    /* Scene 3 — one huge word at a time, swapped in place at the same centre. */
+    [class~="01-cold-open-beat"] {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 1193px;               /* 164px × 0.9 = 148px line → centre ≈ 1267 */
+      text-align: center;
+      font-size: 164px;
+      transform-origin: 50% 50%;
+      visibility: hidden;
+    }
+    [id="01-cold-open-day"] {
+      top: 1179px;               /* 196px × 0.9 = 176px line → centre ≈ 1267 */
+      font-size: 196px;
+      /* specular band layered over the chrome gradient; band travels once during the hold */
+      background:
+        linear-gradient(110deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 60%),
+        linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);
+      background-size: 300% 100%, 100% 100%;
+      background-position: 120% 0, 0 0;
+      background-repeat: no-repeat;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Hairline stub anchoring the type (frame.md's only ornament), centred under the word. */
+    [id="01-cold-open-rule"] {
+      position: absolute;
+      left: 480px;
+      top: 1392px;
+      width: 120px;
+      height: 1px;
+      background: #C9CDD3;
+      opacity: 0.55;
+      transform-origin: 50% 50%;
+    }
+
+    /* Layer 3 — one-frame white flash on each swap (driven by the timeline). */
+    [id="01-cold-open-flash"] {
+      position: absolute;
+      inset: 0;
+      background: #FFFFFF;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Layer 4 — static grain, ~6%. */
+    [id="01-cold-open-grain"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    [id="01-cold-open-grain"] svg {
+      display: block;
+      width: 1080px;
+      height: 1920px;
+    }
   </style>
 
-  <div id="root" data-composition-id="01-cold-open" data-width="1080" data-height="1920">
-    <video data-frame-video="approved" src="assets/train-open.mp4" muted playsinline data-start="0" data-duration="5.5" data-track-index="2" data-frame-video-x="0" data-frame-video-y="0" data-frame-video-width="1080" data-frame-video-height="1920" data-frame-video-fit="cover"></video>
-    
-    <div id="f01-stage" class="clip f01-layer" data-start="0" data-duration="4.758" data-track-index="1">
+  <div id="root" data-composition-id="01-cold-open" data-width="1080" data-height="1920" data-duration="4.758">
+    <!-- APPROVED frame video — hoisted to the host root by the assembler; this frame stacks above it. -->
+    <video data-frame-video="approved" src="assets/train-open.mp4" muted playsinline data-start="0" data-duration="5.4" data-track-index="2" data-frame-video-x="0" data-frame-video-y="0" data-frame-video-width="1080" data-frame-video-height="1920" data-frame-video-fit="cover"></video>
 
-      <div id="f01-scrim" class="f01-layer"></div>
-      <div id="f01-a" class="f01-abs f01-title">You put in the reps.</div>
-      <div id="f01-b" class="f01-abs"><span id="f01-w1">Every.</span><span id="f01-w2">Single.</span><span id="f01-w3" class="f01-chrome">Day.</span></div>
+    <div id="01-cold-open-scrim" class="clip" data-start="0" data-duration="4.758" data-track-index="3"></div>
 
+    <div id="01-cold-open-type" class="clip" data-start="0" data-duration="4.758" data-track-index="4">
+      <div id="01-cold-open-headline" class="01-cold-open-display">
+        <span class="01-cold-open-line"><span class="01-cold-open-w" id="01-cold-open-w1">You</span> <span class="01-cold-open-w" id="01-cold-open-w2">put</span> <span class="01-cold-open-w" id="01-cold-open-w3">in</span></span>
+        <span class="01-cold-open-line"><span class="01-cold-open-w 01-cold-open-chrome" id="01-cold-open-w4">the</span> <span class="01-cold-open-w 01-cold-open-chrome" id="01-cold-open-w5">reps.</span></span>
+      </div>
+
+      <div id="01-cold-open-every" class="01-cold-open-display 01-cold-open-beat">Every.</div>
+      <div id="01-cold-open-single" class="01-cold-open-display 01-cold-open-beat">Single.</div>
+      <div id="01-cold-open-day" class="01-cold-open-display 01-cold-open-beat">Day.</div>
+
+      <div id="01-cold-open-rule"></div>
     </div>
-    <div id="f01-grain" class="clip f01-layer f01-grain" data-start="0" data-duration="4.758" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f01-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f01-noise)"/></svg></div>
+
+    <div id="01-cold-open-flash" class="clip" data-start="0" data-duration="4.758" data-track-index="5"></div>
+
+    <div id="01-cold-open-grain" class="clip" data-start="0" data-duration="4.758" data-track-index="6">
+      <svg viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <filter id="01-cold-open-noise" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch" />
+          <feColorMatrix type="saturate" values="0" />
+        </filter>
+        <rect width="1080" height="1920" filter="url(#01-cold-open-noise)" />
+      </svg>
+    </div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var ID = "01-cold-open";
+      var D = 4.758;
+      var $ = function (id) { return document.getElementById(ID + "-" + id); };
 
-  var D = 4.758, ID = "01-cold-open";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      var headline = $("headline");
+      var words = [$("w1"), $("w2"), $("w3"), $("w4"), $("w5")];
+      var every = $("every"), single = $("single"), day = $("day");
+      var rule = $("rule");
+      var flash = $("flash");
 
+      // One onset array from the real narration (cues.json, frame 1).
+      // "You put in the reps." 0.60–1.83 → word onsets from the VO envelope.
+      var WORD_T = [0.60, 0.82, 1.00, 1.12, 1.26];
+      // "Every." 2.07 · "Single." 2.91 · "Day." 3.74
+      var SWAP_T = [2.07, 2.91, 3.74];
+      var FLASH_LEN = 1 / 30;     // one frame
+      var FLASH_OPA = 0.15;
 
-      // The clip rises out of black on its own; nothing moves until the voice.
-      rise(q("#f01-a"), 0.55, { d: 1.3 });
-      // Each beat fades up on its word; the line above steps back.
-      rise(q("#f01-w1"), 2.02, { d: 0.9, y: 14 });
-      rise(q("#f01-w2"), 2.86, { d: 0.9, y: 14 });
-      rise(q("#f01-w3"), 3.69, { d: 1.0, y: 14 });
-      tl.to(q("#f01-a"), { opacity: 0.45, duration: 1.2, ease: "power1.inOut" }, 2.07);
+      var tl = gsap.timeline({ paused: true });
+
+      // Duration anchor — the timeline is exactly the frame length.
+      tl.to({}, { duration: D }, 0);
+
+      // ── Scene 1 (0.0–0.6s): the clip rises out of black on its own. No text.
+
+      // ── Scene 2 (0.6–2.0s): word-by-word slam — scale 1.12→1 with blur-to-sharp, on the spoken words.
+      words.forEach(function (w, i) {
+        tl.fromTo(w,
+          { opacity: 0, scale: 1.12, filter: "blur(18px)" },
+          { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.34, ease: "power4.out" },
+          WORD_T[i]);
+      });
+      // macro move underneath the line: slow push while it builds
+      tl.fromTo(headline, { scale: 1 }, { scale: 1.035, duration: SWAP_T[0] - WORD_T[0], ease: "none" }, WORD_T[0]);
+      // hairline stub draws in under the line on "reps."
+      tl.fromTo(rule, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, WORD_T[4] + 0.08);
+
+      // ── Scene 3 (2.07–4.76s): in-place hard-cut swaps — distinct punch per beat.
+      // EVERY. — hard slam
+      tl.fromTo(every,
+        { scale: 1.1 },
+        { scale: 1, duration: 0.3, ease: "power4.out" }, SWAP_T[0]);
+      // SINGLE. — tracking collapse snap. A horizontal squeeze stands in for the
+      // letter-spacing collapse: transforms stay sub-pixel smooth under frame seeking.
+      tl.fromTo(single,
+        { scaleX: 1.14, scaleY: 1.06 },
+        { scaleX: 1, scaleY: 1, duration: 0.32, ease: "expo.out" }, SWAP_T[1]);
+      // DAY. — chrome, larger, blur-to-sharp slam, then settle-and-hold with a slow push + one specular sweep
+      tl.fromTo(day,
+        { scale: 1.18, filter: "blur(10px)" },
+        { scale: 1, filter: "blur(0px)", duration: 0.36, ease: "power4.out" }, SWAP_T[2]);
+      tl.fromTo(day, { scale: 1 }, { scale: 1.04, immediateRender: false, duration: D - (SWAP_T[2] + 0.36), ease: "sine.out" }, SWAP_T[2] + 0.36);
+      tl.fromTo(day,
+        { backgroundPosition: "120% 0, 0 0" },
+        { backgroundPosition: "-20% 0, 0 0", duration: 0.75, ease: "power2.inOut" }, SWAP_T[2] + 0.3);
+      // the hairline punches with each beat
+      SWAP_T.forEach(function (t, i) {
+        tl.fromTo(rule, { scaleX: 0.4 }, { scaleX: i === 2 ? 1.6 : 1, duration: 0.3, ease: "expo.out", immediateRender: false }, t);
+      });
+
+      // Discrete in-place state swaps (seek-safe zero-duration sets — no callbacks needed):
+      // the headline cuts away, exactly one beat word is on screen, and each swap fires a 1-frame flash.
+      var BEATS = [every, single, day];
+      tl.set(headline, { visibility: "hidden" }, SWAP_T[0]);
+      SWAP_T.forEach(function (t, i) {
+        tl.set(BEATS[i], { visibility: "visible" }, t);
+        if (i > 0) tl.set(BEATS[i - 1], { visibility: "hidden" }, t);
+        tl.set(flash, { opacity: FLASH_OPA }, t);
+        tl.set(flash, { opacity: 0 }, t + FLASH_LEN);
+      });
 
       window.__timelines = window.__timelines || {};
       window.__timelines[ID] = tl;

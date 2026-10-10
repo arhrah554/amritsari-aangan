@@ -1,129 +1,515 @@
 <template>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f06-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f06-ground{background:#000}
-.f06-grain{opacity:.035;pointer-events:none}
-.f06-grain svg{display:block;width:1080px;height:1920px}
-.f06-abs{position:absolute}
-.f06-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f06-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f06-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f06-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f06-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f06-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f06-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f06-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f06-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f06-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f06-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f06-k{left:90px;top:200px}
-#f06-h1{left:90px;top:252px;font-size:76px}
-#f06-h2{left:90px;top:332px;font-size:76px}
-#f06-r{left:92px;top:446px}
-#f06-halo{left:40px;top:640px;width:1000px;height:900px}
-#f06-persp{left:160px;top:560px;width:760px;height:900px;perspective:1900px}
-#f06-drift{position:absolute;inset:0;transform-style:preserve-3d}
-#f06-card{position:absolute;inset:0;padding:46px 48px}
-#f06-hd{display:flex;justify-content:space-between;align-items:baseline}
-#f06-hd div{font-family:"Outfit",sans-serif;font-weight:600;font-size:30px;letter-spacing:.14em;color:#F4F4F5}
-#f06-hd span{font-family:"Inter",sans-serif;font-size:20px;letter-spacing:.12em;color:#8B8F97}
-#f06-chip{display:inline-flex;align-items:center;gap:10px;margin-top:18px;padding:8px 18px;border:1px solid rgba(255,255,255,.18);border-radius:999px;font-family:"Outfit",sans-serif;font-size:17px;letter-spacing:.3em;color:#C9CDD3}
-#f06-chip b{display:block;width:8px;height:8px;border-radius:50%;background:#C9CDD3}
-#f06-list{margin-top:34px;border-top:1px solid rgba(255,255,255,.08)}
-.f06-row{display:flex;align-items:center;height:132px;border-bottom:1px solid rgba(255,255,255,.08)}
-.f06-name{flex:1;font-family:"Outfit",sans-serif;font-weight:500;font-size:26px;letter-spacing:.1em;text-transform:uppercase;color:#E4E4E7}
-.f06-sets{width:120px;font-family:"Inter",sans-serif;font-size:23px;color:#8B8F97}
-.f06-load{width:130px;text-align:right;font-family:"Outfit",sans-serif;font-weight:600;font-size:27px;color:#F4F4F5;opacity:.35}
-.f06-box{width:32px;height:32px;margin-left:30px;border:1.5px solid rgba(255,255,255,.28);border-radius:8px;position:relative}
-.f06-box b{position:absolute;inset:5px;border-radius:4px;background:#C9CDD3;opacity:0}
-#f06-ft{margin-top:30px;font-family:"Outfit",sans-serif;font-size:19px;letter-spacing:.32em;color:#8B8F97}
-#f06-ft span{color:#E4E4E7;letter-spacing:.12em}
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      color: #F2F2F2;
+      font-family: "Inter", sans-serif;
+    }
 
+    /* ---------- full-bleed ground (clip layer, not #root) ---------- */
+    .d06-ground {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 55% at 50% 56%, #18191A 0%, #0E0E10 45%, #0A0A0C 70%, #000000 100%);
+    }
+    .d06-xwrap {
+      position: absolute;
+      left: 60px;
+      top: 300px;
+      width: 1400px;
+      height: 1400px;
+      opacity: 0.06;
+      filter: blur(2px);
+    }
+    .d06-xwrap svg { width: 100%; height: 100%; display: block; }
+
+    .d06-bracket {
+      position: absolute;
+      top: 70px;
+      width: 22px;
+      height: 22px;
+      border-top: 1px solid #484B50;
+    }
+    .d06-bracket.d06-l { left: 70px; border-left: 1px solid #484B50; }
+    .d06-bracket.d06-r { right: 70px; border-right: 1px solid #484B50; }
+
+    /* ---------- world (virtual camera) ---------- */
+    .d06-world {
+      position: absolute;
+      inset: 0;
+      transform-origin: 50% 52%;
+    }
+
+    /* ---------- Scene 1: label + headline ---------- */
+    .d06-label {
+      position: absolute;
+      left: 86px;
+      top: 196px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-family: "Archivo", sans-serif;
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 22px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: #9DA2AA;
+      white-space: nowrap;
+    }
+    .d06-stub {
+      width: 36px;
+      height: 1px;
+      background: #9DA2AA;
+      transform-origin: 0 50%;
+    }
+    .d06-head {
+      position: absolute;
+      left: 80px;
+      top: 258px;
+      font-family: "Archivo", sans-serif;
+      font-weight: 900;
+      font-stretch: 125%;
+      font-size: 90px;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .d06-line {
+      display: block;
+      overflow: hidden;
+      padding: 0.02em 0.04em 0.06em 0.02em;
+    }
+    .d06-line-inner { display: block; color: #F2F2F2; }
+    .d06-chrome {
+      color: transparent;
+      --d06-sweep: 100%;
+      background-image:
+        linear-gradient(100deg, rgba(255,255,255,0) 44%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 56%),
+        linear-gradient(180deg, #FFFFFF 0%, #D9DCE1 38%, #7C818A 62%, #E9EBEE 100%);
+      background-size: 300% 100%, 100% 100%;
+      background-repeat: no-repeat;
+      background-position: var(--d06-sweep) 0, 0 0;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    /* ---------- Scene 2: glass phone card ---------- */
+    .d06-halo {
+      position: absolute;
+      left: 140px;
+      top: 1380px;
+      width: 800px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(201,205,211,0.16) 0%, rgba(201,205,211,0) 70%);
+      filter: blur(20px);
+    }
+    .d06-card {
+      position: absolute;
+      left: 160px;
+      top: 520px;
+      width: 760px;
+      height: 980px;
+      box-sizing: border-box;
+      border-radius: 48px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.03) 40%, rgba(255,255,255,0.04) 100%);
+      border: 1px solid rgba(255,255,255,0.10);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.20),
+        0 40px 90px rgba(0,0,0,0.55);
+      overflow: hidden;
+      padding: 30px 48px 44px;
+      display: flex;
+      flex-direction: column;
+    }
+    .d06-topedge {
+      position: absolute;
+      left: 48px;
+      right: 48px;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0) 100%);
+    }
+    .d06-glint {
+      position: absolute;
+      top: -100px;
+      left: -320px;
+      width: 220px;
+      height: 1180px;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.07) 50%, rgba(255,255,255,0) 100%);
+      transform-origin: 50% 50%;
+    }
+    .d06-notch {
+      align-self: center;
+      width: 124px;
+      height: 10px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.12);
+      flex: none;
+    }
+    .d06-cardhead {
+      margin-top: 40px;
+      flex: none;
+    }
+    .d06-hrow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap;
+    }
+    .d06-title {
+      font-family: "Inter", sans-serif;
+      font-weight: 700;
+      font-size: 34px;
+      letter-spacing: 0.1em;
+      color: #FFFFFF;
+    }
+    .d06-next {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: 0.2em;
+      color: #9DA2AA;
+      font-variant-numeric: tabular-nums;
+    }
+    .d06-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      box-shadow: 0 0 10px rgba(255,255,255,0.9);
+    }
+    .d06-chip {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      padding: 10px 20px 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(201,205,211,0.45);
+      background: rgba(255,255,255,0.04);
+      font-weight: 600;
+      font-size: 17px;
+      letter-spacing: 0.28em;
+      color: #C9CDD3;
+      white-space: nowrap;
+    }
+    .d06-chip-ring {
+      position: absolute;
+      inset: -1px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(233,235,238,0.9);
+      box-shadow: 0 0 18px rgba(255,255,255,0.35);
+      opacity: 0;
+    }
+    .d06-chip-check { width: 18px; height: 18px; flex: none; }
+    .d06-sep {
+      height: 1px;
+      background: rgba(255,255,255,0.10);
+      transform-origin: 0 50%;
+      flex: none;
+    }
+    .d06-sep-head { margin-top: 34px; }
+
+    /* exercise rows */
+    .d06-rows {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .d06-row {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap;
+    }
+    .d06-row-rule {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      transform-origin: 0 50%;
+    }
+    .d06-name {
+      font-weight: 500;
+      font-size: 29px;
+      letter-spacing: 0.06em;
+      color: #F2F2F2;
+    }
+    .d06-right {
+      display: flex;
+      align-items: center;
+    }
+    .d06-sets {
+      width: 104px;
+      text-align: right;
+      font-weight: 400;
+      font-size: 27px;
+      letter-spacing: 0.04em;
+      color: #9DA2AA;
+      font-variant-numeric: tabular-nums;
+    }
+    .d06-load {
+      width: 150px;
+      text-align: right;
+      font-weight: 700;
+      font-size: 29px;
+      letter-spacing: 0.05em;
+      color: #D9DCE1;
+      text-shadow: 0 0 0px rgba(255,255,255,0);
+      font-variant-numeric: tabular-nums;
+    }
+    .d06-box {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      margin-left: 28px;
+      box-sizing: border-box;
+      border: 1.5px solid rgba(201,205,211,0.45);
+      border-radius: 6px;
+    }
+    .d06-box-fill {
+      position: absolute;
+      inset: 0;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #D9DCE1 45%, #9DA2AA 100%);
+      opacity: 0;
+    }
+    .d06-box svg {
+      position: absolute;
+      inset: 3px;
+      width: 25px;
+      height: 25px;
+      overflow: visible;
+    }
+    .d06-check {
+      fill: none;
+      stroke: #0A0A0C;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+    }
+
+    /* footer */
+    .d06-foot {
+      flex: none;
+      padding-top: 30px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      white-space: nowrap;
+    }
+    .d06-foot-label {
+      font-weight: 500;
+      font-size: 19px;
+      letter-spacing: 0.3em;
+      color: #9DA2AA;
+    }
+    .d06-foot-check { width: 24px; height: 24px; flex: none; overflow: visible; }
+    .d06-foot-check path {
+      fill: none;
+      stroke: #E9EBEE;
+      stroke-width: 2.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1;
+    }
+    .d06-foot-val {
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.08em;
+      color: #FFFFFF;
+    }
+
+    .d06-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .d06-grain svg { width: 100%; height: 100%; display: block; }
   </style>
 
-  <div id="root" data-composition-id="06-delivery" data-width="1080" data-height="1920" data-duration="6.604">
-    
-    <div id="f06-ground" class="clip f06-layer f06-ground" data-start="0" data-duration="6.604" data-track-index="0"></div>
-    <div id="f06-stage" class="clip f06-layer" data-start="0" data-duration="6.604" data-track-index="1">
+  <div id="root" data-composition-id="06-delivery" data-width="1080" data-height="1920" data-duration="6.404">
 
-      <div id="f06-k" class="f06-abs f06-kicker"><i></i>01 &nbsp;/&nbsp; Delivery</div>
-      <div id="f06-h1" class="f06-abs f06-head">Live program</div>
-      <div id="f06-h2" class="f06-abs f06-head f06-chrome">delivery.</div>
-      <div id="f06-r" class="f06-abs f06-rule"></div>
-      <div id="f06-halo" class="f06-glow"></div>
-      <div id="f06-persp" class="f06-abs">
-        <div id="f06-drift">
-          <div id="f06-card" class="f06-card">
-            <div id="f06-hd"><div>PUSH DAY · WEEK 04</div><span>NEXT 08:12</span></div>
-            <div id="f06-chip"><b></b>DELIVERED</div>
-            <div id="f06-list">
-              <div class="f06-row" id="f06-row0"><div class="f06-name">Bench press</div><div class="f06-sets">4 × 8</div><div class="f06-load" id="f06-load0">60 kg</div><div class="f06-box"><b id="f06-chk0"></b></div></div>
-              <div class="f06-row" id="f06-row1"><div class="f06-name">Incline DB press</div><div class="f06-sets">3 × 10</div><div class="f06-load" id="f06-load1">22.5 kg</div><div class="f06-box"><b id="f06-chk1"></b></div></div>
-              <div class="f06-row" id="f06-row2"><div class="f06-name">Cable fly</div><div class="f06-sets">3 × 12</div><div class="f06-load" id="f06-load2">RPE 8</div><div class="f06-box"><b id="f06-chk2"></b></div></div>
-              <div class="f06-row" id="f06-row3"><div class="f06-name">Overhead press</div><div class="f06-sets">4 × 6</div><div class="f06-load" id="f06-load3">35 kg</div><div class="f06-box"><b id="f06-chk3"></b></div></div>
-            </div>
-            <div id="f06-ft">AUTO-PROGRESSED &nbsp;<span>+2.5 KG</span></div>
-          </div>
-        </div>
+    <!-- Track 0: full-bleed ground + faint chrome X -->
+    <div class="clip d06-ground" data-start="0" data-duration="6.404" data-track-index="0">
+      <div class="d06-xwrap">
+        <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+          <!-- the CoachX logo's own X (assets/x-mark.png, cut from logo.png) -->
+          <image href="assets/x-mark.png" x="40" y="125.79" width="920" height="748.43" preserveAspectRatio="xMidYMid meet" />
+        </svg>
+      </div>
+      <div class="d06-bracket d06-l"></div>
+      <div class="d06-bracket d06-r"></div>
+    </div>
+
+    <!-- Track 1: content under the virtual camera -->
+    <div class="clip d06-world" data-start="0" data-duration="6.404" data-track-index="1">
+
+      <div class="d06-label"><span class="d06-stub"></span><span class="d06-label-text">01 / Delivery</span></div>
+
+      <div class="d06-head">
+        <span class="d06-line"><span class="d06-line-inner d06-l1">Live Program</span></span>
+        <span class="d06-line"><span class="d06-line-inner d06-chrome d06-l2">Delivery</span></span>
       </div>
 
+      <div class="d06-halo"></div>
+
+      <div class="d06-card" id="06-delivery-card">
+        <div class="d06-glint"></div>
+        <div class="d06-topedge"></div>
+        <div class="d06-notch"></div>
+
+        <div class="d06-cardhead">
+          <div class="d06-hrow">
+            <span class="d06-title">PUSH DAY · WEEK 04</span>
+            <span class="d06-next"><span class="d06-dot"></span>NEXT 08:12</span>
+          </div>
+          <div class="d06-chip">
+            <span class="d06-chip-ring"></span>
+            <svg class="d06-chip-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#E9EBEE"/></svg>
+            DELIVERED
+          </div>
+        </div>
+
+        <div class="d06-sep d06-sep-head"></div>
+
+        <div class="d06-rows">
+          <div class="d06-row">
+            <span class="d06-name">BENCH PRESS</span>
+            <span class="d06-right"><span class="d06-sets">4 × 8</span><span class="d06-load">60 KG</span>
+              <span class="d06-box"><span class="d06-box-fill"></span><svg viewBox="0 0 24 24"><path class="d06-check" pathLength="1" d="M5 12.5 L10 17.5 L19 7"/></svg></span></span>
+            <span class="d06-row-rule"></span>
+          </div>
+          <div class="d06-row">
+            <span class="d06-name">INCLINE DB PRESS</span>
+            <span class="d06-right"><span class="d06-sets">3 × 10</span><span class="d06-load">22.5 KG</span>
+              <span class="d06-box"><span class="d06-box-fill"></span><svg viewBox="0 0 24 24"><path class="d06-check" pathLength="1" d="M5 12.5 L10 17.5 L19 7"/></svg></span></span>
+            <span class="d06-row-rule"></span>
+          </div>
+          <div class="d06-row">
+            <span class="d06-name">CABLE FLY</span>
+            <span class="d06-right"><span class="d06-sets">3 × 12</span><span class="d06-load">RPE 8</span>
+              <span class="d06-box"></span></span>
+            <span class="d06-row-rule"></span>
+          </div>
+          <div class="d06-row">
+            <span class="d06-name">OVERHEAD PRESS</span>
+            <span class="d06-right"><span class="d06-sets">4 × 6</span><span class="d06-load">35 KG</span>
+              <span class="d06-box"></span></span>
+            <span class="d06-row-rule"></span>
+          </div>
+        </div>
+
+        <div class="d06-foot">
+          <span class="d06-foot-label">AUTO-PROGRESSED</span>
+          <svg class="d06-foot-check" viewBox="0 0 24 24"><path pathLength="1" d="M4 12.5 L9.5 18 L20 6.5"/></svg>
+          <span class="d06-foot-val">+2.5 KG</span>
+        </div>
+      </div>
     </div>
-    <div id="f06-grain" class="clip f06-layer f06-grain" data-start="0" data-duration="6.604" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f06-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f06-noise)"/></svg></div>
+
+    <!-- Track 2: static grain -->
+    <div class="clip d06-grain" data-start="0" data-duration="6.404" data-track-index="2">
+      <svg viewBox="0 0 1080 1920" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <filter id="06-delivery-noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="6" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <rect width="1080" height="1920" filter="url(#06-delivery-noise)"/>
+      </svg>
+    </div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var D = 5.904;
+      var root = document.querySelector('[data-composition-id="06-delivery"]') || document;
+      var q = function (s) { return root.querySelector(s); };
+      var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
 
-  var D = 5.904, ID = "06-delivery";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      var tl = gsap.timeline({ paused: true });
+      tl.to({}, { duration: D }, 0); // length anchor
 
+      // ---------- camera + ambient (runs under every scene) ----------
+      tl.fromTo(q(".d06-world"), { scale: 1 }, { scale: 1.03, duration: D, ease: "none" }, 0);
+      tl.fromTo(q(".d06-xwrap"), { x: 0, rotation: 0 }, { x: -40, rotation: 2.5, duration: D, ease: "none" }, 0);
 
-      rise(q("#f06-k"), 0.20, { y: 10, d: 1.0 });
-      rise(q("#f06-h1"), 0.20, { d: 1.2 });
-      rise(q("#f06-h2"), 0.55, { d: 1.2 });
-      tl.fromTo(q("#f06-r"), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 0.90);
-      // The session lands: the card rises into perspective and keeps easing flatter.
-      drift(q("#f06-drift"), { rotationY: 17, rotationX: 7 }, { rotationY: 6, rotationX: 2.5 });
-      rise(q("#f06-persp"), 1.46, { y: 70, d: 1.4, blur: 12 });
-      tl.fromTo(q("#f06-halo"), { opacity: 0 }, { opacity: 1, duration: 1.6, ease: "power1.out" }, 1.56);
-      // Already loaded: the four lifts fill in.
-      [0, 1, 2, 3].forEach(function (i) {
-        rise(q("#f06-row" + i), 3.21 + i * 0.16, { y: 14, d: 0.9, blur: 6 });
+      // ---------- Scene 1 (0.0–1.56): label + headline ----------
+      tl.fromTo(q(".d06-stub"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out" }, 0.04);
+      tl.fromTo(q(".d06-label-text"), { opacity: 0, x: -14 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.1);
+      tl.fromTo(q(".d06-l1"), { yPercent: 110 }, { yPercent: 0, duration: 0.75, ease: "power4.out" }, 0.12);
+      tl.fromTo(q(".d06-l2"), { yPercent: 110 }, { yPercent: 0, duration: 0.75, ease: "power4.out" }, 0.26);
+      // one specular sweep across the chrome word
+      tl.fromTo(q(".d06-chrome"), { "--d06-sweep": "100%" }, { "--d06-sweep": "0%", duration: 1.0, ease: "power2.inOut" }, 0.6);
+
+      // ---------- Scene 2 (1.56–3.31): glass card rises, long-tail settle ----------
+      var card = q(".d06-card");
+      tl.fromTo(card,
+        { y: 1100, rotationX: 16, transformPerspective: 1800, transformOrigin: "50% 0%" },
+        { y: 0, rotationX: 0, duration: 1.35, ease: "expo.out" }, 1.56);
+      tl.fromTo(card, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out" }, 1.56);
+      tl.fromTo(q(".d06-halo"), { opacity: 0 }, { opacity: 1, duration: 0.9, ease: "power2.out" }, 1.75);
+      tl.fromTo(q(".d06-topedge"), { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power3.out" }, 1.95);
+      tl.fromTo(q(".d06-glint"), { x: 0, rotation: 18 }, { x: 1300, rotation: 18, duration: 1.1, ease: "power2.inOut" }, 2.05);
+      // header populates on the card's own face
+      tl.fromTo(q(".d06-title"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.0);
+      tl.fromTo(q(".d06-next"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 2.1);
+      tl.fromTo(q(".d06-chip"), { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.45, ease: "power3.out" }, 2.25);
+      tl.fromTo(q(".d06-sep-head"), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power3.out" }, 2.3);
+      // first chip pulse as it lands
+      var ring = q(".d06-chip-ring");
+      tl.fromTo(ring, { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.35, duration: 0.7, ease: "power2.out" }, 2.6);
+
+      // ---------- Scene 3 (3.31–4.52): four rows drop in, 0.12s apart ----------
+      var rows = qa(".d06-row");
+      rows.forEach(function (row, i) {
+        var t = 3.31 + i * 0.12;
+        tl.fromTo(row, { opacity: 0, y: -42 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t);
+        tl.fromTo(row.querySelector(".d06-row-rule"), { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power3.out" }, t + 0.08);
       });
-      // Already weighted: the loads come up to full, two sets tick off.
-      [0, 1, 2, 3].forEach(function (i) {
-        tl.to(q("#f06-load" + i), { opacity: 1, duration: 0.8, ease: "power1.inOut" }, 4.47 + i * 0.12);
+
+      // ---------- Scene 4 (4.52–5.9): loads flash, checks draw, footer ----------
+      qa(".d06-load").forEach(function (el, i) {
+        var t = 4.52 + i * 0.09;
+        tl.to(el, { color: "#FFFFFF", textShadow: "0 0 22px rgba(255,255,255,0.85)", duration: 0.1, ease: "power2.out" }, t);
+        tl.to(el, { color: "#F2F2F2", textShadow: "0 0 0px rgba(255,255,255,0)", duration: 0.4, ease: "power2.inOut" }, t + 0.1);
       });
-      tl.fromTo(q("#f06-chk0"), { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, 4.82);
-      tl.fromTo(q("#f06-chk1"), { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out" }, 5.02);
-      rise(q("#f06-ft"), 5.07, { y: 8, d: 0.9, blur: 6 });
+      var fills = qa(".d06-box-fill");
+      var checks = qa(".d06-check");
+      [0, 1].forEach(function (i) {
+        var t = 4.98 + i * 0.16;
+        tl.fromTo(fills[i], { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power3.out" }, t);
+        tl.fromTo(checks[i], { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.3, ease: "power2.out" }, t + 0.08);
+      });
+      tl.fromTo(q(".d06-foot"), { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 5.3);
+      tl.fromTo(q(".d06-foot-check path"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, 5.42);
+      // chip pulses again with the auto-progress confirm, then hold
+      tl.fromTo(ring, { opacity: 0.9, scale: 1 }, { opacity: 0, scale: 1.35, duration: 0.6, ease: "power2.out", immediateRender: false }, 5.4);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines[ID] = tl;
+      window.__timelines["06-delivery"] = tl;
     })();
   </script>
 </template>

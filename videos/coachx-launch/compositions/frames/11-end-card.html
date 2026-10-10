@@ -1,100 +1,377 @@
 <template>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f11-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f11-ground{background:#000}
-.f11-grain{opacity:.035;pointer-events:none}
-.f11-grain svg{display:block;width:1080px;height:1920px}
-.f11-abs{position:absolute}
-.f11-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f11-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f11-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f11-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f11-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f11-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f11-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f11-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f11-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f11-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f11-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f11-logo{left:120px;top:640px;width:840px;height:369px}
-#f11-sheen{left:120px;top:640px;width:840px;height:369px;overflow:hidden;-webkit-mask-image:url("assets/logo.png");-webkit-mask-size:840px 369px;mask-image:url("assets/logo.png");mask-size:840px 369px}
-#f11-band{position:absolute;top:-80px;left:0;width:160px;height:530px}
-#f11-band i{display:block;width:100%;height:100%;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.8),rgba(255,255,255,0));transform:rotate(18deg)}
-#f11-halo{left:140px;top:520px;width:800px;height:620px}
-#f11-t1{left:0;top:1090px;width:1080px;font-size:44px}
-#f11-t2{left:0;top:1160px;width:1080px;font-size:44px}
-#f11-cta{left:320px;top:1300px;width:440px;height:86px;border-radius:999px;background:#F4F4F5;display:flex;align-items:center;justify-content:center;gap:18px;font-family:"Outfit",sans-serif;font-weight:600;font-size:24px;letter-spacing:.32em;color:#000}
-#f11-meta{left:0;top:1430px;width:1080px;font-size:21px;letter-spacing:.32em;color:#A1A1AA}
-#f11-out{background:#000;opacity:0}
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      container-type: size;
+      color: #F2F2F2;
+      font-family: "Inter", sans-serif;
+    }
 
+    /* full-bleed ground — a clip layer, never the root */
+    .ec11-ground {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 46% at 50% 38%, #18191A 0%, #0A0A0C 55%, #000000 100%);
+    }
+
+    .ec11-stage {
+      position: absolute;
+      inset: 0;
+      transform-origin: 540px 730px;
+    }
+
+    /* giant faint chrome X */
+    .ec11-x {
+      position: absolute;
+      left: -160px;
+      top: 30px;
+      width: 1400px;
+      height: 1400px;
+      opacity: 0.06;
+      filter: blur(2px);
+      transform-origin: 50% 50%;
+    }
+
+    /* impact ring-out */
+    .ec11-ring {
+      position: absolute;
+      left: 140px;
+      top: 330px;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      border: 2px solid rgba(233, 235, 238, 0.7);
+      box-shadow: 0 0 40px rgba(255, 255, 255, 0.25), inset 0 0 40px rgba(255, 255, 255, 0.15);
+      opacity: 0;
+    }
+
+    /* silver bloom behind the lockup */
+    .ec11-bloom {
+      position: absolute;
+      left: 40px;
+      top: 430px;
+      width: 1000px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 50% 50%, rgba(233, 235, 238, 0.55) 0%, rgba(201, 205, 211, 0.22) 34%, rgba(124, 129, 138, 0.06) 60%, rgba(10, 10, 12, 0) 72%);
+      filter: blur(30px);
+      opacity: 0;
+    }
+
+    /* broad soft flare that accompanies the final streak */
+    .ec11-flare {
+      position: absolute;
+      left: 0;
+      top: 300px;
+      width: 260px;
+      height: 900px;
+      opacity: 0;
+    }
+    .ec11-flare-i {
+      width: 100%;
+      height: 100%;
+      transform: rotate(20deg);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 100%);
+      filter: blur(40px);
+    }
+
+    /* the lockup: the 713x301 CoachX logo at 880px wide, centred on y=730 */
+    .ec11-logo-wrap {
+      position: absolute;
+      left: 100px;
+      top: 544.25px;
+      width: 880px;
+      height: 371.5px;
+      transform-origin: 50% 50%;
+    }
+    .ec11-logo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .ec11-sheen {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      -webkit-mask-image: url("assets/logo.png");
+      -webkit-mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+      mask-image: url("assets/logo.png");
+      mask-size: 100% 100%;
+      mask-repeat: no-repeat;
+    }
+    .ec11-band {
+      position: absolute;
+      left: 0;
+      top: -40%;
+      width: 200px;
+      height: 180%;
+    }
+    .ec11-band-i {
+      width: 100%;
+      height: 100%;
+      transform: skewX(-20deg);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 255, 255, 0) 100%);
+    }
+
+    /* tagline */
+    .ec11-line {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+      text-align: center;
+      font-family: "Archivo", sans-serif;
+      font-weight: 900;
+      font-stretch: 125%;
+      text-transform: uppercase;
+      font-size: 84px;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .ec11-line-1 {
+      top: 978px;
+      color: #F2F2F2;
+    }
+    .ec11-line-2 {
+      top: 1068px;
+    }
+    .ec11-chrome {
+      background: linear-gradient(180deg, #FFFFFF 0%, #D9DCE1 38%, #7C818A 62%, #E9EBEE 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* CTA button (deck slide 8) */
+    .ec11-btn {
+      position: absolute;
+      left: 280px;
+      top: 1216px;
+      width: 520px;
+      height: 104px;
+      background: #F2F2F2;
+      border-radius: 2px;
+      box-shadow: 0 0 46px rgba(255, 255, 255, 0.22), 0 0 10px rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+      color: #0A0A0C;
+      font-family: "Archivo", sans-serif;
+      font-weight: 700;
+      font-stretch: 125%;
+      font-size: 30px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .ec11-btn-text {
+      margin-right: -0.3em; /* cancel trailing tracking */
+    }
+    .ec11-arrow {
+      width: 48px;
+      height: 18px;
+      display: block;
+    }
+
+    /* metadata line */
+    .ec11-meta {
+      position: absolute;
+      left: 0;
+      top: 1384px;
+      width: 1080px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 26px;
+      font-family: "Archivo", sans-serif;
+      font-weight: 600;
+      font-stretch: 125%;
+      font-size: 24px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #B4B8BF;
+      white-space: nowrap;
+    }
+    .ec11-meta span {
+      display: block;
+    }
+    .ec11-dot {
+      color: #484B50;
+      letter-spacing: 0;
+    }
+
+    /* deck corner crop marks */
+    .ec11-corner {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-color: rgba(201, 205, 211, 0.35);
+      border-style: solid;
+      border-width: 0;
+      opacity: 0;
+    }
+    .ec11-c-tl { left: 64px; top: 120px; border-left-width: 1px; border-top-width: 1px; }
+    .ec11-c-tr { right: 64px; top: 120px; border-right-width: 1px; border-top-width: 1px; }
+    .ec11-c-bl { left: 64px; top: 1520px; border-left-width: 1px; border-bottom-width: 1px; }
+    .ec11-c-br { right: 64px; top: 1520px; border-right-width: 1px; border-bottom-width: 1px; }
+
+    /* static grain */
+    .ec11-grain {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* impact flash + final fade to black */
+    .ec11-flash {
+      position: absolute;
+      inset: 0;
+      background: #FFFFFF;
+      opacity: 0;
+    }
+    .ec11-out {
+      position: absolute;
+      inset: 0;
+      background: #000000;
+      opacity: 0;
+    }
   </style>
 
   <div id="root" data-composition-id="11-end-card" data-width="1080" data-height="1920">
-    
-    <div id="f11-ground" class="clip f11-layer f11-ground" data-start="0" data-duration="5.095" data-track-index="0"></div>
-    <div id="f11-stage" class="clip f11-layer" data-start="0" data-duration="5.095" data-track-index="1">
+    <div class="clip ec11-ground" data-start="0" data-duration="5.095" data-track-index="0"></div>
 
-      <img id="f11-xm" class="f11-xmark" src="assets/x-mark.png" alt="">
-      <div id="f11-bloom" class="f11-layer f11-bloom"></div>
-      <div id="f11-halo" class="f11-glow"></div>
-      <img id="f11-logo" class="f11-abs" src="assets/logo.png" alt="CoachX">
-      <div id="f11-sheen" class="f11-abs"><div id="f11-band"><i></i></div></div>
-      <div id="f11-t1" class="f11-abs f11-title">Train smarter.</div>
-      <div id="f11-t2" class="f11-abs f11-title f11-chrome">Push harder.</div>
-      <div id="f11-cta" class="f11-abs">JOIN COACHX <svg width="34" height="14" viewBox="0 0 34 14"><path d="M1 7h30M25 1l6 6-6 6" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div id="f11-meta" class="f11-abs f11-title">@coachx · link in bio · free to start</div>
-      <div id="f11-out" class="f11-layer"></div>
+    <div class="ec11-stage">
+      <svg class="ec11-x" viewBox="0 0 1400 1400" aria-hidden="true">
+        <!-- the CoachX logo's own X (assets/x-mark.png, cut from logo.png) -->
+        <image href="assets/x-mark.png" x="56" y="176.1" width="1288" height="1047.81" preserveAspectRatio="xMidYMid meet" />
+      </svg>
 
+      <div class="ec11-ring"></div>
+      <div class="ec11-bloom"></div>
+      <div class="ec11-flare"><div class="ec11-flare-i"></div></div>
+
+      <div class="ec11-logo-wrap">
+        <img class="ec11-logo" src="assets/logo.png" alt="CoachX" />
+        <div class="ec11-sheen">
+          <div class="ec11-band ec11-band-a"><div class="ec11-band-i"></div></div>
+          <div class="ec11-band ec11-band-b"><div class="ec11-band-i"></div></div>
+        </div>
+      </div>
+
+      <div class="ec11-line ec11-line-1">Train smarter.</div>
+      <div class="ec11-line ec11-line-2"><span class="ec11-chrome">Push harder.</span></div>
+
+      <div class="ec11-btn">
+        <span class="ec11-btn-text">Join CoachX</span>
+        <svg class="ec11-arrow" viewBox="0 0 48 18" aria-hidden="true">
+          <path d="M0 9 H45 M37 2 L45 9 L37 16" fill="none" stroke="#0A0A0C" stroke-width="2.2" stroke-linecap="square" />
+        </svg>
+      </div>
+
+      <div class="ec11-meta">
+        <span class="ec11-meta-a">@CoachX</span>
+        <span class="ec11-dot ec11-meta-d1">&middot;</span>
+        <span class="ec11-meta-b">Link in bio</span>
+        <span class="ec11-dot ec11-meta-d2">&middot;</span>
+        <span class="ec11-meta-c">Free to start</span>
+      </div>
     </div>
-    <div id="f11-grain" class="clip f11-layer f11-grain" data-start="0" data-duration="5.095" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f11-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f11-noise)"/></svg></div>
+
+    <div class="ec11-corner ec11-c-tl"></div>
+    <div class="ec11-corner ec11-c-tr"></div>
+    <div class="ec11-corner ec11-c-bl"></div>
+    <div class="ec11-corner ec11-c-br"></div>
+
+    <svg class="ec11-grain" viewBox="0 0 1080 1920" aria-hidden="true">
+      <filter id="ec11-noise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="11" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+      <rect width="1080" height="1920" filter="url(#ec11-noise)" />
+    </svg>
+
+    <div class="ec11-flash"></div>
+    <div class="ec11-out"></div>
   </div>
 
   <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var D = 5.095;
+      var root = document.querySelector('[data-composition-id="11-end-card"]');
+      var q = function (s) { return root.querySelector(s); };
+      var qa = function (s) { return root.querySelectorAll(s); };
 
-  var D = 5.095, ID = "11-end-card";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      var tl = gsap.timeline({ paused: true });
+      tl.to({}, { duration: D }, 0); // exact frame length anchor
 
+      // ── Scene 1 (0.0–0.45): black + faint chrome X; final-impact flash decays, ring-out
+      tl.fromTo(q(".ec11-flash"), { opacity: 0.9 }, { opacity: 0, duration: 0.45, ease: "power2.out" }, 0);
+      tl.fromTo(q(".ec11-ring"), { opacity: 0.55, scale: 0.35 }, { opacity: 0, scale: 1.55, duration: 1.1, ease: "power2.out" }, 0);
+      tl.fromTo(q(".ec11-x"), { opacity: 0.03, scale: 1.12, rotation: -2 }, { opacity: 0.065, scale: 1, rotation: 0, duration: 2.6, ease: "power2.out" }, 0);
+      // near-imperceptible push-in under the whole stage (life in the hold)
+      tl.fromTo(q(".ec11-stage"), { scale: 1 }, { scale: 1.025, duration: D, ease: "none" }, 0);
 
-      drift(q("#f11-xm"), { scale: 1.06 }, { scale: 1.0 });
-      tl.fromTo(q("#f11-bloom"), { opacity: 0 }, { opacity: 0.2, duration: 0.16, ease: "power1.out" }, 0);
-      tl.to(q("#f11-bloom"), { opacity: 0, duration: 1.4, ease: "power2.out" }, 0.16);
-      tl.fromTo(q("#f11-logo"), { opacity: 0, scale: 1.04, filter: "blur(16px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.5, ease: "power2.out" }, 0.25);
-      tl.fromTo(q("#f11-halo"), { opacity: 0 }, { opacity: 1, duration: 1.8, ease: "power1.out" }, 0.45);
-      rise(q("#f11-t1"), 1.46, { y: 12, d: 1.1 });
-      rise(q("#f11-t2"), 2.69, { y: 12, d: 1.1 });
-      tl.fromTo(q("#f11-band"), { x: 0 }, { x: 900, duration: 1.5, ease: "power1.inOut" }, 1.71);
-      rise(q("#f11-cta"), 2.94, { y: 16, d: 1.0, blur: 8 });
-      rise(q("#f11-meta"), 3.14, { y: 8, d: 1.0, blur: 6 });
-      // The film's only exit: a slow fade to black.
-      tl.fromTo(q("#f11-out"), { opacity: 0 }, { opacity: 1, duration: 0.7, ease: "power1.inOut" }, D - 0.7);
+      // ── Scene 2 (0.45–1.51): "CoachX." — lockup resolves: blur 20→0, scale 1.06→1, long-tail settle; silver bloom
+      tl.fromTo(q(".ec11-logo-wrap"), { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.45);
+      tl.fromTo(q(".ec11-logo-wrap"),
+        { scale: 1.06, filter: "blur(20px)" },
+        { scale: 1, filter: "blur(0px)", duration: 1.06, ease: "expo.out" }, 0.45);
+      tl.fromTo(q(".ec11-bloom"), { opacity: 0, scale: 0.6 }, { opacity: 0.9, scale: 1, duration: 0.7, ease: "power2.out" }, 0.45);
+      tl.to(q(".ec11-bloom"), { opacity: 0.5, duration: 0.9, ease: "sine.inOut" }, 1.15);
+      // first specular sweep across the settling lockup
+      tl.fromTo(q(".ec11-band-a"), { x: -260 }, { x: 1000, duration: 0.7, ease: "power2.inOut" }, 0.95);
+
+      // corner crop marks arrive quietly as the lockup lands
+      tl.fromTo(qa(".ec11-corner"), { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.out", stagger: 0.05 }, 1.3);
+
+      // ── Scene 3 (1.51–2.74): "Train smarter." — flat ink line, short upward settle
+      tl.fromTo(q(".ec11-line-1"),
+        { opacity: 0, y: 36, filter: "blur(6px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 1.51);
+
+      // ── Scene 4 (2.74–3.7): "Push harder." — chrome line beneath
+      tl.fromTo(q(".ec11-line-2"),
+        { opacity: 0, y: 36, filter: "blur(6px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power3.out" }, 2.74);
+      tl.fromTo(q(".ec11-line-2"), { scale: 1.04 }, { scale: 1, duration: 0.9, ease: "expo.out" }, 2.74);
+
+      // ── Scene 5 (3.3–5.095): CTA button rises in as "Push harder" lands, then the meta line; one last streak; hold; fade to black
+      tl.fromTo(q(".ec11-btn"),
+        { opacity: 0, y: 40, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "power3.out" }, 3.3);
+      tl.fromTo(q(".ec11-arrow"), { x: -14 }, { x: 0, duration: 0.5, ease: "power3.out" }, 3.45);
+
+      tl.fromTo([q(".ec11-meta-a"), q(".ec11-meta-d1"), q(".ec11-meta-b"), q(".ec11-meta-d2"), q(".ec11-meta-c")],
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05 }, 3.55);
+
+      // final specular streak across the logo + soft frame flare
+      tl.fromTo(q(".ec11-band-b"), { x: -260 }, { x: 1000, duration: 0.6, ease: "power2.inOut" }, 4.0);
+      tl.fromTo(q(".ec11-flare"), { x: -200 }, { x: 1080, duration: 0.7, ease: "power2.inOut" }, 3.95);
+      tl.fromTo(q(".ec11-flare"), { opacity: 0 }, { opacity: 0.35, duration: 0.3, ease: "power1.out" }, 3.95);
+      tl.to(q(".ec11-flare"), { opacity: 0, duration: 0.35, ease: "power1.in" }, 4.3);
+
+      // the only exit in the film: fade the whole frame to black over the last 0.5s
+      tl.fromTo(q(".ec11-out"), { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power1.inOut" }, D - 0.5);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines[ID] = tl;
+      window.__timelines["11-end-card"] = tl;
     })();
   </script>
 </template>

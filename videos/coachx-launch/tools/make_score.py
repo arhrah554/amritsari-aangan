@@ -4,17 +4,16 @@ No music service can deliver into this machine (its egress policy blocks the
 CDN hosts), so the bed is built here with numpy: a sound-designed trailer
 score cut to the frame grid in assets/voice/cues.json.
 
-    Act 1  (F1–F2)  low drone, a slow heartbeat, a steady clock, a long riser
+    Act 1  (F1–F2)  low drone, heartbeat doublets, a clock that speeds up,
+                    a riser pulling into the drop
     Drop   (F3)     near-silence: a thin high ring, then a reverse swell
-    Reveal (F4)     one deep impact and a slow bloom — the film's big moment
-    Act 2  (F5–F9)  sustained pad chords (Dm Bb F C) over a held sub, a quiet
-                    arpeggio for flow, a soft half-time pulse; a slow bloom
-                    marks each new feature
-    Climax (F10)    a soft hit on "Stop guessing" / "Start training"
-    Outro  (F11)    the home chord under the logo, a last low impact, ring-out
+    Hit    (F4)     sub drop + noise slam + braam — the reveal
+    Act 2  (F5–F9)  120 BPM hybrid percussion and a pulsing bass ostinato,
+                    a braam on each new feature, intensity climbing
+    Climax (F10)    two hits on "Stop guessing" / "Start training"
+    Outro  (F11)    last impact under the logo, ring-out
 
-Deliberately unhurried: no hats, snares or fills — the picture is slow and
-the score breathes with it. A soft breath of air sits under each dissolve. The bed is sidechain-ducked against the
+Whooshes sit on every transition. The bed is sidechain-ducked against the
 narration so the voice always reads. Deterministic: fixed seeds, no clock.
 
 Writes assets/bgm/score.wav and sets audio_meta.json's bgm.
@@ -25,7 +24,7 @@ import soundfile as sf
 from scipy.signal import butter, sosfilt, fftconvolve
 
 SR = 48000
-BGM_VOLUME = 0.78  # as mounted under the narration (assemble-index reads this)
+BGM_VOLUME = 0.85  # as mounted under the narration (assemble-index reads this)
 cues = json.load(open('assets/voice/cues.json'))
 frames = sorted(cues, key=int)
 start, t = {}, 0.0
@@ -196,38 +195,6 @@ def drone(d, root=36.71, gain=1.0):
     return np.vstack([lp(l, 320), lp(r, 320)]) * swell * gain
 
 
-def pad(freqs, d, attack=1.4, release=1.8, cutoff=1100, gain=1.0):
-    """Sustained chord: detuned saws through a low-pass, slow swell in and out."""
-    x = tt(d)
-    l = np.zeros(len(x)); r = np.zeros(len(x))
-    for f in freqs:
-        l += saw(f, d, 14, -0.0035) + saw(f, d, 14, 0.0021) * 0.6
-        r += saw(f, d, 14, 0.0035) + saw(f, d, 14, -0.0021) * 0.6
-    env = np.clip(x / attack, 0, 1) ** 1.5 * np.clip((d - x) / release, 0, 1) ** 1.2
-    return np.vstack([lp(l, cutoff, 2), lp(r, cutoff, 2)]) * env * gain / len(freqs)
-
-
-def sub(f, d, gain=1.0):
-    x = tt(d)
-    env = np.clip(x / 0.8, 0, 1) * np.clip((d - x) / 1.0, 0, 1)
-    return np.sin(2 * np.pi * f * x) * env * gain
-
-
-def pluck(f, d=1.6):
-    """Soft felt-piano-ish pluck: sine + octave, fast attack, long decay."""
-    x = tt(d)
-    s = (np.sin(2 * np.pi * f * x) + 0.35 * np.sin(2 * np.pi * 2 * f * x)
-         + 0.12 * np.sin(2 * np.pi * 3 * f * x))
-    return lp(s * (1 - np.exp(-x / 0.004)) * np.exp(-x / 0.55), 2600, 2)
-
-
-def swell(d=2.6, root=36.71, gain=1.0):
-    """A braam that blooms instead of hitting: slow attack, dark filter."""
-    b = braam(d, root, bright=700)
-    x = tt(d)
-    return b * np.clip(x / 0.6, 0, 1) ** 2 * gain
-
-
 def bass_note(f, d=0.12):
     x = tt(d)
     s = saw(f, d, 18) * np.exp(-x / 0.07)
@@ -237,74 +204,94 @@ def bass_note(f, d=0.12):
 # ------------------------------------------------------------- arrangement
 s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11 = (start[i] for i in range(1, 12))
 
-# Act 1 — low drone, a slow heartbeat, a steady (not accelerating) clock and a
-# long gentle riser into the drop. Tension without agitation.
-add(drone(s3 - s1 + 0.3, gain=0.5), s1)
-hb = s1 + 0.6
-while hb < s3 - 0.6:
-    add(heartbeat(), hb, 0.75)
-    hb += 1.6
-tk = s1 + 0.4
-while tk < s3 - 0.2:
-    add(tick(), tk, 0.10 + 0.08 * (tk - s1) / (s3 - s1), pan=0.3 if int(round(tk * 2)) % 2 else -0.3)
-    tk += 1.0
-add(riser(5.0, 160, 2200, gain=0.32), s3 - 5.0)
+# Act 1 — drone, heartbeat, accelerating clock, riser into the drop
+add(drone(s3 - s1 + 0.3, gain=0.55), s1)
+hb = s1 + 0.5
+period = 1.25
+while hb < s3 - 0.4:
+    add(heartbeat(), hb, 0.9)
+    hb += period; period = max(0.62, period * 0.93)
+tk, step = s1 + 0.3, 0.5
+while tk < s3 - 0.1:
+    add(tick(), tk, 0.18 + 0.25 * (tk - s1) / (s3 - s1), pan=0.35 if int(tk * 10) % 2 else -0.35)
+    tk += step; step = max(0.125, step * 0.965)
+add(riser(4.2, gain=0.45), s3 - 4.2)
 
-# Drop — silence but for a thin ring, then a reverse swell into the reveal
-ring = np.sin(2 * np.pi * 3520 * tt(s4 - s3)) * 0.02 * np.exp(-tt(s4 - s3) / 2.5)
+# Drop — silence but for a thin ring, then a reverse swell into the hit
+ring = np.sin(2 * np.pi * 3520 * tt(s4 - s3)) * 0.03 * np.exp(-tt(s4 - s3) / 2.5)
 add(ring, s3, pan=0.2)
-add(reverse_swell(1.2), s4 - 1.2, 0.7)
+add(reverse_swell(1.1), s4 - 1.1, 0.9)
 
-# Reveal — one deep impact and a slow bloom; the one big moment of the film
-add(impact(5.0), s4, 0.8)
-add(swell(4.0), s4, 0.8)
+# Hit — the reveal
+add(impact(4.5), s4, 1.0)
+add(braam(3.6), s4, 0.9)
 
-# Act 2 — sustained harmony carries the features. Dm  Bb  F  C, four seconds
-# each, a held sub under each chord, a quiet arpeggio for flow and a soft
-# half-time pulse (one low thump every two seconds). No hats, no snares.
-D3, F3, A3, Bb2, C3, E3, G3 = 146.83, 174.61, 220.0, 116.54, 130.81, 164.81, 196.0
-D4, F4, A4, Bb3, C4, E4, G4 = 293.66, 349.23, 440.0, 233.08, 261.63, 329.63, 392.0
-CHORDS = [((D3, F3, A3), 73.42, (D4, A4, F4, A4)),
-          ((Bb2, D3, F3), 58.27, (Bb3, F4, D4, F4)),
-          ((87.31, A3, C4), 87.31, (F4, C4, A4, C4)),
-          ((C3, E3, G3), 65.41, (C4, G4, E4, G4))]
-CH = 4.0
-t, k = s5, 0
-while t < s10 - 0.2:
-    d = min(CH + 1.8, s10 + 0.8 - t)
-    voicing, root, arp = CHORDS[k % 4]
-    add(pad(voicing, d, gain=0.55 + 0.05 * min(k, 6)), t)
-    add(sub(root, d, 0.22), t)
-    for j in range(8):                       # quarter-note arpeggio, 0.5s apart
-        tj = t + j * 0.5
-        if tj < s10 - 0.3:
-            add(pluck(arp[j % 4]), tj, 0.10 + 0.012 * min(k, 6), pan=-0.25 if j % 2 else 0.25)
-    for j in (0, 2):                         # soft pulse on 1 and 3 of each 4s bar
-        tj = t + j * 2.0
-        if tj < s10 - 0.3:
-            add(kick(), tj, 0.32 + 0.04 * min(k, 6))
-    t += CH; k += 1
-# a slow bloom marks each new feature instead of a hit
-for s_ in (s6, s7, s8, s9):
-    add(swell(2.6), s_ - 0.35, 0.35)
-add(riser(3.0, 220, 3800, 0.30), s10 - 3.0)
+# Act 2 — 120 BPM grid from the hit
+BEAT = 0.5
+def intensity(t):
+    if t < s5: return 0.0
+    if t < s6: return 0.55
+    if t < s7: return 0.65
+    if t < s8: return 0.72
+    if t < s9: return 0.82
+    if t < s10: return 0.95
+    return 0.0
 
-# Climax — the two commands each land on a soft hit
+bar = 0
+t = s5
+pattern_kick = [0, 0.75, 1.5, 2.0, 2.5, 3.25]          # beats within a 4-beat bar
+pattern_bass = [36.71, 36.71, 0, 36.71, 43.65, 36.71, 0, 32.70]  # D D - D F D - C (8ths)
+while t < s10 - 0.05:
+    I = intensity(t)
+    for b in pattern_kick:
+        tb = t + b * BEAT
+        if tb < s10 - 0.05: add(kick(), tb, 0.85 * I)
+    for b in (1.0, 3.0):
+        tb = t + b * BEAT
+        if tb < s10 - 0.05 and I > 0.6: add(snare(), tb, 0.45 * I, pan=0.1)
+    for j, f in enumerate(pattern_bass * 1):
+        tb = t + j * BEAT / 2
+        if f and tb < s10 - 0.05:
+            add(bass_note(f * 2, 0.2), tb, 0.32 * I)
+    # 16th hats once the energy is up
+    if I > 0.7:
+        for j in range(16):
+            tb = t + j * BEAT / 4
+            if tb < s10 - 0.05:
+                add(tick(), tb, 0.10 * I * (1.0 if j % 4 == 2 else 0.6), pan=0.4 if j % 2 else -0.4)
+    if I > 0.8:
+        for j, f0 in enumerate((110, 90, 75)):
+            tb = t + (3.5 + j * 0.166) * BEAT
+            if tb < s10 - 0.05: add(tom(f0), tb, 0.45 * I, pan=-0.3 + 0.3 * j)
+    bar += 1
+    t += 4 * BEAT
+# a braam on every new feature beat
+for s, g in ((s5, 0.55), (s6, 0.5), (s7, 0.5), (s8, 0.6), (s9, 0.7)):
+    add(braam(2.4, bright=1200), s, g)
+# roll + riser into the climax
+roll_t = s10 - 1.5
+for j in range(24):
+    tb = roll_t + j * (1.5 / 24)
+    add(snare(), tb, 0.12 + 0.5 * j / 24, pan=0.15)
+add(riser(2.2, 300, 6000, 0.55), s10 - 2.2)
+
+# Climax — a hit on each command
 c1 = s10 + cues['10']['phrases'][0]['start']
 c2 = s10 + cues['10']['phrases'][1]['start']
-for c, g in ((c1, 0.5), (c2, 0.6)):
-    add(impact(2.4), c - 0.02, g)
-    add(swell(2.0), c - 0.25, 0.4)
+for c in (c1, c2):
+    add(impact(1.8), c - 0.02, 0.85)
+    add(braam(1.6, bright=2200), c - 0.02, 0.7)
+    add(kick(), c - 0.02, 1.0)
 
-# Outro — the final chord under the logo, one last low impact, long ring-out
-add(impact(5.0), s11, 0.65)
-add(pad((D3, F3, A3, D4), TOTAL - s11 + 0.2, attack=0.9, release=2.6, gain=0.75), s11 - 0.2)
-add(sub(73.42, TOTAL - s11, 0.25), s11)
-add(drone(TOTAL - s11, gain=0.25), s11)
+# Outro — last impact under the logo, ring-out
+add(impact(5.0), s11, 1.05)
+add(braam(5.0, bright=900), s11, 0.75)
+add(drone(TOTAL - s11, gain=0.35), s11)
 
-# Soft air under each dissolve — no whooshes, just a breath
-for f in (2, 5, 6, 7, 8, 9, 11):
-    add(whoosh(1.4, up=True), start[f] - 0.9, 0.18)
+# Whooshes into every transitioned frame (cuts get none — they hit on the cut)
+for f, kind in ((2, 'in'), (5, 'zoom'), (6, 'push'), (7, 'push'), (8, 'push'), (9, 'zoom'), (11, 'in')):
+    s = start[f]
+    add(whoosh(0.8, up=True), s - 0.55, 0.55 if kind != 'zoom' else 0.7)
 
 # ------------------------------------------------------------- reverb, duck, master
 mix = verb(np.vstack([L, R]), wet=0.28)

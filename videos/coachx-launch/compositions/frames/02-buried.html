@@ -1,136 +1,395 @@
 <template>
+  <script src="assets/vendor/gsap.min.js"></script>
   <style>
-    @font-face{font-family:"Outfit";src:url("assets/fonts/Outfit-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-@font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
-    
-#root{position:absolute;inset:0;width:1080px;height:1920px;overflow:hidden}
-.f02-layer{position:absolute;left:0;top:0;width:1080px;height:1920px}
-.f02-ground{background:#000}
-.f02-grain{opacity:.035;pointer-events:none}
-.f02-grain svg{display:block;width:1080px;height:1920px}
-.f02-abs{position:absolute}
-.f02-xmark{position:absolute;left:-110px;top:431px;width:1300px;height:1058px;opacity:.055;filter:blur(1.5px)}
-.f02-title{font-family:"Outfit",sans-serif;font-weight:300;text-transform:uppercase;letter-spacing:.32em;color:#F4F4F5;white-space:nowrap;text-align:center;padding-left:.32em;line-height:1.15}
-.f02-head{font-family:"Outfit",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.03em;line-height:1.02;color:#F4F4F5;white-space:nowrap}
-.f02-kicker{font-family:"Outfit",sans-serif;font-weight:400;font-size:22px;letter-spacing:.34em;text-transform:uppercase;color:#8B8F97;white-space:nowrap;display:flex;align-items:center;gap:22px}
-.f02-kicker i{display:block;width:40px;height:1px;background:#8B8F97}
-.f02-chrome{background:linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.f02-body{font-family:"Inter",sans-serif;font-weight:400;font-size:30px;line-height:1.45;color:#A1A1AA}
-.f02-rule{height:2px;width:84px;background:linear-gradient(90deg,#C9CDD3,rgba(201,205,211,0));transform-origin:0 50%}
-.f02-card{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.10);border-radius:30px;box-shadow:0 60px 160px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.08)}
-.f02-glow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(201,205,211,.12),rgba(201,205,211,0))}
-.f02-bloom{background:radial-gradient(ellipse 80% 55% at 50% 46%,rgba(220,223,228,.95) 0%,rgba(150,154,160,.42) 42%,rgba(0,0,0,0) 100%);opacity:0}
+    @font-face{font-family:"Archivo";src:url("assets/fonts/Archivo-Variable-latin.woff2") format("woff2");font-weight:100 900;font-stretch:62% 125%;font-display:block}
+    @font-face{font-family:"Inter";src:url("assets/fonts/Inter-Variable-latin.woff2") format("woff2");font-weight:100 900;font-display:block}
 
-    
-#f02-k{left:90px;top:236px}
-#f02-h1{left:90px;top:290px;font-size:70px}
-#f02-h2{left:90px;top:364px;font-size:70px}
-#f02-r{left:92px;top:468px}
-#f02-persp{left:110px;top:560px;width:860px;height:920px;perspective:1900px}
-#f02-drift{position:absolute;inset:0;transform-style:preserve-3d}
-#f02-chat{position:absolute;inset:0;overflow:hidden}
-#f02-top{position:absolute;left:0;top:0;right:0;height:108px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:22px;padding:0 40px}
-#f02-top b{display:block;width:52px;height:52px;border-radius:50%;background:linear-gradient(180deg,#3a3c40,#1c1d20);border:1px solid rgba(255,255,255,.14)}
-#f02-top div{font-family:"Outfit",sans-serif;font-weight:500;font-size:28px;letter-spacing:.14em;color:#E4E4E7}
-#f02-top small{display:block;font-family:"Inter",sans-serif;font-size:19px;letter-spacing:0;color:#8B8F97;margin-top:4px}
-#f02-view{position:absolute;left:0;right:0;top:110px;bottom:0;overflow:hidden;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 90px,#000 100%);mask-image:linear-gradient(180deg,transparent 0,#000 90px,#000 100%)}
-#f02-col{position:absolute;left:40px;right:40px;top:36px}
-.f02-m{position:absolute;left:0;max-width:600px;border-radius:26px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.06);padding:22px 26px;font-family:"Inter",sans-serif;font-size:27px;line-height:1.35;color:#E4E4E7}
-.f02-m em{display:block;font-style:normal;font-size:17px;color:#8B8F97;text-align:right;margin-top:6px}
-.f02-file{display:flex;align-items:center;gap:18px;padding:16px 18px;margin-bottom:14px;border-radius:16px;background:rgba(0,0,0,.35)}
-.f02-file b{display:block;width:44px;height:54px;border-radius:6px;background:linear-gradient(180deg,#5b5e64,#33353a)}
-.f02-file span{font-size:23px;color:#D4D4D8}
-.f02-file small{display:block;font-size:16px;letter-spacing:.2em;color:#8B8F97}
-.f02-shot{width:430px;height:230px;border-radius:14px;background:#d9dadc;padding:14px;display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:1fr;gap:4px;filter:blur(.6px) contrast(.9);margin-bottom:10px}
-.f02-shot i{display:block;background:#c3c5c9;border-radius:2px}
-.f02-shot i:nth-child(5n+1){background:#aeb1b6}
-#f02-m1{top:0}
-#f02-m2{top:226px}
-#f02-m3{top:590px}
-#f02-m4{top:954px}
-#f02-m5{top:1084px}
-#f02-p{left:110px;top:1510px;width:860px;display:flex;align-items:center;gap:26px}
-#f02-p span{font-family:"Outfit",sans-serif;font-size:22px;letter-spacing:.34em;color:#8B8F97;white-space:nowrap}
-#f02-p b{display:block;flex:1;height:2px;background:rgba(255,255,255,.12)}
+    #root{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden;font-family:"Inter",sans-serif;color:#F2F2F2}
+    #root *{box-sizing:border-box;margin:0;padding:0}
 
+    /* ---------- layers ---------- */
+    .\30 2-buried-layer{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden}
+    .\30 2-buried-bg{background:radial-gradient(120% 78% at 50% 40%,#18191A 0%,#0A0A0C 52%,#000000 100%)}
+    .\30 2-buried-vig{position:absolute;inset:0;background:radial-gradient(90% 60% at 50% 42%,rgba(0,0,0,0) 55%,rgba(0,0,0,.55) 100%)}
+    .\30 2-buried-world{position:absolute;left:0;top:0;width:1080px;height:1920px}
+    .\30 2-buried-shake{position:absolute;left:0;top:0;width:1080px;height:1920px}
+
+    /* giant faint chrome X */
+    .\30 2-buried-x{position:absolute;left:-160px;top:100px;width:1400px;height:1400px;opacity:.06;filter:blur(2px)}
+
+    /* ---------- kicker + headline ---------- */
+    .\30 2-buried-label{position:absolute;left:70px;top:472px;display:flex;align-items:center;gap:26px;font-family:"Archivo",sans-serif;font-weight:600;font-stretch:125%;font-size:26px;letter-spacing:.32em;text-transform:uppercase;color:#9DA2AA;white-space:nowrap}
+    .\30 2-buried-stub{display:block;width:48px;height:1px;background:#9DA2AA;transform-origin:0% 50%}
+    .\30 2-buried-head{position:absolute;left:70px;top:545px;font-family:"Archivo",sans-serif;font-weight:900;font-stretch:125%;font-size:144px;line-height:.9;letter-spacing:-.01em;text-transform:uppercase;color:#F2F2F2;white-space:nowrap}
+    .\30 2-buried-line{display:block;transform-origin:0% 50%}
+    .\30 2-buried-chrome{background-image:linear-gradient(105deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.95) 50%,rgba(255,255,255,0) 58%),linear-gradient(180deg,#FFFFFF 0%,#D9DCE1 38%,#7C818A 62%,#E9EBEE 100%);background-size:300% 100%,100% 100%;background-position:100% 0%,0% 0%;background-repeat:no-repeat;-webkit-background-clip:text;background-clip:text;color:transparent}
+
+    /* ---------- chat bubbles ---------- */
+    .\30 2-buried-inv{position:absolute}
+    .\30 2-buried-bub{position:relative;display:block;width:max-content;max-width:700px;padding:20px 28px 16px;border-radius:28px;font-family:"Inter",sans-serif;font-size:34px;font-weight:450;line-height:1.25;white-space:nowrap;transform-origin:50% 50%;box-shadow:0 22px 50px rgba(0,0,0,.62),0 2px 0 rgba(255,255,255,.03) inset}
+    .\30 2-buried-in{background:#1C1D20;border:1px solid rgba(255,255,255,.07);color:#E4E5E8;border-top-left-radius:8px}
+    .\30 2-buried-out{background:#2C2E33;border:1px solid rgba(255,255,255,.11);color:#F2F2F2;border-top-right-radius:8px}
+    .\30 2-buried-meta{display:inline-flex;align-items:center;gap:6px;margin-left:16px;font-size:20px;font-weight:400;color:#80858D;vertical-align:-2px}
+    .\30 2-buried-ticks{width:24px;height:14px;color:#80858D}
+    .\30 2-buried-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+    .\30 2-buried-fwd{display:block;font-size:20px;font-weight:500;letter-spacing:.02em;color:#80858D;margin-bottom:4px}
+
+    /* file chip */
+    .\30 2-buried-file{display:flex;align-items:center;gap:20px;padding:18px 26px 18px 18px;margin:-4px -12px 14px;border-radius:18px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.06)}
+    .\30 2-buried-ficon{width:46px;height:56px;flex:none}
+    .\30 2-buried-fname{display:block;font-size:30px;font-weight:600;color:#F2F2F2;line-height:1.15}
+    .\30 2-buried-fsub{display:block;font-size:21px;font-weight:400;color:#9DA2AA;letter-spacing:.04em;margin-top:4px}
+
+    /* voice note */
+    .\30 2-buried-voice{display:flex;align-items:center;gap:18px}
+    .\30 2-buried-play{width:30px;height:34px;flex:none}
+    .\30 2-buried-wave{display:flex;align-items:center;gap:5px;height:40px}
+    .\30 2-buried-wave i{display:block;width:5px;border-radius:3px;background:#9DA2AA}
+
+    /* big slam bubble */
+    .\30 2-buried-big{font-size:60px;font-weight:600;line-height:1.15;padding:24px 38px 22px;border-radius:40px;border-top-right-radius:10px;letter-spacing:-.01em}
+    .\30 2-buried-small{font-size:40px;font-weight:600;padding:18px 30px 16px}
+    .\30 2-buried-seen{font-family:"Inter",sans-serif;font-size:24px;font-weight:500;color:#7C818A;letter-spacing:.02em;white-space:nowrap}
+
+    /* spreadsheet screenshot card */
+    .\30 2-buried-shot{position:relative;display:block;width:430px;padding:8px;border-radius:24px;background:#1C1D20;border:1px solid rgba(255,255,255,.08);transform-origin:50% 50%;box-shadow:0 30px 70px rgba(0,0,0,.7)}
+    .\30 2-buried-img{position:relative;overflow:hidden;border-radius:16px;background:#D4D7DC}
+    .\30 2-buried-sbar{display:flex;justify-content:space-between;align-items:center;height:34px;padding:0 18px;background:#C3C7CD;font-family:"Inter",sans-serif;font-size:17px;font-weight:600;color:#3A3D42}
+    .\30 2-buried-batt{display:block;width:30px;height:14px;border:2px solid #3A3D42;border-radius:4px;position:relative}
+    .\30 2-buried-batt::after{content:"";position:absolute;left:2px;top:2px;width:14px;height:6px;background:#3A3D42;border-radius:1px}
+    .\30 2-buried-sheet{position:relative;display:grid;grid-template-columns:44px 1.2fr 1fr 1fr 1fr;filter:blur(1.4px);padding-bottom:6px}
+    .\30 2-buried-cell{height:40px;line-height:40px;padding:0 8px;border-right:1px solid #A9AEB5;border-bottom:1px solid #A9AEB5;font-family:"Inter",sans-serif;font-size:19px;font-weight:500;color:#2E3136;white-space:nowrap;overflow:hidden}
+    .\30 2-buried-hd{background:#B3B8BF;color:#4A4E54;font-weight:700;text-align:center}
+    .\30 2-buried-rn{background:#BEC2C8;color:#5A5E64;text-align:center}
+    .\30 2-buried-sel{position:absolute;border:3px solid #55595F;pointer-events:none}
+    .\30 2-buried-stime{position:absolute;right:16px;bottom:12px;padding:3px 10px;border-radius:10px;background:rgba(10,10,12,.55);font-family:"Inter",sans-serif;font-size:18px;color:#E4E5E8}
+
+    /* progress bar (front overlay) */
+    .\30 2-buried-prog{position:absolute;left:70px;top:1078px;width:940px;height:92px;border:1px solid rgba(201,205,211,.6);background:rgba(8,8,10,.9);box-shadow:0 26px 60px rgba(0,0,0,.75)}
+    .\30 2-buried-ptxt{position:absolute;left:30px;top:0;height:76px;line-height:76px;font-family:"Archivo",sans-serif;font-weight:600;font-stretch:125%;font-size:28px;letter-spacing:.32em;text-transform:uppercase;color:#C9CDD3;white-space:nowrap}
+    .\30 2-buried-ptxt b{font-weight:900;color:#FFFFFF}
+    .\30 2-buried-track{position:absolute;left:30px;right:30px;bottom:14px;height:6px;border:1px solid rgba(201,205,211,.45)}
+    .\30 2-buried-fill{position:absolute;left:0;top:0;bottom:0;width:3px;background:#FFFFFF;box-shadow:0 0 10px rgba(255,255,255,.7)}
+    .\30 2-buried-ticksrow{position:absolute;left:30px;right:30px;bottom:24px;height:8px;display:flex;justify-content:space-between}
+    .\30 2-buried-ticksrow i{display:block;width:1px;height:8px;background:rgba(201,205,211,.35)}
+
+    /* grain */
+    .\30 2-buried-grain{position:absolute;left:0;top:0;width:1080px;height:1920px;opacity:.06;pointer-events:none}
   </style>
 
-  <div id="root" data-composition-id="02-buried" data-width="1080" data-height="1920" data-duration="8.6">
-    
-    <div id="f02-ground" class="clip f02-layer f02-ground" data-start="0" data-duration="8.6" data-track-index="0"></div>
-    <div id="f02-stage" class="clip f02-layer" data-start="0" data-duration="8.6" data-track-index="1">
+  <div id="root" data-composition-id="02-buried" data-layout-allow-overlap data-width="1080" data-height="1920">
 
-      <div id="f02-k" class="f02-abs f02-kicker"><i></i>The problem</div>
-      <div id="f02-h1" class="f02-abs f02-head">Your program,</div>
-      <div id="f02-h2" class="f02-abs f02-head f02-chrome">buried in a chat.</div>
-      <div id="f02-r" class="f02-abs f02-rule"></div>
-      <div id="f02-persp" class="f02-abs">
-        <div id="f02-drift">
-          <div id="f02-chat" class="f02-card">
-            <div id="f02-top"><b></b><div>COACH<small>last seen today at 9:41</small></div></div>
-            <div id="f02-view"><div id="f02-col">
-              <div id="f02-m1" class="f02-m"><div class="f02-file"><b></b><div><span>program_v7_FINAL.xlsx</span><small>SPREADSHEET</small></div></div>here's this week's program<em>9:12</em></div>
-              <div id="f02-m2" class="f02-m"><div class="f02-shot"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>IMG_2291.jpg<em>9:14</em></div>
-              <div id="f02-m3" class="f02-m"><div class="f02-shot"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>IMG_2292.jpg<em>9:14</em></div>
-              <div id="f02-m4" class="f02-m">did you do day 3??<em>11:02</em></div>
-              <div id="f02-m5" class="f02-m">hello?<em>11:40</em></div>
-            </div></div>
+    <!-- ===== Track 0: full-bleed ground ===== -->
+    <div id="02-buried-bg" class="clip 02-buried-layer 02-buried-bg" data-start="0" data-duration="8" data-track-index="0">
+      <div class="02-buried-vig"></div>
+    </div>
+
+    <!-- ===== Track 1: the world (headline + pile) — static camera, dims at the end ===== -->
+    <div id="02-buried-stage" class="clip 02-buried-layer" data-start="0" data-duration="8" data-track-index="1">
+      <div id="02-buried-world" class="02-buried-world">
+        <div id="02-buried-shake" class="02-buried-shake">
+
+          <svg id="02-buried-x" class="02-buried-x" viewBox="0 0 1400 1400" width="1400" height="1400" aria-hidden="true">
+            <!-- the CoachX logo's own X (assets/x-mark.png, cut from logo.png) -->
+            <image href="assets/x-mark.png" x="56" y="176.1" width="1288" height="1047.81" preserveAspectRatio="xMidYMid meet" />
+          </svg>
+
+          <div id="02-buried-label" class="02-buried-label"><span id="02-buried-stub" class="02-buried-stub"></span><span id="02-buried-ltxt">The Problem</span></div>
+
+          <div id="02-buried-head" class="02-buried-head">
+            <span id="02-buried-l1" class="02-buried-line">Your</span>
+            <span id="02-buried-l2" class="02-buried-line">Program</span>
+            <span id="02-buried-l3" class="02-buried-line">Is <span id="02-buried-chrome" class="02-buried-chrome">Buried</span></span>
+            <span id="02-buried-l4" class="02-buried-line">In a chat.</span>
           </div>
+
+          <!-- Scene 1: the clean program bubble (later buried) -->
+          <div id="02-buried-A" class="02-buried-inv" style="left:240px;top:700px" data-cx="740" data-cy="1225">
+            <div class="02-buried-bub 02-buried-out" style="width:600px">
+              <div class="02-buried-file">
+                <svg class="02-buried-ficon" viewBox="0 0 46 56" aria-hidden="true">
+                  <path d="M4 2h26l14 14v36a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#C9CDD3"/>
+                  <path d="M30 2v12a2 2 0 0 0 2 2h12z" fill="#7C818A"/>
+                  <rect x="9" y="26" width="28" height="3" fill="#6E737B"/>
+                  <rect x="9" y="33" width="28" height="3" fill="#6E737B"/>
+                  <rect x="9" y="40" width="28" height="3" fill="#6E737B"/>
+                  <rect x="20" y="24" width="2" height="21" fill="#6E737B"/>
+                </svg>
+                <div><span class="02-buried-fname">program_v7_FINAL.xlsx</span><span class="02-buried-fsub">SPREADSHEET</span></div>
+              </div>
+              <div class="02-buried-row">
+                <span>here’s this week’s program</span>
+                <span class="02-buried-meta">9:12
+                  <svg id="02-buried-Aticks" class="02-buried-ticks" viewBox="0 0 24 14" aria-hidden="true"><path d="M1.5 7.5l4 4.5L14 2M9.5 12L18 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scene 2: radial bubble surround -->
+          <div id="02-buried-B1" class="02-buried-inv" style="left:50px;top:150px" data-cx="240" data-cy="195">
+            <div class="02-buried-bub 02-buried-in">wait which version?<span class="02-buried-meta">9:14</span></div>
+          </div>
+          <div id="02-buried-B2" class="02-buried-inv" style="left:600px;top:585px" data-cx="800" data-cy="630">
+            <div class="02-buried-bub 02-buried-in">updated the sets btw<span class="02-buried-meta">9:15</span></div>
+          </div>
+          <div id="02-buried-B3" class="02-buried-inv" style="left:300px;top:1475px" data-cx="470" data-cy="1520">
+            <div class="02-buried-bub 02-buried-out">sorry missed this<span class="02-buried-meta">9:31</span></div>
+          </div>
+          <div id="02-buried-B4" class="02-buried-inv" style="left:-30px;top:1080px" data-cx="165" data-cy="1125">
+            <div class="02-buried-bub 02-buried-in">squats or leg press?<span class="02-buried-meta">9:22</span></div>
+          </div>
+          <div id="02-buried-B5" class="02-buried-inv" style="left:700px;top:90px" data-cx="815" data-cy="135">
+            <div class="02-buried-bub 02-buried-out">v6 or v7??<span class="02-buried-meta">9:14</span></div>
+          </div>
+          <div id="02-buried-B6" class="02-buried-inv" style="left:600px;top:330px" data-cx="810" data-cy="378">
+            <div class="02-buried-bub 02-buried-in">
+              <div class="02-buried-voice">
+                <svg class="02-buried-play" viewBox="0 0 30 34" aria-hidden="true"><path d="M3 2l25 15L3 32z" fill="#C9CDD3"/></svg>
+                <div class="02-buried-wave">
+                  <i style="height:10px"></i><i style="height:18px"></i><i style="height:26px"></i><i style="height:14px"></i><i style="height:30px"></i><i style="height:22px"></i><i style="height:12px"></i><i style="height:34px"></i><i style="height:28px"></i><i style="height:16px"></i><i style="height:8px"></i><i style="height:20px"></i><i style="height:32px"></i><i style="height:24px"></i><i style="height:14px"></i><i style="height:26px"></i><i style="height:18px"></i><i style="height:10px"></i><i style="height:22px"></i><i style="height:30px"></i><i style="height:16px"></i><i style="height:12px"></i><i style="height:8px"></i><i style="height:6px"></i>
+                </div>
+                <span class="02-buried-meta" style="margin-left:4px">0:47</span>
+              </div>
+            </div>
+          </div>
+          <div id="02-buried-B7" class="02-buried-inv" style="left:40px;top:1300px" data-cx="230" data-cy="1365">
+            <div class="02-buried-bub 02-buried-in"><span class="02-buried-fwd">Forwarded</span>new deload week<span class="02-buried-meta">9:26</span></div>
+          </div>
+          <div id="02-buried-B8" class="02-buried-inv" style="left:-20px;top:340px" data-cx="220" data-cy="385">
+            <div class="02-buried-bub 02-buried-in">can you resend the sheet<span class="02-buried-meta">9:19</span></div>
+          </div>
+
+          <!-- Scene 3: spreadsheet screenshots from the corners -->
+          <div id="02-buried-C1" class="02-buried-inv" style="left:10px;top:40px" data-cx="225" data-cy="240">
+            <div class="02-buried-shot">
+              <div class="02-buried-img">
+                <div class="02-buried-sbar"><span>9:41</span><span class="02-buried-batt"></span></div>
+                <div class="02-buried-sheet" data-sheet="0"></div>
+                <div class="02-buried-sel" style="left:96px;top:154px;width:94px;height:42px"></div>
+                <span class="02-buried-stime">9:17</span>
+              </div>
+            </div>
+          </div>
+          <div id="02-buried-C2" class="02-buried-inv" style="left:640px;top:230px" data-cx="855" data-cy="430">
+            <div class="02-buried-shot">
+              <div class="02-buried-img">
+                <div class="02-buried-sbar"><span>9:41</span><span class="02-buried-batt"></span></div>
+                <div class="02-buried-sheet" data-sheet="1"></div>
+                <div class="02-buried-sel" style="left:190px;top:234px;width:80px;height:42px"></div>
+                <span class="02-buried-stime">9:20</span>
+              </div>
+            </div>
+          </div>
+          <div id="02-buried-C3" class="02-buried-inv" style="left:600px;top:1120px" data-cx="815" data-cy="1320">
+            <div class="02-buried-shot">
+              <div class="02-buried-img">
+                <div class="02-buried-sbar"><span>9:41</span><span class="02-buried-batt"></span></div>
+                <div class="02-buried-sheet" data-sheet="2"></div>
+                <div class="02-buried-sel" style="left:44px;top:114px;width:110px;height:42px"></div>
+                <span class="02-buried-stime">9:24</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scene 4: the slam -->
+          <div id="02-buried-D" class="02-buried-inv" style="left:350px;top:1180px" data-cx="683" data-cy="1236">
+            <div class="02-buried-bub 02-buried-out 02-buried-big">did you do day 3??</div>
+          </div>
+          <div id="02-buried-E1" class="02-buried-inv" style="left:870px;top:1310px" data-cx="935" data-cy="1350">
+            <div class="02-buried-bub 02-buried-out 02-buried-small">??</div>
+          </div>
+          <div id="02-buried-E2" class="02-buried-inv" style="left:780px;top:1405px" data-cx="870" data-cy="1445">
+            <div class="02-buried-bub 02-buried-out 02-buried-small">hello?</div>
+          </div>
+          <div id="02-buried-S" class="02-buried-inv" style="left:858px;top:1508px" data-cx="925" data-cy="1522">
+            <div class="02-buried-seen">Seen 9:41</div>
+          </div>
+
+          <!-- Scene 5: late arrivals that bury the headline -->
+          <div id="02-buried-L1" class="02-buried-inv" style="left:30px;top:600px" data-cx="208" data-cy="645">
+            <div class="02-buried-bub 02-buried-in">ok but which file<span class="02-buried-meta">9:44</span></div>
+          </div>
+          <div id="02-buried-L2" class="02-buried-inv" style="left:470px;top:745px" data-cx="730" data-cy="805">
+            <div class="02-buried-bub 02-buried-out" style="padding:14px 18px">
+              <div class="02-buried-file" style="margin:0">
+                <svg class="02-buried-ficon" viewBox="0 0 46 56" aria-hidden="true">
+                  <path d="M4 2h26l14 14v36a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#C9CDD3"/>
+                  <path d="M30 2v12a2 2 0 0 0 2 2h12z" fill="#7C818A"/>
+                  <rect x="9" y="26" width="28" height="3" fill="#6E737B"/>
+                  <rect x="9" y="33" width="28" height="3" fill="#6E737B"/>
+                  <rect x="9" y="40" width="28" height="3" fill="#6E737B"/>
+                  <rect x="20" y="24" width="2" height="21" fill="#6E737B"/>
+                </svg>
+                <div><span class="02-buried-fname">program_v8_FINAL_2.xlsx</span><span class="02-buried-fsub">SPREADSHEET</span></div>
+              </div>
+            </div>
+          </div>
+          <div id="02-buried-L4" class="02-buried-inv" style="left:300px;top:420px" data-cx="515" data-cy="620">
+            <div class="02-buried-shot">
+              <div class="02-buried-img">
+                <div class="02-buried-sbar"><span>9:41</span><span class="02-buried-batt"></span></div>
+                <div class="02-buried-sheet" data-sheet="1"></div>
+                <span class="02-buried-stime">9:45</span>
+              </div>
+            </div>
+          </div>
+          <div id="02-buried-L3" class="02-buried-inv" style="left:110px;top:905px" data-cx="250" data-cy="950">
+            <div class="02-buried-bub 02-buried-in">can’t find it<span class="02-buried-meta">9:46</span></div>
+          </div>
+          <div id="02-buried-L5" class="02-buried-inv" style="left:640px;top:960px" data-cx="770" data-cy="1005">
+            <div class="02-buried-bub 02-buried-in">scroll up<span class="02-buried-meta">9:47</span></div>
+          </div>
+
         </div>
       </div>
-      <div id="f02-p" class="f02-abs"><span>PROGRESS — 0%</span><b></b></div>
-
     </div>
-    <div id="f02-grain" class="clip f02-layer f02-grain" data-start="0" data-duration="8.6" data-track-index="9"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="none"><filter id="f02-noise" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="1080" height="1920" filter="url(#f02-noise)"/></svg></div>
+
+    <!-- ===== Track 2: progress bar (stays lit while the pile dims) ===== -->
+    <div id="02-buried-front" class="clip 02-buried-layer" data-start="0" data-duration="8" data-track-index="2">
+      <div id="02-buried-prog" class="02-buried-prog">
+        <div class="02-buried-ptxt">Progress — <b>0%</b></div>
+        <div class="02-buried-ticksrow"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="02-buried-track"><div class="02-buried-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- ===== Track 3: static grain ===== -->
+    <div id="02-buried-grainclip" class="clip 02-buried-layer" data-start="0" data-duration="8" data-track-index="3">
+      <svg class="02-buried-grain" width="1080" height="1920" viewBox="0 0 1080 1920" aria-hidden="true">
+        <filter id="02-buried-noise" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" stitchTiles="stitch"/>
+          <feColorMatrix type="saturate" values="0"/>
+        </filter>
+        <rect width="1080" height="1920" filter="url(#02-buried-noise)"/>
+      </svg>
+    </div>
+
   </div>
 
-  <script src="assets/vendor/gsap.min.js"></script>
   <script>
     (function () {
+      var D = 8;
+      var CX = 540, CY = 800; // the headline's centre — everything closes in on it
+      function $(id) { return document.getElementById("02-buried-" + id); }
+      function inner(id) { return $(id).firstElementChild; }
 
-  var D = 8.000, ID = "02-buried";
-  var root = document.querySelector('[data-composition-id="' + ID + '"]') || document;
-  var q = function (s) { return root.querySelector(s); };
-  var qa = function (s) { return Array.prototype.slice.call(root.querySelectorAll(s)); };
-  var tl = gsap.timeline({ paused: true });
-  tl.to({}, { duration: D }, 0);
-  // The one reveal: up through blur, a small rise, a long settle.
-  function rise(el, t, o) {
-    o = o || {};
-    tl.fromTo(el,
-      { opacity: 0, y: o.y == null ? 22 : o.y, filter: "blur(" + (o.blur == null ? 12 : o.blur) + "px)" },
-      { opacity: o.to == null ? 1 : o.to, y: 0, filter: "blur(0px)", duration: o.d || 1.1, ease: o.ease || "power2.out" }, t);
-  }
-  // A full-shot drift that starts at t=0 and eases out by the end.
-  function drift(el, from, to) {
-    var a = { duration: D, ease: "sine.inOut" };
-    for (var k in to) a[k] = to[k];
-    tl.fromTo(el, from, a, 0);
-  }
+      // ---- build the blurred spreadsheet tables (pre-baked, deterministic) ----
+      var SHEETS = [
+        [["W1","3×8","60","62.5"],["W2","4×6","65","67.5"],["W3","4×6","70","72.5"],["D3","3×10","40","42.5"],["D4","5×5","80","—"],["D5","3×12","25","27.5"]],
+        [["Sq","5×5","100","102"],["RDL","3×8","70","75"],["Lunge","3×10","20","22"],["Row","4×8","55","57.5"],["Press","4×6","40","42.5"],["Core","3×15","—","—"]],
+        [["Mon","4×6","82.5","85"],["Tue","3×10","30","32"],["Wed","—","—","—"],["Thu","5×3","90","92.5"],["Fri","3×8","60","61"],["Sat","2×12","15","17.5"]]
+      ];
+      var COLS = ["","A","B","C","D"];
+      var sheets = document.querySelectorAll('[data-composition-id="02-buried"] [data-sheet]');
+      for (var s = 0; s < sheets.length; s++) {
+        var data = SHEETS[parseInt(sheets[s].getAttribute("data-sheet"), 10)];
+        var html = "";
+        for (var c = 0; c < COLS.length; c++) html += '<div class="02-buried-cell 02-buried-hd">' + COLS[c] + "</div>";
+        for (var r = 0; r < data.length; r++) {
+          html += '<div class="02-buried-cell 02-buried-rn">' + (r + 1) + "</div>";
+          for (var k = 0; k < data[r].length; k++) html += '<div class="02-buried-cell">' + data[r][k] + "</div>";
+        }
+        sheets[s].innerHTML = html;
+      }
 
+      var tl = gsap.timeline({ paused: true });
+      tl.to({}, { duration: D }, 0); // length anchor = frame duration
 
-      rise(q("#f02-k"), 0.20, { y: 10, d: 1.0 });
-      rise(q("#f02-h1"), 0.20, { d: 1.2 });
-      rise(q("#f02-h2"), 1.45, { d: 1.2 });
-      tl.fromTo(q("#f02-r"), { scaleX: 0 }, { scaleX: 1, duration: 1.2, ease: "power2.inOut" }, 1.80);
-      // The thread, held in perspective and drifting slowly flatter.
-      rise(q("#f02-persp"), 0.35, { y: 50, d: 1.4, blur: 10 });
-      drift(q("#f02-drift"), { rotationY: -13, rotationX: 7 }, { rotationY: -5, rotationX: 2.5 });
-      // Messages arrive one by one and the thread scrolls up under them.
-      rise(q("#f02-m1"), 0.55, { y: 26, d: 0.9, blur: 8 });
-      rise(q("#f02-m2"), 2.75, { y: 26, d: 0.9, blur: 8 });
-      rise(q("#f02-m3"), 3.50, { y: 26, d: 0.9, blur: 8 });
-      tl.to(q("#f02-col"), { y: -190, duration: 1.0, ease: "power2.inOut" }, 3.40);
-      rise(q("#f02-m4"), 4.42, { y: 26, d: 0.9, blur: 8 });
-      tl.to(q("#f02-col"), { y: -310, duration: 1.0, ease: "power2.inOut" }, 4.32);
-      rise(q("#f02-m5"), 5.22, { y: 26, d: 0.9, blur: 8 });
-      tl.to(q("#f02-col"), { y: -440, duration: 1.0, ease: "power2.inOut" }, 5.12);
-      rise(q("#f02-p"), 5.92, { y: 10, d: 1.0 });
-      // Buried: the whole thread sinks back as the line ends.
-      tl.to(q("#f02-persp"), { opacity: 0.45, filter: "blur(3px)", duration: 1.4, ease: "power1.inOut" }, 6.32);
+      // ---- impact shake on the whole pile (deterministic keyframes) ----
+      var shakeEl = $("shake");
+      function shake(t, a) {
+        var pts = [[0, 0], [a, -a * 0.6], [-a * 0.8, a * 0.5], [a * 0.45, -a * 0.25], [-a * 0.15, a * 0.1], [0, 0]];
+        var step = 0.035;
+        for (var i = 1; i < pts.length; i++) {
+          tl.fromTo(shakeEl, { x: pts[i - 1][0], y: pts[i - 1][1] },
+            { x: pts[i][0], y: pts[i][1], duration: step, ease: "none", immediateRender: false }, t + (i - 1) * step);
+        }
+      }
+
+      // ---- ambient: the faint chrome X drifts very slowly ----
+      tl.fromTo($("x"), { rotation: -2, scale: 1 }, { rotation: 2, scale: 1.04, duration: D, ease: "none" }, 0);
+
+      // ================= Scene 1 (0.0–1.5): kicker + one clean bubble at centre =================
+      tl.fromTo($("stub"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 0.08);
+      tl.fromTo($("ltxt"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 0.14);
+      var A = inner("A");
+      tl.fromTo(A, { scale: 0, opacity: 0, y: 24 }, { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 0.22);
+      tl.fromTo($("Aticks"), { color: "#80858D" }, { color: "#E9EBEE", duration: 0.25, ease: "power2.out" }, 0.95);
+      // ...it gets shoved down into the pile as the headline lands
+      tl.fromTo(A, { x: 0, y: 0, rotation: 0, scale: 1 },
+        { x: 200, y: 410, rotation: 3, scale: 0.94, duration: 0.5, ease: "power3.inOut", immediateRender: false }, 1.32);
+
+      // ================= Scene 2 (1.5–2.75): headline lands + radial surround =================
+      ["l1", "l2", "l3", "l4"].forEach(function (id, i) {
+        tl.fromTo($(id), { opacity: 0, scale: 1.12, y: 30, filter: "blur(14px)" },
+          { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, 1.5 + i * 0.07);
+      });
+      // one specular sweep across the chrome word
+      tl.fromTo($("chrome"), { backgroundPosition: "100% 0%, 0% 0%" },
+        { backgroundPosition: "0% 0%, 0% 0%", duration: 0.8, ease: "power2.inOut" }, 2.1);
+
+      // bubbles slide in from all four edges, alternating around the compass
+      var RING = [
+        ["B5", 0, -560, 5], ["B2", 640, 0, 3], ["B3", 0, 560, -2], ["B4", -620, 0, -4],
+        ["B1", 0, -560, -3], ["B6", 640, 0, -3], ["B7", 0, 560, 2], ["B8", -620, 0, 2]
+      ];
+      RING.forEach(function (b, i) {
+        tl.fromTo(inner(b[0]), { x: b[1], y: b[2], opacity: 0, rotation: b[3] * 3, scale: 0.92 },
+          { x: 0, y: 0, opacity: 1, rotation: b[3], scale: 1, duration: 0.6, ease: "power3.out" }, 1.58 + i * 0.065);
+      });
+
+      // ================= Scene 3 (2.75–4.4): spreadsheet screenshots thrown in from the corners =================
+      var CARDS = [["C1", -520, -520, -9, 2.76], ["C2", 520, -520, 8, 3.2], ["C3", 520, 520, 7, 3.66]];
+      CARDS.forEach(function (c) {
+        tl.fromTo(inner(c[0]), { x: c[1], y: c[2], rotation: c[3] * 2.4, scale: 1.14, opacity: 0 },
+          { x: 0, y: 0, rotation: c[3], scale: 1, opacity: 1, duration: 0.36, ease: "power2.in" }, c[4]);
+        shake(c[4] + 0.36, 6);
+      });
+
+      // ================= Scene 4 (4.42–5.9): "did you do day 3??" slams in front =================
+      tl.fromTo(inner("D"), { scale: 1.7, opacity: 0, rotation: -11 },
+        { scale: 1, opacity: 1, rotation: -4, duration: 0.22, ease: "power2.in" }, 4.42);
+      shake(4.64, 10);
+      tl.fromTo(inner("E1"), { scale: 0, opacity: 0, y: 20, rotation: 3 },
+        { scale: 1, opacity: 1, y: 0, rotation: 3, duration: 0.45, ease: "power3.out" }, 4.92);
+      tl.fromTo(inner("E2"), { scale: 0, opacity: 0, y: 20, rotation: -2 },
+        { scale: 1, opacity: 1, y: 0, rotation: -2, duration: 0.45, ease: "power3.out" }, 5.2);
+      tl.fromTo(inner("S"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 5.5);
+
+      // ================= Scene 5 (5.92–8.0): PROGRESS — 0% flickers in, the pile closes in =================
+      var FLICK = [0, 1, 0.12, 1, 0.3, 0.9, 0.2, 1, 1];
+      function flickerEase(p) { return FLICK[Math.min(FLICK.length - 1, Math.floor(p * (FLICK.length - 1)))]; }
+      tl.fromTo($("prog"), { opacity: 0 }, { opacity: 1, duration: 0.34, ease: flickerEase }, 5.92);
+
+      // late arrivals land on top of the headline
+      var LATE = [
+        ["L1", -640, 0, -3, 6.06], ["L2", 640, 0, 4, 6.28], ["L4", 0, -620, -6, 6.5],
+        ["L3", -640, 0, 2, 6.72], ["L5", 640, 0, -3, 6.94]
+      ];
+      LATE.forEach(function (b) {
+        tl.fromTo(inner(b[0]), { x: b[1], y: b[2], opacity: 0, rotation: b[3] * 3, scale: b[0] === "L4" ? 0.8 : 0.92 },
+          { x: 0, y: 0, opacity: 1, rotation: b[3], scale: b[0] === "L4" ? 0.72 : 1, duration: 0.55, ease: "power3.out" }, b[4]);
+      });
+
+      // the surround: every invader creeps toward the headline, then closes in hard (camera stays static)
+      var invs = document.querySelectorAll('[data-composition-id="02-buried"] .\\30 2-buried-inv');
+      for (var n = 0; n < invs.length; n++) {
+        var el = invs[n];
+        var dx = CX - parseFloat(el.getAttribute("data-cx"));
+        var dy = CY - parseFloat(el.getAttribute("data-cy"));
+        tl.fromTo(el, { x: 0, y: 0, scale: 1 },
+          { x: dx * 0.05, y: dy * 0.05, scale: 1.01, duration: 5.92 - 2.0, ease: "none" }, 2.0);
+        tl.fromTo(el, { x: dx * 0.05, y: dy * 0.05, scale: 1.01 },
+          { x: dx * 0.23, y: dy * 0.23, scale: 1.06, duration: D - 5.92, ease: "power1.in", immediateRender: false }, 5.92);
+      }
+
+      // the whole stack desaturates and dims 30% over the last second — hold the crowded state
+      tl.fromTo($("world"), { filter: "saturate(1) brightness(1)" },
+        { filter: "saturate(0) brightness(0.7)", duration: 1.0, ease: "none" }, 7.0);
 
       window.__timelines = window.__timelines || {};
-      window.__timelines[ID] = tl;
+      window.__timelines["02-buried"] = tl;
     })();
   </script>
 </template>

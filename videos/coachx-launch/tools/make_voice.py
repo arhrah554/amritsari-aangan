@@ -100,7 +100,7 @@ for v in voices:
 target = np.median(peaks)
 for v, p in zip(voices, peaks):
     x, sr = sf.read(v['path'])
-    x = np.clip(x * (target / p) * (10 ** (-16.5 / 20) / target), -0.79, 0.79)
+    x = np.clip(x * (target / p) * (10 ** (-15.5 / 20) / target), -0.89, 0.89)
     sf.write(v['path'], x, sr, subtype='PCM_16')
 
 json.dump(cues, open('assets/voice/cues.json', 'w'), indent=1)
